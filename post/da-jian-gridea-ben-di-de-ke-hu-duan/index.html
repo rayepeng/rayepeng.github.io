@@ -1,0 +1,212 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>搭建Gridea本地的客户端 | Someone&#39;s Wiki</title>
+<link rel="shortcut icon" href="https://raye.ink/favicon.ico?v=1707098994706">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://raye.ink/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="搭建Gridea本地的客户端 | Someone&#39;s Wiki - Atom Feed" href="https://raye.ink/atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="参考这篇，搭建Gridea本地的客户端
+https://ostarted.com/277
+这里也分享下我是怎么做的
+
+下载客户端
+创建一个Github仓库，取名为 username.github.io （username替换为你自己的，比如..." />
+    <meta name="keywords" content="" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.5.1/build/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://raye.ink">
+  <img class="avatar" src="https://raye.ink/images/avatar.png?v=1707098994706" alt="">
+  </a>
+  <h1 class="site-title">
+    Someone&#39;s Wiki
+  </h1>
+  <p class="site-description">
+    不过是某个人的一些记录罢了
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          标签
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+        <a href="https://github.com/rayepeng" target="_blank">
+          <i class="ri-github-line"></i>
+        </a>
+      
+    
+      
+        <a href="https://twitter.com/rayepeng_" target="_blank">
+          <i class="ri-twitter-line"></i>
+        </a>
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              搭建Gridea本地的客户端
+            </h2>
+            <div class="post-info">
+              <span>
+                2023-09-19
+              </span>
+              <span>
+                1 min read
+              </span>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content" v-pre>
+                <p>参考这篇，搭建Gridea本地的客户端<br>
+https://ostarted.com/277</p>
+<p>这里也分享下我是怎么做的</p>
+<ol>
+<li>下载客户端</li>
+<li>创建一个Github仓库，取名为 username.github.io （username替换为你自己的，比如我的是rayepeng)，这时候在repository的setting页面选择page服务，启动即可</li>
+<li>个性化域名配置</li>
+<li>生成一个Github token，勾选repo的权限即可</li>
+</ol>
+<figure data-type="image" tabindex="1"><img src="https://picgo-1258058044.cos.ap-chengdu.myqcloud.com/img/202309192019005.png" alt="" loading="lazy"></figure>
+<p>如下为我的配置截图：<br>
+<img src="https://picgo-1258058044.cos.ap-chengdu.myqcloud.com/img/202309192017611.png" alt="" loading="lazy"></p>
+
+              </div>
+              <div class="toc-container">
+                
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://raye.ink/post/shui-hui-zhe-yang-yong-proxy-a/">
+              <h3 class="post-title">
+                谁会这样用Proxy啊🤣
+              </h3>
+            </a>
+          </div>
+        
+
+        
+          
+
+          
+            <link rel="stylesheet" href="https://unpkg.com/disqusjs@1.1/dist/disqusjs.css">
+<script src="https://unpkg.com/disqusjs@1.1/dist/disqus.js"></script>
+
+<div id="disqus_thread"></div>
+
+<script>
+
+var options = {
+  shortname: '',
+  apikey: 'MGvpmGarYXI5usdQZQLgAMohCbgUaFNzdQ8Um3aEgtFx6GnBbyfcjGuN7kQVzC4p',
+}
+if ('') {
+  options.api = ''
+}
+var dsqjs = new DisqusJS(options)
+
+</script>
+
+          
+        
+
+        <div class="site-footer">
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+  <a class="rss" href="https://raye.ink/atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>
