@@ -1,0 +1,292 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>两道php反序列化题目分析 | Raye&#39;s Notes</title>
+<link rel="shortcut icon" href="https://raye.ink/favicon.ico?v=1741587622356">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://raye.ink/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="两道php反序列化题目分析 | Raye&#39;s Notes - Atom Feed" href="https://raye.ink/atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="经典反序列化
+&lt;?php
+error_reporting(1);
+class Read {
+    public $var;
+    public function file_get($value)
+    {
+        $te..." />
+    <meta name="keywords" content="" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.5.1/build/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://raye.ink">
+  <img class="avatar" src="https://raye.ink/images/avatar.png?v=1741587622356" alt="">
+  </a>
+  <h1 class="site-title">
+    Raye&#39;s Notes
+  </h1>
+  <p class="site-description">
+    山路元无雨，空翠湿人衣
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          标签
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              两道php反序列化题目分析
+            </h2>
+            <div class="post-info">
+              <span>
+                2025-03-07
+              </span>
+              <span>
+                2 min read
+              </span>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content" v-pre>
+                <h2 id="经典反序列化">经典反序列化</h2>
+<pre><code class="language-php">&lt;?php
+error_reporting(1);
+class Read {
+    public $var;
+    public function file_get($value)
+    {
+        $text = base64_encode(file_get_contents($value));
+        return $text;
+    }
+
+/**
+ * 尝试将$read()当作函数调用时会触发这个方法
+ * @return [type] [description]
+ */
+    public function __invoke(){
+        $content = $this-&gt;file_get($this-&gt;var);
+        echo $content;
+    }
+}
+
+class Show
+{
+    public $source;
+    public $str;
+    //此处可以触发__toString方法
+    public function __construct($file='index.php')
+    {
+        $this-&gt;source = $file;
+        echo $this-&gt;source.'Welcome'.&quot;&lt;br&gt;&quot;; //此处有字符串拼接
+    }
+
+    /**
+     * 假设这里可以触发__get方法，怎么触发__toString方法
+     */
+    public function __toString()
+    {
+        $this-&gt;str['str']-&gt;source;
+    }
+
+    public function _show()
+    {
+        if(preg_match('/gopher|http|ftp|https|dict|\.\.|flag|file/i',$this-&gt;source)) {
+            die('hacker');
+        } else {
+            highlight_file($this-&gt;source); //其实这里也可以读文件但是好像没什么乱用
+        }
+
+    }
+
+    public function __wakeup()
+    {
+        if(preg_match(&quot;/gopher|http|file|ftp|https|dict|\.\./i&quot;, $this-&gt;source)) {
+            echo &quot;hacker&quot;;
+            $this-&gt;source = &quot;index.php&quot;;
+        }
+    }
+}
+
+class Test
+{
+    /**
+     * 将$p覆盖为read 就能触发Read类的__invoke方法，如何触发__get方法
+     */
+    public $p;
+    public function __construct()
+    {
+        $this-&gt;p = array();
+    }
+
+    public function __get($key)
+    {
+        $function = $this-&gt;p;
+        return $function();
+    }
+}
+
+if(isset($_GET['hello']))
+{
+    unserialize($_GET['hello']);
+}
+else
+{
+    $show = new Show('index.php');
+    $show-&gt;_show();
+}
+</code></pre>
+<p>这道题还是在上大学的时候做的了，现在回过头来看，其中一个比较隐藏的点：</p>
+<pre><code class="language-php">public function __construct($file='index.php')
+{
+    $this-&gt;source = $file;
+    echo $this-&gt;source.'Welcome'.&quot;&lt;br&gt;&quot;; //此处有字符串拼接
+}
+</code></pre>
+<p>因为有字符串拼接，所以可以触发 <code>__toString()</code> 方法</p>
+<p>另外一个惊喜则是deepseek</p>
+<pre><code>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</code></pre>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li><a href="#%E7%BB%8F%E5%85%B8%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96">经典反序列化</a></li>
+</ul>
+</li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://raye.ink/post/gridea-shi-yong-bao-gao/">
+              <h3 class="post-title">
+                Gridea使用报告
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+  <a class="rss" href="https://raye.ink/atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>
