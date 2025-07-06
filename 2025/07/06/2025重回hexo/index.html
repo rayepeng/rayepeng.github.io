@@ -1,0 +1,647 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Raye&#39;s Blog">
+    <title>2025重回hexo - Raye&#39;s Blog</title>
+    <meta name="author" content="raye">
+    
+    
+    
+        
+            <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
+        
+    
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"raye","sameAs":["https://github.com/rayepeng","https://x.com/rayepeng_","xinyongp@gmail.com"],"image":"https://www.gravatar.com/avatar/cb2a1d2cb8a1339bd20d81dc9c589948"},"articleBody":"hexo报错记录排查安装主题 hexo-theme-tranquilpeak&#x2F;DOCUMENTATION.md at main · LouisBarranqueiro&#x2F;hexo-theme-tranquilpeak\n步骤如下：\n\n下载主题代码包，放入到hexo主题themes文件夹下，解压，修改名字为 tranquilpeak\n修改根目录下的 _config.yml 文件 theme 字段\n接着又进入到hexo themes&#x2F;tranquilpeak目录下，运行 npm install &amp;&amp; npm run prod 这一步遇到了报错，这里首先解决 npm install的报错\n\n首先是安装依赖的报错，会提示没有python，那么就安装python，因为需要用到本地编译一个包\n接着又开始报错，报错信息贴在下面，AI告诉我是node-sass已经不用了，直接换成sass就好\n123456789101112131415161718192021222324npm warn deprecated debug@3.2.6: Debug versions &gt;=3.2.0 &lt;3.2.7 || &gt;=4 &lt;4.3.1 have a low-severity ReDos regression when used in a Node.js environment. It is recommended you upgrade to 3.2.7 or 4.3.1. (https://github.com/visionmedia/debug/issues/797)npm warn deprecated @npmcli/fs@1.1.0: this version had an improper engines field added, update to 1.1.1npm warn deprecated axios@0.19.2: Critical security vulnerability fixed in v0.21.1. For more information, see https://github.com/axios/axios/pull/3410npm warn deprecated core-js@1.2.7: core-js@&lt;3.23.3 is no longer maintained and not recommended for usage due to the number of issues. Because of the V8 engine whims, feature detection in old core-js versions could cause a slowdown up to 100x even if nothing is polyfilled. Some versions have web compatibility issues. Please, upgrade your dependencies to the actual version of core-js.npm error code 1npm error path D:\\workspace\\myblog\\themes\\tranquilpeak\\node_modules\\node-sassnpm error command failednpm error command C:\\WINDOWS\\system32\\cmd.exe /d /s /c node scripts/build.jsnpm error Building: C:\\Program Files\\nodejs\\node.exe D:\\workspace\\myblog\\themes\\tranquilpeak\\node_modules\\node-gyp\\bin\\node-gyp.js rebuild --verbose --libsass_ext= --libsass_cflags= --libsass_ldflags= --libsass_library=npm error gyp info it worked if it ends with oknpm error gyp verb cli [npm error gyp verb cli   &#x27;C:\\\\Program Files\\\\nodejs\\\\node.exe&#x27;,npm error gyp verb cli   &#x27;D:\\\\workspace\\\\myblog\\\\themes\\\\tranquilpeak\\\\node_modules\\\\node-gyp\\\\bin\\\\node-gyp.js&#x27;,npm error gyp verb cli   &#x27;rebuild&#x27;,npm error gyp verb cli   &#x27;--verbose&#x27;,npm error gyp verb cli   &#x27;--libsass_ext=&#x27;,npm error gyp verb cli   &#x27;--libsass_cflags=&#x27;,npm error gyp verb cli   &#x27;--libsass_ldflags=&#x27;,npm error gyp verb cli   &#x27;--libsass_library=&#x27;npm error gyp verb cli ]npm error gyp info using node-gyp@8.4.1npm error gyp info using node@24.3.0 | win32 | x64npm error gyp verb command rebuild []npm error gyp verb command clean []\n\n\n\n安装sass，安装依赖成功了\n1npm i sass@latest\n\nnpm run prod 报错，这里是因为我已经修改了依赖，这时候就需要修改 &quot;themes\\tranquilpeak\\tasks\\config\\sass.js&quot; 这个文件，将其 require 的依赖给修改为 sass\n至此，这个主题终于安装成功了\nhexo写作——typora如何配置自动化压缩并上传图片至腾讯云cos目前采用的是typora写作 + picgo自动上传图片 + 坚果云同步的方式，因为坚果云使用的是免费的1G流量上传，所以不能把图片存在本地，这里聊一下如何解决写作的时候图片存储问题\n最好的方式就是用CDN，直接腾讯云买一个也不贵，然后使用picgo工具来实现图片上传，这个工具分为命令行和GUI客户端，我最开始用的是GUI客户端，每次复制图片然后快捷键调用一下就能自动复制出markdown的图片插入文本，非常方便\n但还有更方便的，即使用typora+picgo命令行实现自动上传，配置方式如下：\n需要注意的是，typora会自动下载一个picgo的命令行程序版本，这个和 npm install -g picgo 不是同一个，比如我这里typora自动下载的命令行程序就位于\n1C:\\\\Users\\\\Admin\\\\AppData\\\\Roaming\\\\Typora\\\\picgo\\\\win64\\\\picgo.exe\n\n\n\n这样我后续要安装插件，比如图片压缩插件，ref：juzisang&#x2F;picgo-plugin-compress: Image compression plugin for PicGo\n这时候我就需要执行，这样就安装好插件了（对的我就是因为没搞清楚GUI客户端怎么安装插件所以才选择了命令行，不过这样也有一个好处，就是可以默认图片是压缩的，如果需要上传原图，那么就用picgo客户端即可）\n123C:\\\\Users\\\\Admin\\\\AppData\\\\Roaming\\\\Typora\\\\picgo\\\\win64\\\\picgo.exe add compressC:\\\\Users\\\\Admin\\\\AppData\\\\Roaming\\\\Typora\\\\picgo\\\\win64\\\\picgo.exe use transformerC:\\\\Users\\\\Admin\\\\AppData\\\\Roaming\\\\Typora\\\\picgo\\\\win64\\\\picgo.exe config plugin compress\n\n\n\n\n配置好之后，选择验证图片上传选项，可以看到整个的执行过程会以日志的形式打出来\n\n","dateCreated":"2025-07-06T11:12:10+08:00","dateModified":"2025-07-06T14:14:15+08:00","datePublished":"2025-07-06T11:12:10+08:00","description":"","headline":"2025重回hexo","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://raye.ink/2025/07/06/2025%E9%87%8D%E5%9B%9Ehexo/"},"publisher":{"@type":"Organization","name":"raye","sameAs":["https://github.com/rayepeng","https://x.com/rayepeng_","xinyongp@gmail.com"],"image":"https://www.gravatar.com/avatar/cb2a1d2cb8a1339bd20d81dc9c589948","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/cb2a1d2cb8a1339bd20d81dc9c589948"}},"url":"https://raye.ink/2025/07/06/2025%E9%87%8D%E5%9B%9Ehexo/","keywords":"hexo, 博客"}</script>
+    <meta name="description" content="hexo报错记录排查安装主题 hexo-theme-tranquilpeak&#x2F;DOCUMENTATION.md at main · LouisBarranqueiro&#x2F;hexo-theme-tranquilpeak 步骤如下：  下载主题代码包，放入到hexo主题themes文件夹下，解压，修改名字为 tranquilpeak 修改根目录下的 _config.yml 文件 th">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="2025重回hexo">
+<meta property="og:url" content="https://raye.ink/2025/07/06/2025%E9%87%8D%E5%9B%9Ehexo/index.html">
+<meta property="og:site_name" content="Raye&#39;s Blog">
+<meta property="og:description" content="hexo报错记录排查安装主题 hexo-theme-tranquilpeak&#x2F;DOCUMENTATION.md at main · LouisBarranqueiro&#x2F;hexo-theme-tranquilpeak 步骤如下：  下载主题代码包，放入到hexo主题themes文件夹下，解压，修改名字为 tranquilpeak 修改根目录下的 _config.yml 文件 th">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://picgo-1258058044.cos.ap-chengdu.myqcloud.com/img/image-20250706140144197.png">
+<meta property="og:image" content="https://picgo-1258058044.cos.ap-chengdu.myqcloud.com/img/image-20250706140434549.png">
+<meta property="article:published_time" content="2025-07-06T03:12:10.000Z">
+<meta property="article:modified_time" content="2025-07-06T06:14:15.434Z">
+<meta property="article:author" content="raye">
+<meta property="article:tag" content="hexo">
+<meta property="article:tag" content="博客">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://picgo-1258058044.cos.ap-chengdu.myqcloud.com/img/image-20250706140144197.png">
+    
+    
+        
+    
+    
+    
+    
+    
+    <!--STYLES-->
+    
+<link rel="stylesheet" href="/assets/css/style-9g1rw920opyvgiu12rfkig0ixkvirkc1fnvbtxfon2clnryjueve33yunt0g.min.css">
+
+    <!--STYLES END-->
+    
+
+    
+
+    
+        
+    
+</head>
+
+    <body>
+        <div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+
+<header id="header" data-behavior="4">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a
+            class="header-title-link"
+            href="/"
+            aria-label=""
+        >
+            Raye&#39;s Blog
+        </a>
+    </div>
+    
+        
+            <a
+                class="header-right-picture "
+                href="#about"
+                aria-label="Open the link: /#about"
+            >
+        
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+<nav id="sidebar" data-behavior="4">
+    <div class="sidebar-container">
+        
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="/"
+                            
+                            rel="noopener"
+                            title="Home"
+                        >
+                        <i class="sidebar-button-icon fa fa-home" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Home</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="/all-categories"
+                            
+                            rel="noopener"
+                            title="Categories"
+                        >
+                        <i class="sidebar-button-icon fa fa-bookmark" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Categories</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="/all-tags"
+                            
+                            rel="noopener"
+                            title="Tags"
+                        >
+                        <i class="sidebar-button-icon fa fa-tags" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Tags</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="/all-archives"
+                            
+                            rel="noopener"
+                            title="Archives"
+                        >
+                        <i class="sidebar-button-icon fa fa-archive" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Archives</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link open-algolia-search"
+                            href="#search"
+                            
+                            rel="noopener"
+                            title="Search"
+                        >
+                        <i class="sidebar-button-icon fa fa-search" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Search</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="#about"
+                            
+                            rel="noopener"
+                            title="About"
+                        >
+                        <i class="sidebar-button-icon fa fa-question" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">About</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="https://github.com/rayepeng"
+                            
+                                target="_blank"
+                            
+                            rel="noopener"
+                            title="GitHub"
+                        >
+                        <i class="sidebar-button-icon fab fa-github" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="https://x.com/rayepeng_"
+                            
+                                target="_blank"
+                            
+                            rel="noopener"
+                            title="Twitter"
+                        >
+                        <i class="sidebar-button-icon fab fa-twitter" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Twitter</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="/xinyongp@gmail.com"
+                            
+                            rel="noopener"
+                            title="Mail"
+                        >
+                        <i class="sidebar-button-icon fa fa-envelope" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Mail</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="/atom.xml"
+                            
+                            rel="noopener"
+                            title="RSS"
+                        >
+                        <i class="sidebar-button-icon fa fa-rss" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">RSS</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+    </div>
+</nav>
+
+            
+            <div id="main" data-behavior="4"
+                 class="
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post">
+    
+    
+        <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title">
+            2025重回hexo
+        </h1>
+    
+    
+        <div class="post-meta">
+    <time datetime="2025-07-06T11:12:10+08:00">
+	
+		    Jul 06, 2025
+    	
+    </time>
+    
+</div>
+
+    
+</div>
+
+    
+    <div class="post-content markdown">
+        <div class="main-content-wrap">
+            <h2 id="hexo报错记录排查"><a href="#hexo报错记录排查" class="headerlink" title="hexo报错记录排查"></a>hexo报错记录排查</h2><p>安装主题 <a target="_blank" rel="noopener" href="https://github.com/LouisBarranqueiro/hexo-theme-tranquilpeak/blob/main/DOCUMENTATION.md">hexo-theme-tranquilpeak&#x2F;DOCUMENTATION.md at main · LouisBarranqueiro&#x2F;hexo-theme-tranquilpeak</a></p>
+<p>步骤如下：</p>
+<ol>
+<li>下载主题代码包，放入到hexo主题themes文件夹下，解压，修改名字为 tranquilpeak</li>
+<li>修改根目录下的 <code>_config.yml</code> 文件 theme 字段</li>
+<li>接着又进入到hexo themes&#x2F;tranquilpeak目录下，运行 <code>npm install &amp;&amp; npm run prod</code> 这一步遇到了报错，这里首先解决 <code>npm install</code>的报错</li>
+</ol>
+<p>首先是安装依赖的报错，会提示没有python，那么就安装python，因为需要用到本地编译一个包</p>
+<p>接着又开始报错，报错信息贴在下面，AI告诉我是node-sass已经不用了，直接换成sass就好</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">npm warn deprecated debug@3.2.6: Debug versions &gt;=3.2.0 &lt;3.2.7 || &gt;=4 &lt;4.3.1 have a low-severity ReDos regression when used <span class="keyword">in</span> a Node.js environment. It is recommended you upgrade to 3.2.7 or 4.3.1. (https://github.com/visionmedia/debug/issues/797)</span><br><span class="line">npm warn deprecated @npmcli/fs@1.1.0: this version had an improper engines field added, update to 1.1.1</span><br><span class="line">npm warn deprecated axios@0.19.2: Critical security vulnerability fixed <span class="keyword">in</span> v0.21.1. For more information, see https://github.com/axios/axios/pull/3410</span><br><span class="line">npm warn deprecated core-js@1.2.7: core-js@&lt;3.23.3 is no longer maintained and not recommended <span class="keyword">for</span> usage due to the number of issues. Because of the V8 engine whims, feature detection <span class="keyword">in</span> old core-js versions could cause a slowdown up to 100x even <span class="keyword">if</span> nothing is polyfilled. Some versions have web compatibility issues. Please, upgrade your dependencies to the actual version of core-js.</span><br><span class="line">npm error code 1</span><br><span class="line">npm error path D:\workspace\myblog\themes\tranquilpeak\node_modules\node-sass</span><br><span class="line">npm error <span class="built_in">command</span> failed</span><br><span class="line">npm error <span class="built_in">command</span> C:\WINDOWS\system32\cmd.exe /d /s /c node scripts/build.js</span><br><span class="line">npm error Building: C:\Program Files\nodejs\node.exe D:\workspace\myblog\themes\tranquilpeak\node_modules\node-gyp\bin\node-gyp.js rebuild --verbose --libsass_ext= --libsass_cflags= --libsass_ldflags= --libsass_library=</span><br><span class="line">npm error gyp info it worked <span class="keyword">if</span> it ends with ok</span><br><span class="line">npm error gyp verb cli [</span><br><span class="line">npm error gyp verb cli   <span class="string">&#x27;C:\\Program Files\\nodejs\\node.exe&#x27;</span>,</span><br><span class="line">npm error gyp verb cli   <span class="string">&#x27;D:\\workspace\\myblog\\themes\\tranquilpeak\\node_modules\\node-gyp\\bin\\node-gyp.js&#x27;</span>,</span><br><span class="line">npm error gyp verb cli   <span class="string">&#x27;rebuild&#x27;</span>,</span><br><span class="line">npm error gyp verb cli   <span class="string">&#x27;--verbose&#x27;</span>,</span><br><span class="line">npm error gyp verb cli   <span class="string">&#x27;--libsass_ext=&#x27;</span>,</span><br><span class="line">npm error gyp verb cli   <span class="string">&#x27;--libsass_cflags=&#x27;</span>,</span><br><span class="line">npm error gyp verb cli   <span class="string">&#x27;--libsass_ldflags=&#x27;</span>,</span><br><span class="line">npm error gyp verb cli   <span class="string">&#x27;--libsass_library=&#x27;</span></span><br><span class="line">npm error gyp verb cli ]</span><br><span class="line">npm error gyp info using node-gyp@8.4.1</span><br><span class="line">npm error gyp info using node@24.3.0 | win32 | x64</span><br><span class="line">npm error gyp verb <span class="built_in">command</span> rebuild []</span><br><span class="line">npm error gyp verb <span class="built_in">command</span> clean []</span><br></pre></td></tr></table></figure>
+
+
+
+<p>安装sass，安装依赖成功了</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm i sass@latest</span><br></pre></td></tr></table></figure>
+
+<p><code>npm run prod</code> 报错，这里是因为我已经修改了依赖，这时候就需要修改 <code>&quot;themes\tranquilpeak\tasks\config\sass.js&quot;</code> 这个文件，将其 <code>require</code> 的依赖给修改为 sass</p>
+<p>至此，这个主题终于安装成功了</p>
+<h2 id="hexo写作——typora如何配置自动化压缩并上传图片至腾讯云cos"><a href="#hexo写作——typora如何配置自动化压缩并上传图片至腾讯云cos" class="headerlink" title="hexo写作——typora如何配置自动化压缩并上传图片至腾讯云cos"></a>hexo写作——typora如何配置自动化压缩并上传图片至腾讯云cos</h2><p>目前采用的是typora写作 + picgo自动上传图片 + 坚果云同步的方式，因为坚果云使用的是免费的1G流量上传，所以不能把图片存在本地，这里聊一下如何解决写作的时候图片存储问题</p>
+<p>最好的方式就是用CDN，直接腾讯云买一个也不贵，然后使用picgo工具来实现图片上传，这个工具分为命令行和GUI客户端，我最开始用的是GUI客户端，每次复制图片然后快捷键调用一下就能自动复制出markdown的图片插入文本，非常方便</p>
+<p>但还有更方便的，即使用typora+picgo命令行实现自动上传，配置方式如下：</p>
+<p>需要注意的是，typora会自动下载一个picgo的命令行程序版本，这个和 <code>npm install -g picgo</code> 不是同一个，比如我这里typora自动下载的命令行程序就位于</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">C:\\Users\\Admin\\AppData\\Roaming\\Typora\\picgo\\win64\\picgo.exe</span><br></pre></td></tr></table></figure>
+
+
+
+<p>这样我后续要安装插件，比如图片压缩插件，ref：<a target="_blank" rel="noopener" href="https://github.com/JuZiSang/picgo-plugin-compress?tab=readme-ov-file">juzisang&#x2F;picgo-plugin-compress: Image compression plugin for PicGo</a></p>
+<p>这时候我就需要执行，这样就安装好插件了（对的我就是因为没搞清楚GUI客户端怎么安装插件所以才选择了命令行，不过这样也有一个好处，就是可以默认图片是压缩的，如果需要上传原图，那么就用picgo客户端即可）</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">C:\\Users\\Admin\\AppData\\Roaming\\Typora\\picgo\\win64\\picgo.exe add compress</span><br><span class="line">C:\\Users\\Admin\\AppData\\Roaming\\Typora\\picgo\\win64\\picgo.exe use transformer</span><br><span class="line">C:\\Users\\Admin\\AppData\\Roaming\\Typora\\picgo\\win64\\picgo.exe config plugin compress</span><br></pre></td></tr></table></figure>
+
+
+
+<p><img src="https://picgo-1258058044.cos.ap-chengdu.myqcloud.com/img/image-20250706140144197.png" alt="image-20250706140144197"></p>
+<p>配置好之后，选择验证图片上传选项，可以看到整个的执行过程会以日志的形式打出来</p>
+<p><img src="https://picgo-1258058044.cos.ap-chengdu.myqcloud.com/img/image-20250706140434549.png" alt="image-20250706140434549"></p>
+
+            
+
+
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">TAGGED IN</span><br/>
+                
+    <a class="tag tag--primary tag--small t-none-link" href="/tags/hexo/" rel="tag">hexo</a> <a class="tag tag--primary tag--small t-none-link" href="/tags/%E5%8D%9A%E5%AE%A2/" rel="tag">博客</a>
+
+            </div>
+        
+        
+            <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/2025/07/06/%E5%91%A8%E6%8A%A5-37-%E9%87%8D%E6%96%B0%E6%8B%BE%E8%B5%B7%E7%9A%84%E5%86%99%E4%BD%9C/"
+                    data-tooltip="周报#37 重新拾起的写作"
+                    aria-label="PREVIOUS: 周报#37 重新拾起的写作"
+                >
+                    
+                        <i class="fa fa-angle-left" aria-hidden="true"></i>
+                        <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                    </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/2025/07/06/hello-world/"
+                    data-tooltip="Hello World"
+                    aria-label="NEXT: Hello World"
+                >
+                    
+                        <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                        <i class="fa fa-angle-right" aria-hidden="true"></i>
+                    </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a
+                class="post-action-btn btn btn--default btn-open-shareoptions"
+                href="#btn-open-shareoptions"
+                aria-label="Share this post"
+            >
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://raye.ink/2025/07/06/2025%E9%87%8D%E5%9B%9Ehexo/"
+                    title="Share on Facebook"
+                    aria-label="Share on Facebook"
+                >
+                    <i class="fab fa-facebook" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://twitter.com/intent/tweet?text=https://raye.ink/2025/07/06/2025%E9%87%8D%E5%9B%9Ehexo/"
+                    title="Share on Twitter"
+                    aria-label="Share on Twitter"
+                >
+                    <i class="fab fa-twitter" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://plus.google.com/share?url=https://raye.ink/2025/07/06/2025%E9%87%8D%E5%9B%9Ehexo/"
+                    title="Share on Google+"
+                    aria-label="Share on Google+"
+                >
+                    <i class="fab fa-google-plus" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+        
+        
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2025 raye. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/2025/07/06/%E5%91%A8%E6%8A%A5-37-%E9%87%8D%E6%96%B0%E6%8B%BE%E8%B5%B7%E7%9A%84%E5%86%99%E4%BD%9C/"
+                    data-tooltip="周报#37 重新拾起的写作"
+                    aria-label="PREVIOUS: 周报#37 重新拾起的写作"
+                >
+                    
+                        <i class="fa fa-angle-left" aria-hidden="true"></i>
+                        <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                    </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/2025/07/06/hello-world/"
+                    data-tooltip="Hello World"
+                    aria-label="NEXT: Hello World"
+                >
+                    
+                        <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                        <i class="fa fa-angle-right" aria-hidden="true"></i>
+                    </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a
+                class="post-action-btn btn btn--default btn-open-shareoptions"
+                href="#btn-open-shareoptions"
+                aria-label="Share this post"
+            >
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://raye.ink/2025/07/06/2025%E9%87%8D%E5%9B%9Ehexo/"
+                    title="Share on Facebook"
+                    aria-label="Share on Facebook"
+                >
+                    <i class="fab fa-facebook" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://twitter.com/intent/tweet?text=https://raye.ink/2025/07/06/2025%E9%87%8D%E5%9B%9Ehexo/"
+                    title="Share on Twitter"
+                    aria-label="Share on Twitter"
+                >
+                    <i class="fab fa-twitter" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://plus.google.com/share?url=https://raye.ink/2025/07/06/2025%E9%87%8D%E5%9B%9Ehexo/"
+                    title="Share on Google+"
+                    aria-label="Share on Google+"
+                >
+                    <i class="fab fa-google-plus" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                
+    <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+        <i id="btn-close-shareoptions" class="fa fa-times"></i>
+        <ul class="share-options">
+            
+                
+                
+                <li class="share-option">
+                    <a
+                        class="share-option-btn"
+                        target="new"
+                        href="https://www.facebook.com/sharer/sharer.php?u=https://raye.ink/2025/07/06/2025%E9%87%8D%E5%9B%9Ehexo/"
+                        aria-label="Share on Facebook"
+                    >
+                        <i class="fab fa-facebook" aria-hidden="true"></i><span>Share on Facebook</span>
+                    </a>
+                </li>
+            
+                
+                
+                <li class="share-option">
+                    <a
+                        class="share-option-btn"
+                        target="new"
+                        href="https://twitter.com/intent/tweet?text=https://raye.ink/2025/07/06/2025%E9%87%8D%E5%9B%9Ehexo/"
+                        aria-label="Share on Twitter"
+                    >
+                        <i class="fab fa-twitter" aria-hidden="true"></i><span>Share on Twitter</span>
+                    </a>
+                </li>
+            
+                
+                
+                <li class="share-option">
+                    <a
+                        class="share-option-btn"
+                        target="new"
+                        href="https://plus.google.com/share?url=https://raye.ink/2025/07/06/2025%E9%87%8D%E5%9B%9Ehexo/"
+                        aria-label="Share on Google+"
+                    >
+                        <i class="fab fa-google-plus" aria-hidden="true"></i><span>Share on Google+</span>
+                    </a>
+                </li>
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+        
+
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-times"></i>
+        </div>
+        
+            <h4 id="about-card-name">raye</h4>
+        
+            <div id="about-card-bio"><p>author.bio</p>
+</div>
+        
+        
+            <div id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                <p>author.job</p>
+
+            </div>
+        
+        
+            <div id="about-card-location">
+                <i class="fa fa-map-marker-alt"></i>
+                <br/>
+                深圳
+            </div>
+        
+    </div>
+</div>
+
+        
+        
+<div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
+        <!--SCRIPTS-->
+
+<script src="/assets/js/script-sfmeovlhidz64ilwer4sayh1gerh2yr7pczuem3qtdxlexemgo3vcmw7xr0v.min.js"></script>
+
+<!--SCRIPTS END-->
+
+
+    
+
+
+
+
+    </body>
+</html>
