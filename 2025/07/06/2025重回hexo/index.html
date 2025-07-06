@@ -15,7 +15,7 @@
             <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
         
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"raye","sameAs":["https://github.com/rayepeng","https://x.com/rayepeng_","xinyongp@gmail.com"],"image":"https://www.gravatar.com/avatar/cb2a1d2cb8a1339bd20d81dc9c589948"},"articleBody":"hexo报错记录排查安装主题 hexo-theme-tranquilpeak&#x2F;DOCUMENTATION.md at main · LouisBarranqueiro&#x2F;hexo-theme-tranquilpeak\n步骤如下：\n\n下载主题代码包，放入到hexo主题themes文件夹下，解压，修改名字为 tranquilpeak\n修改根目录下的 _config.yml 文件 theme 字段\n接着又进入到hexo themes&#x2F;tranquilpeak目录下，运行 npm install &amp;&amp; npm run prod 这一步遇到了报错，这里首先解决 npm install的报错\n\n首先是安装依赖的报错，会提示没有python，那么就安装python，因为需要用到本地编译一个包\n接着又开始报错，报错信息贴在下面，AI告诉我是node-sass已经不用了，直接换成sass就好\n123456789101112131415161718192021222324npm warn deprecated debug@3.2.6: Debug versions &gt;=3.2.0 &lt;3.2.7 || &gt;=4 &lt;4.3.1 have a low-severity ReDos regression when used in a Node.js environment. It is recommended you upgrade to 3.2.7 or 4.3.1. (https://github.com/visionmedia/debug/issues/797)npm warn deprecated @npmcli/fs@1.1.0: this version had an improper engines field added, update to 1.1.1npm warn deprecated axios@0.19.2: Critical security vulnerability fixed in v0.21.1. For more information, see https://github.com/axios/axios/pull/3410npm warn deprecated core-js@1.2.7: core-js@&lt;3.23.3 is no longer maintained and not recommended for usage due to the number of issues. Because of the V8 engine whims, feature detection in old core-js versions could cause a slowdown up to 100x even if nothing is polyfilled. Some versions have web compatibility issues. Please, upgrade your dependencies to the actual version of core-js.npm error code 1npm error path D:\\workspace\\myblog\\themes\\tranquilpeak\\node_modules\\node-sassnpm error command failednpm error command C:\\WINDOWS\\system32\\cmd.exe /d /s /c node scripts/build.jsnpm error Building: C:\\Program Files\\nodejs\\node.exe D:\\workspace\\myblog\\themes\\tranquilpeak\\node_modules\\node-gyp\\bin\\node-gyp.js rebuild --verbose --libsass_ext= --libsass_cflags= --libsass_ldflags= --libsass_library=npm error gyp info it worked if it ends with oknpm error gyp verb cli [npm error gyp verb cli   &#x27;C:\\\\Program Files\\\\nodejs\\\\node.exe&#x27;,npm error gyp verb cli   &#x27;D:\\\\workspace\\\\myblog\\\\themes\\\\tranquilpeak\\\\node_modules\\\\node-gyp\\\\bin\\\\node-gyp.js&#x27;,npm error gyp verb cli   &#x27;rebuild&#x27;,npm error gyp verb cli   &#x27;--verbose&#x27;,npm error gyp verb cli   &#x27;--libsass_ext=&#x27;,npm error gyp verb cli   &#x27;--libsass_cflags=&#x27;,npm error gyp verb cli   &#x27;--libsass_ldflags=&#x27;,npm error gyp verb cli   &#x27;--libsass_library=&#x27;npm error gyp verb cli ]npm error gyp info using node-gyp@8.4.1npm error gyp info using node@24.3.0 | win32 | x64npm error gyp verb command rebuild []npm error gyp verb command clean []\n\n\n\n安装sass，安装依赖成功了\n1npm i sass@latest\n\nnpm run prod 报错，这里是因为我已经修改了依赖，这时候就需要修改 &quot;themes\\tranquilpeak\\tasks\\config\\sass.js&quot; 这个文件，将其 require 的依赖给修改为 sass\n至此，这个主题终于安装成功了\nhexo写作——typora如何配置自动化压缩并上传图片至腾讯云cos目前采用的是typora写作 + picgo自动上传图片 + 坚果云同步的方式，因为坚果云使用的是免费的1G流量上传，所以不能把图片存在本地，这里聊一下如何解决写作的时候图片存储问题\n最好的方式就是用CDN，直接腾讯云买一个也不贵，然后使用picgo工具来实现图片上传，这个工具分为命令行和GUI客户端，我最开始用的是GUI客户端，每次复制图片然后快捷键调用一下就能自动复制出markdown的图片插入文本，非常方便\n但还有更方便的，即使用typora+picgo命令行实现自动上传，配置方式如下：\n需要注意的是，typora会自动下载一个picgo的命令行程序版本，这个和 npm install -g picgo 不是同一个，比如我这里typora自动下载的命令行程序就位于\n1C:\\\\Users\\\\Admin\\\\AppData\\\\Roaming\\\\Typora\\\\picgo\\\\win64\\\\picgo.exe\n\n\n\n这样我后续要安装插件，比如图片压缩插件，ref：juzisang&#x2F;picgo-plugin-compress: Image compression plugin for PicGo\n这时候我就需要执行，这样就安装好插件了（对的我就是因为没搞清楚GUI客户端怎么安装插件所以才选择了命令行，不过这样也有一个好处，就是可以默认图片是压缩的，如果需要上传原图，那么就用picgo客户端即可）\n123C:\\\\Users\\\\Admin\\\\AppData\\\\Roaming\\\\Typora\\\\picgo\\\\win64\\\\picgo.exe add compressC:\\\\Users\\\\Admin\\\\AppData\\\\Roaming\\\\Typora\\\\picgo\\\\win64\\\\picgo.exe use transformerC:\\\\Users\\\\Admin\\\\AppData\\\\Roaming\\\\Typora\\\\picgo\\\\win64\\\\picgo.exe config plugin compress\n\n\n\n\n配置好之后，选择验证图片上传选项，可以看到整个的执行过程会以日志的形式打出来\n\n","dateCreated":"2025-07-06T11:12:10+08:00","dateModified":"2025-07-06T14:14:15+08:00","datePublished":"2025-07-06T11:12:10+08:00","description":"","headline":"2025重回hexo","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://raye.ink/2025/07/06/2025%E9%87%8D%E5%9B%9Ehexo/"},"publisher":{"@type":"Organization","name":"raye","sameAs":["https://github.com/rayepeng","https://x.com/rayepeng_","xinyongp@gmail.com"],"image":"https://www.gravatar.com/avatar/cb2a1d2cb8a1339bd20d81dc9c589948","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/cb2a1d2cb8a1339bd20d81dc9c589948"}},"url":"https://raye.ink/2025/07/06/2025%E9%87%8D%E5%9B%9Ehexo/","keywords":"hexo, 博客"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"raye","sameAs":[],"image":"https://picgo-1258058044.cos.ap-chengdu.myqcloud.com/img/photoby_1751730325747.jpg"},"articleBody":"hexo报错记录排查安装主题 hexo-theme-tranquilpeak&#x2F;DOCUMENTATION.md at main · LouisBarranqueiro&#x2F;hexo-theme-tranquilpeak\n步骤如下：\n\n下载主题代码包，放入到hexo主题themes文件夹下，解压，修改名字为 tranquilpeak\n修改根目录下的 _config.yml 文件 theme 字段\n接着又进入到hexo themes&#x2F;tranquilpeak目录下，运行 npm install &amp;&amp; npm run prod 这一步遇到了报错，这里首先解决 npm install的报错\n\n首先是安装依赖的报错，会提示没有python，那么就安装python，因为需要用到本地编译一个包\n接着又开始报错，报错信息贴在下面，AI告诉我是node-sass已经不用了，直接换成sass就好\n123456789101112131415161718192021222324npm warn deprecated debug@3.2.6: Debug versions &gt;=3.2.0 &lt;3.2.7 || &gt;=4 &lt;4.3.1 have a low-severity ReDos regression when used in a Node.js environment. It is recommended you upgrade to 3.2.7 or 4.3.1. (https://github.com/visionmedia/debug/issues/797)npm warn deprecated @npmcli/fs@1.1.0: this version had an improper engines field added, update to 1.1.1npm warn deprecated axios@0.19.2: Critical security vulnerability fixed in v0.21.1. For more information, see https://github.com/axios/axios/pull/3410npm warn deprecated core-js@1.2.7: core-js@&lt;3.23.3 is no longer maintained and not recommended for usage due to the number of issues. Because of the V8 engine whims, feature detection in old core-js versions could cause a slowdown up to 100x even if nothing is polyfilled. Some versions have web compatibility issues. Please, upgrade your dependencies to the actual version of core-js.npm error code 1npm error path D:\\workspace\\myblog\\themes\\tranquilpeak\\node_modules\\node-sassnpm error command failednpm error command C:\\WINDOWS\\system32\\cmd.exe /d /s /c node scripts/build.jsnpm error Building: C:\\Program Files\\nodejs\\node.exe D:\\workspace\\myblog\\themes\\tranquilpeak\\node_modules\\node-gyp\\bin\\node-gyp.js rebuild --verbose --libsass_ext= --libsass_cflags= --libsass_ldflags= --libsass_library=npm error gyp info it worked if it ends with oknpm error gyp verb cli [npm error gyp verb cli   &#x27;C:\\\\Program Files\\\\nodejs\\\\node.exe&#x27;,npm error gyp verb cli   &#x27;D:\\\\workspace\\\\myblog\\\\themes\\\\tranquilpeak\\\\node_modules\\\\node-gyp\\\\bin\\\\node-gyp.js&#x27;,npm error gyp verb cli   &#x27;rebuild&#x27;,npm error gyp verb cli   &#x27;--verbose&#x27;,npm error gyp verb cli   &#x27;--libsass_ext=&#x27;,npm error gyp verb cli   &#x27;--libsass_cflags=&#x27;,npm error gyp verb cli   &#x27;--libsass_ldflags=&#x27;,npm error gyp verb cli   &#x27;--libsass_library=&#x27;npm error gyp verb cli ]npm error gyp info using node-gyp@8.4.1npm error gyp info using node@24.3.0 | win32 | x64npm error gyp verb command rebuild []npm error gyp verb command clean []\n\n\n\n安装sass，安装依赖成功了\n1npm i sass@latest\n\nnpm run prod 报错，这里是因为我已经修改了依赖，这时候就需要修改 &quot;themes\\tranquilpeak\\tasks\\config\\sass.js&quot; 这个文件，将其 require 的依赖给修改为 sass\n至此，这个主题终于安装成功了\nhexo写作——typora如何配置自动化压缩并上传图片至腾讯云cos目前采用的是typora写作 + picgo自动上传图片 + 坚果云同步的方式，因为坚果云使用的是免费的1G流量上传，所以不能把图片存在本地，这里聊一下如何解决写作的时候图片存储问题\n最好的方式就是用CDN，直接腾讯云买一个也不贵，然后使用picgo工具来实现图片上传，这个工具分为命令行和GUI客户端，我最开始用的是GUI客户端，每次复制图片然后快捷键调用一下就能自动复制出markdown的图片插入文本，非常方便\n但还有更方便的，即使用typora+picgo命令行实现自动上传，配置方式如下：\n需要注意的是，typora会自动下载一个picgo的命令行程序版本，这个和 npm install -g picgo 不是同一个，比如我这里typora自动下载的命令行程序就位于\n1C:\\\\Users\\\\Admin\\\\AppData\\\\Roaming\\\\Typora\\\\picgo\\\\win64\\\\picgo.exe\n\n\n\n这样我后续要安装插件，比如图片压缩插件，ref：juzisang&#x2F;picgo-plugin-compress: Image compression plugin for PicGo\n这时候我就需要执行，这样就安装好插件了（对的我就是因为没搞清楚GUI客户端怎么安装插件所以才选择了命令行，不过这样也有一个好处，就是可以默认图片是压缩的，如果需要上传原图，那么就用picgo客户端即可）\n123C:\\\\Users\\\\Admin\\\\AppData\\\\Roaming\\\\Typora\\\\picgo\\\\win64\\\\picgo.exe add compressC:\\\\Users\\\\Admin\\\\AppData\\\\Roaming\\\\Typora\\\\picgo\\\\win64\\\\picgo.exe use transformerC:\\\\Users\\\\Admin\\\\AppData\\\\Roaming\\\\Typora\\\\picgo\\\\win64\\\\picgo.exe config plugin compress\n\n\n\n\n配置好之后，选择验证图片上传选项，可以看到整个的执行过程会以日志的形式打出来\n\n","dateCreated":"2025-07-06T11:12:10+08:00","dateModified":"2025-07-06T14:14:15+08:00","datePublished":"2025-07-06T11:12:10+08:00","description":"","headline":"2025重回hexo","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://raye.ink/2025/07/06/2025%E9%87%8D%E5%9B%9Ehexo/"},"publisher":{"@type":"Organization","name":"raye","sameAs":[],"image":"https://picgo-1258058044.cos.ap-chengdu.myqcloud.com/img/photoby_1751730325747.jpg","logo":{"@type":"ImageObject","url":"https://picgo-1258058044.cos.ap-chengdu.myqcloud.com/img/photoby_1751730325747.jpg"}},"url":"https://raye.ink/2025/07/06/2025%E9%87%8D%E5%9B%9Ehexo/","keywords":"hexo, 博客"}</script>
     <meta name="description" content="hexo报错记录排查安装主题 hexo-theme-tranquilpeak&#x2F;DOCUMENTATION.md at main · LouisBarranqueiro&#x2F;hexo-theme-tranquilpeak 步骤如下：  下载主题代码包，放入到hexo主题themes文件夹下，解压，修改名字为 tranquilpeak 修改根目录下的 _config.yml 文件 th">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="2025重回hexo">
@@ -36,6 +36,8 @@
     
         
     
+    
+        <meta property="og:image" content="https://picgo-1258058044.cos.ap-chengdu.myqcloud.com/img/photoby_1751730325747.jpg"/>
     
     
     
@@ -60,6 +62,10 @@
 
 
     
+        
+            
+        
+    
 
 <header id="header" data-behavior="4">
     <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
@@ -81,6 +87,8 @@
             >
         
         
+            <img class="header-picture" src="https://picgo-1258058044.cos.ap-chengdu.myqcloud.com/img/photoby_1751730325747.jpg" alt="Author&#39;s picture"/>
+        
         </a>
     
 </header>
@@ -88,8 +96,26 @@
             <!-- Define author's picture -->
 
 
+
+        
+    
+
 <nav id="sidebar" data-behavior="4">
     <div class="sidebar-container">
+        
+            <div class="sidebar-profile">
+                <a
+                    href="/#about"
+                    aria-label="Read more about the author"
+                >
+                    <img class="sidebar-profile-picture" src="https://picgo-1258058044.cos.ap-chengdu.myqcloud.com/img/photoby_1751730325747.jpg" alt="Author&#39;s picture"/>
+                </a>
+                <h4 class="sidebar-profile-name">raye</h4>
+                
+                    <h5 class="sidebar-profile-bio"><p>author.bio</p>
+</h5>
+                
+            </div>
         
         
             <ul class="sidebar-buttons">
@@ -175,74 +201,6 @@
                         >
                         <i class="sidebar-button-icon fa fa-question" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">About</span>
-                    </a>
-            </li>
-            
-        </ul>
-        
-            <ul class="sidebar-buttons">
-            
-                <li class="sidebar-button">
-                    
-                        <a
-                            class="sidebar-button-link "
-                            href="https://github.com/rayepeng"
-                            
-                                target="_blank"
-                            
-                            rel="noopener"
-                            title="GitHub"
-                        >
-                        <i class="sidebar-button-icon fab fa-github" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">GitHub</span>
-                    </a>
-            </li>
-            
-                <li class="sidebar-button">
-                    
-                        <a
-                            class="sidebar-button-link "
-                            href="https://x.com/rayepeng_"
-                            
-                                target="_blank"
-                            
-                            rel="noopener"
-                            title="Twitter"
-                        >
-                        <i class="sidebar-button-icon fab fa-twitter" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">Twitter</span>
-                    </a>
-            </li>
-            
-                <li class="sidebar-button">
-                    
-                        <a
-                            class="sidebar-button-link "
-                            href="/xinyongp@gmail.com"
-                            
-                            rel="noopener"
-                            title="Mail"
-                        >
-                        <i class="sidebar-button-icon fa fa-envelope" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">Mail</span>
-                    </a>
-            </li>
-            
-        </ul>
-        
-            <ul class="sidebar-buttons">
-            
-                <li class="sidebar-button">
-                    
-                        <a
-                            class="sidebar-button-link "
-                            href="/atom.xml"
-                            
-                            rel="noopener"
-                            title="RSS"
-                        >
-                        <i class="sidebar-button-icon fa fa-rss" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">RSS</span>
                     </a>
             </li>
             
@@ -382,37 +340,11 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://raye.ink/2025/07/06/2025%E9%87%8D%E5%9B%9Ehexo/"
-                    title="Share on Facebook"
-                    aria-label="Share on Facebook"
-                >
-                    <i class="fab fa-facebook" aria-hidden="true"></i>
-                </a>
-            </li>
-        
-            
-            
-            <li class="post-action hide-xs">
-                <a
-                    class="post-action-btn btn btn--default"
                     target="new" href="https://twitter.com/intent/tweet?text=https://raye.ink/2025/07/06/2025%E9%87%8D%E5%9B%9Ehexo/"
                     title="Share on Twitter"
                     aria-label="Share on Twitter"
                 >
                     <i class="fab fa-twitter" aria-hidden="true"></i>
-                </a>
-            </li>
-        
-            
-            
-            <li class="post-action hide-xs">
-                <a
-                    class="post-action-btn btn btn--default"
-                    target="new" href="https://plus.google.com/share?url=https://raye.ink/2025/07/06/2025%E9%87%8D%E5%9B%9Ehexo/"
-                    title="Share on Google+"
-                    aria-label="Share on Google+"
-                >
-                    <i class="fab fa-google-plus" aria-hidden="true"></i>
                 </a>
             </li>
         
@@ -497,37 +429,11 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://raye.ink/2025/07/06/2025%E9%87%8D%E5%9B%9Ehexo/"
-                    title="Share on Facebook"
-                    aria-label="Share on Facebook"
-                >
-                    <i class="fab fa-facebook" aria-hidden="true"></i>
-                </a>
-            </li>
-        
-            
-            
-            <li class="post-action hide-xs">
-                <a
-                    class="post-action-btn btn btn--default"
                     target="new" href="https://twitter.com/intent/tweet?text=https://raye.ink/2025/07/06/2025%E9%87%8D%E5%9B%9Ehexo/"
                     title="Share on Twitter"
                     aria-label="Share on Twitter"
                 >
                     <i class="fab fa-twitter" aria-hidden="true"></i>
-                </a>
-            </li>
-        
-            
-            
-            <li class="post-action hide-xs">
-                <a
-                    class="post-action-btn btn btn--default"
-                    target="new" href="https://plus.google.com/share?url=https://raye.ink/2025/07/06/2025%E9%87%8D%E5%9B%9Ehexo/"
-                    title="Share on Google+"
-                    aria-label="Share on Google+"
-                >
-                    <i class="fab fa-google-plus" aria-hidden="true"></i>
                 </a>
             </li>
         
@@ -557,36 +463,10 @@
                     <a
                         class="share-option-btn"
                         target="new"
-                        href="https://www.facebook.com/sharer/sharer.php?u=https://raye.ink/2025/07/06/2025%E9%87%8D%E5%9B%9Ehexo/"
-                        aria-label="Share on Facebook"
-                    >
-                        <i class="fab fa-facebook" aria-hidden="true"></i><span>Share on Facebook</span>
-                    </a>
-                </li>
-            
-                
-                
-                <li class="share-option">
-                    <a
-                        class="share-option-btn"
-                        target="new"
                         href="https://twitter.com/intent/tweet?text=https://raye.ink/2025/07/06/2025%E9%87%8D%E5%9B%9Ehexo/"
                         aria-label="Share on Twitter"
                     >
                         <i class="fab fa-twitter" aria-hidden="true"></i><span>Share on Twitter</span>
-                    </a>
-                </li>
-            
-                
-                
-                <li class="share-option">
-                    <a
-                        class="share-option-btn"
-                        target="new"
-                        href="https://plus.google.com/share?url=https://raye.ink/2025/07/06/2025%E9%87%8D%E5%9B%9Ehexo/"
-                        aria-label="Share on Google+"
-                    >
-                        <i class="fab fa-google-plus" aria-hidden="true"></i><span>Share on Google+</span>
                     </a>
                 </li>
             
@@ -599,11 +479,17 @@
         
 
 
+    
+        
+    
+
 <div id="about">
     <div id="about-card">
         <div id="about-btn-close">
             <i class="fa fa-times"></i>
         </div>
+        
+            <img id="about-card-picture" src="https://picgo-1258058044.cos.ap-chengdu.myqcloud.com/img/photoby_1751730325747.jpg" alt="Author&#39;s picture"/>
         
             <h4 id="about-card-name">raye</h4>
         

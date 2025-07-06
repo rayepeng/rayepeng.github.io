@@ -15,7 +15,7 @@
             <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
         
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"raye","sameAs":["https://github.com/rayepeng","https://x.com/rayepeng_","xinyongp@gmail.com"],"image":"https://www.gravatar.com/avatar/cb2a1d2cb8a1339bd20d81dc9c589948"},"articleBody":"wasm内存越界读写测试手工编写一个wasm模块，wat代码如下:\n\n声明需要一段内存空间\n暴露两个函数，写内存和读内存，之后在js代码中调用\n\n12345678910111213141516171819(module  ;;声明需要提供内存  (import &quot;env&quot; &quot;memory&quot; (memory 1 2)) ;; 初始 1 页，最大 2 页  ;; 写入 i32 到内存[offset]  (func (export &quot;writeToMemory&quot;) (param i32) (param i32)    (i32.store      (local.get 0)      (local.get 1)    )  )  ;; 从内存[offset] 读取 i32  (func (export &quot;readFromMemory&quot;) (param i32) (result i32)    (i32.load      (local.get 0)    )  ))\n\n然后编译为为wasm模块\n1wat2wasm memory_test.wat -o memory_test.wasm \n\n\n\n编写js代码\n1234567891011121314151617181920212223242526272829303132333435363738394041const fs = require(&#x27;fs&#x27;);(async () =&gt; &#123;  const memory = new WebAssembly.Memory(&#123; initial: 1, maximum: 2 &#125;);  const importObject = &#123;    env: &#123;      memory: memory    &#125;  &#125;;  // 读取wasm，分配内存  const wasmBuffer = fs.readFileSync(&#x27;./memory_test.wasm&#x27;);  const wasmModule = await WebAssembly.instantiate(wasmBuffer, importObject);  const &#123; writeToMemory, readFromMemory&#125; = wasmModule.instance.exports;  const inBoundsOffset = 65532; // 正常偏移  const outOfBoundsOffset = 70000; // 越界偏移  // 测试正常写入和读取  writeToMemory(inBoundsOffset, 123456);  console.log(&quot;读取数据:&quot;, readFromMemory(inBoundsOffset));  try &#123;    // 👇 试图越界写入    console.log(&quot;尝试越界写数据&quot;);    writeToMemory(outOfBoundsOffset, 999);  &#125; catch (err) &#123;    console.error(&quot;越界写错误:&quot;, err.message);    console.log(err);  &#125;  try &#123;    // 👇 试图越界读取    console.log(&quot;尝试越界读数据&quot;);    console.log(readFromMemory(outOfBoundsOffset));  &#125; catch (err) &#123;    console.error(&quot;越界读错误:&quot;, err.message);    console.log(err);  &#125;&#125;)();\n\n\n\n运行结果，可以发现此时是报错的\n123456789101112❯ node main.js读取数据: 123456尝试越界写数据越界写错误: memory access out of boundsRuntimeError: memory access out of bounds    at wasm://wasm/488cc87e:wasm-function[0]:0x59    at /Users/rayepeng/Documents/code/wasm-memory-test/main.js:26:5尝试越界读数据越界读错误: memory access out of boundsRuntimeError: memory access out of bounds    at wasm://wasm/488cc87e:wasm-function[1]:0x61    at /Users/rayepeng/Documents/code/wasm-memory-test/main.js:35:17\n\n","dateCreated":"2025-07-06T11:30:54+08:00","dateModified":"2025-07-06T11:36:50+08:00","datePublished":"2025-07-06T11:30:54+08:00","description":"","headline":"wasm内存访问研究","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://raye.ink/2025/07/06/wasm%E5%86%85%E5%AD%98%E8%AE%BF%E9%97%AE%E7%A0%94%E7%A9%B6/"},"publisher":{"@type":"Organization","name":"raye","sameAs":["https://github.com/rayepeng","https://x.com/rayepeng_","xinyongp@gmail.com"],"image":"https://www.gravatar.com/avatar/cb2a1d2cb8a1339bd20d81dc9c589948","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/cb2a1d2cb8a1339bd20d81dc9c589948"}},"url":"https://raye.ink/2025/07/06/wasm%E5%86%85%E5%AD%98%E8%AE%BF%E9%97%AE%E7%A0%94%E7%A9%B6/"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"raye","sameAs":[],"image":"https://picgo-1258058044.cos.ap-chengdu.myqcloud.com/img/photoby_1751730325747.jpg"},"articleBody":"wasm内存越界读写测试手工编写一个wasm模块，wat代码如下:\n\n声明需要一段内存空间\n暴露两个函数，写内存和读内存，之后在js代码中调用\n\n12345678910111213141516171819(module  ;;声明需要提供内存  (import &quot;env&quot; &quot;memory&quot; (memory 1 2)) ;; 初始 1 页，最大 2 页  ;; 写入 i32 到内存[offset]  (func (export &quot;writeToMemory&quot;) (param i32) (param i32)    (i32.store      (local.get 0)      (local.get 1)    )  )  ;; 从内存[offset] 读取 i32  (func (export &quot;readFromMemory&quot;) (param i32) (result i32)    (i32.load      (local.get 0)    )  ))\n\n然后编译为为wasm模块\n1wat2wasm memory_test.wat -o memory_test.wasm \n\n\n\n编写js代码\n1234567891011121314151617181920212223242526272829303132333435363738394041const fs = require(&#x27;fs&#x27;);(async () =&gt; &#123;  const memory = new WebAssembly.Memory(&#123; initial: 1, maximum: 2 &#125;);  const importObject = &#123;    env: &#123;      memory: memory    &#125;  &#125;;  // 读取wasm，分配内存  const wasmBuffer = fs.readFileSync(&#x27;./memory_test.wasm&#x27;);  const wasmModule = await WebAssembly.instantiate(wasmBuffer, importObject);  const &#123; writeToMemory, readFromMemory&#125; = wasmModule.instance.exports;  const inBoundsOffset = 65532; // 正常偏移  const outOfBoundsOffset = 70000; // 越界偏移  // 测试正常写入和读取  writeToMemory(inBoundsOffset, 123456);  console.log(&quot;读取数据:&quot;, readFromMemory(inBoundsOffset));  try &#123;    // 👇 试图越界写入    console.log(&quot;尝试越界写数据&quot;);    writeToMemory(outOfBoundsOffset, 999);  &#125; catch (err) &#123;    console.error(&quot;越界写错误:&quot;, err.message);    console.log(err);  &#125;  try &#123;    // 👇 试图越界读取    console.log(&quot;尝试越界读数据&quot;);    console.log(readFromMemory(outOfBoundsOffset));  &#125; catch (err) &#123;    console.error(&quot;越界读错误:&quot;, err.message);    console.log(err);  &#125;&#125;)();\n\n\n\n运行结果，可以发现此时是报错的\n123456789101112❯ node main.js读取数据: 123456尝试越界写数据越界写错误: memory access out of boundsRuntimeError: memory access out of bounds    at wasm://wasm/488cc87e:wasm-function[0]:0x59    at /Users/rayepeng/Documents/code/wasm-memory-test/main.js:26:5尝试越界读数据越界读错误: memory access out of boundsRuntimeError: memory access out of bounds    at wasm://wasm/488cc87e:wasm-function[1]:0x61    at /Users/rayepeng/Documents/code/wasm-memory-test/main.js:35:17\n\n","dateCreated":"2025-07-06T11:30:54+08:00","dateModified":"2025-07-06T11:36:50+08:00","datePublished":"2025-07-06T11:30:54+08:00","description":"","headline":"wasm内存访问研究","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://raye.ink/2025/07/06/wasm%E5%86%85%E5%AD%98%E8%AE%BF%E9%97%AE%E7%A0%94%E7%A9%B6/"},"publisher":{"@type":"Organization","name":"raye","sameAs":[],"image":"https://picgo-1258058044.cos.ap-chengdu.myqcloud.com/img/photoby_1751730325747.jpg","logo":{"@type":"ImageObject","url":"https://picgo-1258058044.cos.ap-chengdu.myqcloud.com/img/photoby_1751730325747.jpg"}},"url":"https://raye.ink/2025/07/06/wasm%E5%86%85%E5%AD%98%E8%AE%BF%E9%97%AE%E7%A0%94%E7%A9%B6/"}</script>
     <meta name="description" content="wasm内存越界读写测试手工编写一个wasm模块，wat代码如下:  声明需要一段内存空间 暴露两个函数，写内存和读内存，之后在js代码中调用  12345678910111213141516171819(module  ;;声明需要提供内存  (import &quot;env&quot; &quot;memory&quot; (memory 1 2)) ;; 初始 1 页，最大 2 页  ;;">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="wasm内存访问研究">
@@ -31,6 +31,8 @@
     
         
     
+    
+        <meta property="og:image" content="https://picgo-1258058044.cos.ap-chengdu.myqcloud.com/img/photoby_1751730325747.jpg"/>
     
     
     
@@ -55,6 +57,10 @@
 
 
     
+        
+            
+        
+    
 
 <header id="header" data-behavior="4">
     <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
@@ -76,6 +82,8 @@
             >
         
         
+            <img class="header-picture" src="https://picgo-1258058044.cos.ap-chengdu.myqcloud.com/img/photoby_1751730325747.jpg" alt="Author&#39;s picture"/>
+        
         </a>
     
 </header>
@@ -83,8 +91,26 @@
             <!-- Define author's picture -->
 
 
+
+        
+    
+
 <nav id="sidebar" data-behavior="4">
     <div class="sidebar-container">
+        
+            <div class="sidebar-profile">
+                <a
+                    href="/#about"
+                    aria-label="Read more about the author"
+                >
+                    <img class="sidebar-profile-picture" src="https://picgo-1258058044.cos.ap-chengdu.myqcloud.com/img/photoby_1751730325747.jpg" alt="Author&#39;s picture"/>
+                </a>
+                <h4 class="sidebar-profile-name">raye</h4>
+                
+                    <h5 class="sidebar-profile-bio"><p>author.bio</p>
+</h5>
+                
+            </div>
         
         
             <ul class="sidebar-buttons">
@@ -170,74 +196,6 @@
                         >
                         <i class="sidebar-button-icon fa fa-question" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">About</span>
-                    </a>
-            </li>
-            
-        </ul>
-        
-            <ul class="sidebar-buttons">
-            
-                <li class="sidebar-button">
-                    
-                        <a
-                            class="sidebar-button-link "
-                            href="https://github.com/rayepeng"
-                            
-                                target="_blank"
-                            
-                            rel="noopener"
-                            title="GitHub"
-                        >
-                        <i class="sidebar-button-icon fab fa-github" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">GitHub</span>
-                    </a>
-            </li>
-            
-                <li class="sidebar-button">
-                    
-                        <a
-                            class="sidebar-button-link "
-                            href="https://x.com/rayepeng_"
-                            
-                                target="_blank"
-                            
-                            rel="noopener"
-                            title="Twitter"
-                        >
-                        <i class="sidebar-button-icon fab fa-twitter" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">Twitter</span>
-                    </a>
-            </li>
-            
-                <li class="sidebar-button">
-                    
-                        <a
-                            class="sidebar-button-link "
-                            href="/xinyongp@gmail.com"
-                            
-                            rel="noopener"
-                            title="Mail"
-                        >
-                        <i class="sidebar-button-icon fa fa-envelope" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">Mail</span>
-                    </a>
-            </li>
-            
-        </ul>
-        
-            <ul class="sidebar-buttons">
-            
-                <li class="sidebar-button">
-                    
-                        <a
-                            class="sidebar-button-link "
-                            href="/atom.xml"
-                            
-                            rel="noopener"
-                            title="RSS"
-                        >
-                        <i class="sidebar-button-icon fa fa-rss" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">RSS</span>
                     </a>
             </li>
             
@@ -355,37 +313,11 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://raye.ink/2025/07/06/wasm%E5%86%85%E5%AD%98%E8%AE%BF%E9%97%AE%E7%A0%94%E7%A9%B6/"
-                    title="Share on Facebook"
-                    aria-label="Share on Facebook"
-                >
-                    <i class="fab fa-facebook" aria-hidden="true"></i>
-                </a>
-            </li>
-        
-            
-            
-            <li class="post-action hide-xs">
-                <a
-                    class="post-action-btn btn btn--default"
                     target="new" href="https://twitter.com/intent/tweet?text=https://raye.ink/2025/07/06/wasm%E5%86%85%E5%AD%98%E8%AE%BF%E9%97%AE%E7%A0%94%E7%A9%B6/"
                     title="Share on Twitter"
                     aria-label="Share on Twitter"
                 >
                     <i class="fab fa-twitter" aria-hidden="true"></i>
-                </a>
-            </li>
-        
-            
-            
-            <li class="post-action hide-xs">
-                <a
-                    class="post-action-btn btn btn--default"
-                    target="new" href="https://plus.google.com/share?url=https://raye.ink/2025/07/06/wasm%E5%86%85%E5%AD%98%E8%AE%BF%E9%97%AE%E7%A0%94%E7%A9%B6/"
-                    title="Share on Google+"
-                    aria-label="Share on Google+"
-                >
-                    <i class="fab fa-google-plus" aria-hidden="true"></i>
                 </a>
             </li>
         
@@ -470,37 +402,11 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://raye.ink/2025/07/06/wasm%E5%86%85%E5%AD%98%E8%AE%BF%E9%97%AE%E7%A0%94%E7%A9%B6/"
-                    title="Share on Facebook"
-                    aria-label="Share on Facebook"
-                >
-                    <i class="fab fa-facebook" aria-hidden="true"></i>
-                </a>
-            </li>
-        
-            
-            
-            <li class="post-action hide-xs">
-                <a
-                    class="post-action-btn btn btn--default"
                     target="new" href="https://twitter.com/intent/tweet?text=https://raye.ink/2025/07/06/wasm%E5%86%85%E5%AD%98%E8%AE%BF%E9%97%AE%E7%A0%94%E7%A9%B6/"
                     title="Share on Twitter"
                     aria-label="Share on Twitter"
                 >
                     <i class="fab fa-twitter" aria-hidden="true"></i>
-                </a>
-            </li>
-        
-            
-            
-            <li class="post-action hide-xs">
-                <a
-                    class="post-action-btn btn btn--default"
-                    target="new" href="https://plus.google.com/share?url=https://raye.ink/2025/07/06/wasm%E5%86%85%E5%AD%98%E8%AE%BF%E9%97%AE%E7%A0%94%E7%A9%B6/"
-                    title="Share on Google+"
-                    aria-label="Share on Google+"
-                >
-                    <i class="fab fa-google-plus" aria-hidden="true"></i>
                 </a>
             </li>
         
@@ -530,36 +436,10 @@
                     <a
                         class="share-option-btn"
                         target="new"
-                        href="https://www.facebook.com/sharer/sharer.php?u=https://raye.ink/2025/07/06/wasm%E5%86%85%E5%AD%98%E8%AE%BF%E9%97%AE%E7%A0%94%E7%A9%B6/"
-                        aria-label="Share on Facebook"
-                    >
-                        <i class="fab fa-facebook" aria-hidden="true"></i><span>Share on Facebook</span>
-                    </a>
-                </li>
-            
-                
-                
-                <li class="share-option">
-                    <a
-                        class="share-option-btn"
-                        target="new"
                         href="https://twitter.com/intent/tweet?text=https://raye.ink/2025/07/06/wasm%E5%86%85%E5%AD%98%E8%AE%BF%E9%97%AE%E7%A0%94%E7%A9%B6/"
                         aria-label="Share on Twitter"
                     >
                         <i class="fab fa-twitter" aria-hidden="true"></i><span>Share on Twitter</span>
-                    </a>
-                </li>
-            
-                
-                
-                <li class="share-option">
-                    <a
-                        class="share-option-btn"
-                        target="new"
-                        href="https://plus.google.com/share?url=https://raye.ink/2025/07/06/wasm%E5%86%85%E5%AD%98%E8%AE%BF%E9%97%AE%E7%A0%94%E7%A9%B6/"
-                        aria-label="Share on Google+"
-                    >
-                        <i class="fab fa-google-plus" aria-hidden="true"></i><span>Share on Google+</span>
                     </a>
                 </li>
             
@@ -572,11 +452,17 @@
         
 
 
+    
+        
+    
+
 <div id="about">
     <div id="about-card">
         <div id="about-btn-close">
             <i class="fa fa-times"></i>
         </div>
+        
+            <img id="about-card-picture" src="https://picgo-1258058044.cos.ap-chengdu.myqcloud.com/img/photoby_1751730325747.jpg" alt="Author&#39;s picture"/>
         
             <h4 id="about-card-name">raye</h4>
         

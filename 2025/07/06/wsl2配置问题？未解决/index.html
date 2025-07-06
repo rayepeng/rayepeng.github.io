@@ -15,7 +15,7 @@
             <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
         
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"raye","sameAs":["https://github.com/rayepeng","https://x.com/rayepeng_","xinyongp@gmail.com"],"image":"https://www.gravatar.com/avatar/cb2a1d2cb8a1339bd20d81dc9c589948"},"articleBody":"奇了怪了，我按照官方文档写的wsl2配置一直失效，重启重装wsl子系统都没有解决这个问题，如下是我的配置，因为我想在wsl2中直接使用Windows的代理\n12345[wsl2]networkingMode=mirroreddnsTunneling=truefirewall=trueautoProxy=true\n\n\n\n不过直接原因还是wsl2配置有点麻烦，核心问题： wsl2是docker运行的虚拟机，这就导致：\n\nwsl2和Windows本机的127.0.0.1不是同一个，如果wsl2要想访问Windows的服务，或者Windows想要访问wsl2的服务，这时候这俩本质上是在一个局域网里的，要用局域网的ip地址\n\n","dateCreated":"2025-07-06T11:32:02+08:00","dateModified":"2025-07-06T11:34:39+08:00","datePublished":"2025-07-06T11:32:02+08:00","description":"","headline":"wsl2配置问题？未解决","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://raye.ink/2025/07/06/wsl2%E9%85%8D%E7%BD%AE%E9%97%AE%E9%A2%98%EF%BC%9F%E6%9C%AA%E8%A7%A3%E5%86%B3/"},"publisher":{"@type":"Organization","name":"raye","sameAs":["https://github.com/rayepeng","https://x.com/rayepeng_","xinyongp@gmail.com"],"image":"https://www.gravatar.com/avatar/cb2a1d2cb8a1339bd20d81dc9c589948","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/cb2a1d2cb8a1339bd20d81dc9c589948"}},"url":"https://raye.ink/2025/07/06/wsl2%E9%85%8D%E7%BD%AE%E9%97%AE%E9%A2%98%EF%BC%9F%E6%9C%AA%E8%A7%A3%E5%86%B3/"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"raye","sameAs":[],"image":"https://picgo-1258058044.cos.ap-chengdu.myqcloud.com/img/photoby_1751730325747.jpg"},"articleBody":"奇了怪了，我按照官方文档写的wsl2配置一直失效，重启重装wsl子系统都没有解决这个问题，如下是我的配置，因为我想在wsl2中直接使用Windows的代理\n12345[wsl2]networkingMode=mirroreddnsTunneling=truefirewall=trueautoProxy=true\n\n\n\n不过直接原因还是wsl2配置有点麻烦，核心问题： wsl2是docker运行的虚拟机，这就导致：\n\nwsl2和Windows本机的127.0.0.1不是同一个，如果wsl2要想访问Windows的服务，或者Windows想要访问wsl2的服务，这时候这俩本质上是在一个局域网里的，要用局域网的ip地址\n\n","dateCreated":"2025-07-06T11:32:02+08:00","dateModified":"2025-07-06T11:34:39+08:00","datePublished":"2025-07-06T11:32:02+08:00","description":"","headline":"wsl2配置问题？未解决","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://raye.ink/2025/07/06/wsl2%E9%85%8D%E7%BD%AE%E9%97%AE%E9%A2%98%EF%BC%9F%E6%9C%AA%E8%A7%A3%E5%86%B3/"},"publisher":{"@type":"Organization","name":"raye","sameAs":[],"image":"https://picgo-1258058044.cos.ap-chengdu.myqcloud.com/img/photoby_1751730325747.jpg","logo":{"@type":"ImageObject","url":"https://picgo-1258058044.cos.ap-chengdu.myqcloud.com/img/photoby_1751730325747.jpg"}},"url":"https://raye.ink/2025/07/06/wsl2%E9%85%8D%E7%BD%AE%E9%97%AE%E9%A2%98%EF%BC%9F%E6%9C%AA%E8%A7%A3%E5%86%B3/"}</script>
     <meta name="description" content="奇了怪了，我按照官方文档写的wsl2配置一直失效，重启重装wsl子系统都没有解决这个问题，如下是我的配置，因为我想在wsl2中直接使用Windows的代理 12345[wsl2]networkingMode&#x3D;mirroreddnsTunneling&#x3D;truefirewall&#x3D;trueautoProxy&#x3D;true    不过直接原因还是wsl2配置有点麻烦，核心问题： wsl2是docker运行的虚">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="wsl2配置问题？未解决">
@@ -31,6 +31,8 @@
     
         
     
+    
+        <meta property="og:image" content="https://picgo-1258058044.cos.ap-chengdu.myqcloud.com/img/photoby_1751730325747.jpg"/>
     
     
     
@@ -55,6 +57,10 @@
 
 
     
+        
+            
+        
+    
 
 <header id="header" data-behavior="4">
     <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
@@ -76,6 +82,8 @@
             >
         
         
+            <img class="header-picture" src="https://picgo-1258058044.cos.ap-chengdu.myqcloud.com/img/photoby_1751730325747.jpg" alt="Author&#39;s picture"/>
+        
         </a>
     
 </header>
@@ -83,8 +91,26 @@
             <!-- Define author's picture -->
 
 
+
+        
+    
+
 <nav id="sidebar" data-behavior="4">
     <div class="sidebar-container">
+        
+            <div class="sidebar-profile">
+                <a
+                    href="/#about"
+                    aria-label="Read more about the author"
+                >
+                    <img class="sidebar-profile-picture" src="https://picgo-1258058044.cos.ap-chengdu.myqcloud.com/img/photoby_1751730325747.jpg" alt="Author&#39;s picture"/>
+                </a>
+                <h4 class="sidebar-profile-name">raye</h4>
+                
+                    <h5 class="sidebar-profile-bio"><p>author.bio</p>
+</h5>
+                
+            </div>
         
         
             <ul class="sidebar-buttons">
@@ -170,74 +196,6 @@
                         >
                         <i class="sidebar-button-icon fa fa-question" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">About</span>
-                    </a>
-            </li>
-            
-        </ul>
-        
-            <ul class="sidebar-buttons">
-            
-                <li class="sidebar-button">
-                    
-                        <a
-                            class="sidebar-button-link "
-                            href="https://github.com/rayepeng"
-                            
-                                target="_blank"
-                            
-                            rel="noopener"
-                            title="GitHub"
-                        >
-                        <i class="sidebar-button-icon fab fa-github" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">GitHub</span>
-                    </a>
-            </li>
-            
-                <li class="sidebar-button">
-                    
-                        <a
-                            class="sidebar-button-link "
-                            href="https://x.com/rayepeng_"
-                            
-                                target="_blank"
-                            
-                            rel="noopener"
-                            title="Twitter"
-                        >
-                        <i class="sidebar-button-icon fab fa-twitter" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">Twitter</span>
-                    </a>
-            </li>
-            
-                <li class="sidebar-button">
-                    
-                        <a
-                            class="sidebar-button-link "
-                            href="/xinyongp@gmail.com"
-                            
-                            rel="noopener"
-                            title="Mail"
-                        >
-                        <i class="sidebar-button-icon fa fa-envelope" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">Mail</span>
-                    </a>
-            </li>
-            
-        </ul>
-        
-            <ul class="sidebar-buttons">
-            
-                <li class="sidebar-button">
-                    
-                        <a
-                            class="sidebar-button-link "
-                            href="/atom.xml"
-                            
-                            rel="noopener"
-                            title="RSS"
-                        >
-                        <i class="sidebar-button-icon fa fa-rss" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">RSS</span>
                     </a>
             </li>
             
@@ -344,37 +302,11 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://raye.ink/2025/07/06/wsl2%E9%85%8D%E7%BD%AE%E9%97%AE%E9%A2%98%EF%BC%9F%E6%9C%AA%E8%A7%A3%E5%86%B3/"
-                    title="Share on Facebook"
-                    aria-label="Share on Facebook"
-                >
-                    <i class="fab fa-facebook" aria-hidden="true"></i>
-                </a>
-            </li>
-        
-            
-            
-            <li class="post-action hide-xs">
-                <a
-                    class="post-action-btn btn btn--default"
                     target="new" href="https://twitter.com/intent/tweet?text=https://raye.ink/2025/07/06/wsl2%E9%85%8D%E7%BD%AE%E9%97%AE%E9%A2%98%EF%BC%9F%E6%9C%AA%E8%A7%A3%E5%86%B3/"
                     title="Share on Twitter"
                     aria-label="Share on Twitter"
                 >
                     <i class="fab fa-twitter" aria-hidden="true"></i>
-                </a>
-            </li>
-        
-            
-            
-            <li class="post-action hide-xs">
-                <a
-                    class="post-action-btn btn btn--default"
-                    target="new" href="https://plus.google.com/share?url=https://raye.ink/2025/07/06/wsl2%E9%85%8D%E7%BD%AE%E9%97%AE%E9%A2%98%EF%BC%9F%E6%9C%AA%E8%A7%A3%E5%86%B3/"
-                    title="Share on Google+"
-                    aria-label="Share on Google+"
-                >
-                    <i class="fab fa-google-plus" aria-hidden="true"></i>
                 </a>
             </li>
         
@@ -459,37 +391,11 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://raye.ink/2025/07/06/wsl2%E9%85%8D%E7%BD%AE%E9%97%AE%E9%A2%98%EF%BC%9F%E6%9C%AA%E8%A7%A3%E5%86%B3/"
-                    title="Share on Facebook"
-                    aria-label="Share on Facebook"
-                >
-                    <i class="fab fa-facebook" aria-hidden="true"></i>
-                </a>
-            </li>
-        
-            
-            
-            <li class="post-action hide-xs">
-                <a
-                    class="post-action-btn btn btn--default"
                     target="new" href="https://twitter.com/intent/tweet?text=https://raye.ink/2025/07/06/wsl2%E9%85%8D%E7%BD%AE%E9%97%AE%E9%A2%98%EF%BC%9F%E6%9C%AA%E8%A7%A3%E5%86%B3/"
                     title="Share on Twitter"
                     aria-label="Share on Twitter"
                 >
                     <i class="fab fa-twitter" aria-hidden="true"></i>
-                </a>
-            </li>
-        
-            
-            
-            <li class="post-action hide-xs">
-                <a
-                    class="post-action-btn btn btn--default"
-                    target="new" href="https://plus.google.com/share?url=https://raye.ink/2025/07/06/wsl2%E9%85%8D%E7%BD%AE%E9%97%AE%E9%A2%98%EF%BC%9F%E6%9C%AA%E8%A7%A3%E5%86%B3/"
-                    title="Share on Google+"
-                    aria-label="Share on Google+"
-                >
-                    <i class="fab fa-google-plus" aria-hidden="true"></i>
                 </a>
             </li>
         
@@ -519,36 +425,10 @@
                     <a
                         class="share-option-btn"
                         target="new"
-                        href="https://www.facebook.com/sharer/sharer.php?u=https://raye.ink/2025/07/06/wsl2%E9%85%8D%E7%BD%AE%E9%97%AE%E9%A2%98%EF%BC%9F%E6%9C%AA%E8%A7%A3%E5%86%B3/"
-                        aria-label="Share on Facebook"
-                    >
-                        <i class="fab fa-facebook" aria-hidden="true"></i><span>Share on Facebook</span>
-                    </a>
-                </li>
-            
-                
-                
-                <li class="share-option">
-                    <a
-                        class="share-option-btn"
-                        target="new"
                         href="https://twitter.com/intent/tweet?text=https://raye.ink/2025/07/06/wsl2%E9%85%8D%E7%BD%AE%E9%97%AE%E9%A2%98%EF%BC%9F%E6%9C%AA%E8%A7%A3%E5%86%B3/"
                         aria-label="Share on Twitter"
                     >
                         <i class="fab fa-twitter" aria-hidden="true"></i><span>Share on Twitter</span>
-                    </a>
-                </li>
-            
-                
-                
-                <li class="share-option">
-                    <a
-                        class="share-option-btn"
-                        target="new"
-                        href="https://plus.google.com/share?url=https://raye.ink/2025/07/06/wsl2%E9%85%8D%E7%BD%AE%E9%97%AE%E9%A2%98%EF%BC%9F%E6%9C%AA%E8%A7%A3%E5%86%B3/"
-                        aria-label="Share on Google+"
-                    >
-                        <i class="fab fa-google-plus" aria-hidden="true"></i><span>Share on Google+</span>
                     </a>
                 </li>
             
@@ -561,11 +441,17 @@
         
 
 
+    
+        
+    
+
 <div id="about">
     <div id="about-card">
         <div id="about-btn-close">
             <i class="fa fa-times"></i>
         </div>
+        
+            <img id="about-card-picture" src="https://picgo-1258058044.cos.ap-chengdu.myqcloud.com/img/photoby_1751730325747.jpg" alt="Author&#39;s picture"/>
         
             <h4 id="about-card-name">raye</h4>
         
