@@ -1,251 +1,581 @@
-
 <!DOCTYPE html>
 <html lang="en">
-    
 <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="generator" content="Raye&#39;s Blog">
-    <title>2025重回hexo - Raye&#39;s Blog</title>
-    <meta name="author" content="raye">
+    <meta name="keywords" content="Hexo Theme Redefine">
+    
+    <meta name="author" content="rayepeng">
+    
+    <!-- Completely eliminate flash of wrong theme -->
+    <script>
+        (function() {
+            const THEME_KEY = "REDEFINE-THEME-STATUS";
+            const DARK = "dark", LIGHT = "light";
+            
+            // Get preferred theme
+            function getTheme() {
+                try {
+                    const saved = localStorage.getItem(THEME_KEY);
+                    if (saved) {
+                        const { isDark } = JSON.parse(saved);
+                        return isDark ? DARK : LIGHT;
+                    }
+                } catch (e) {}
+                
+                return matchMedia("(prefers-color-scheme: dark)").matches ? DARK : LIGHT;
+            }
+            
+            // Apply theme to document
+            function applyTheme(theme) {
+                const isDark = theme === DARK;
+                const root = document.documentElement;
+                
+                // Set data attribute for CSS variables
+                root.setAttribute("data-theme", theme);
+                
+                // Set classes for compatibility
+                root.classList.add(theme);
+                root.classList.remove(isDark ? LIGHT : DARK);
+                root.style.colorScheme = theme;
+            }
+            
+            // Initial application
+            const theme = getTheme();
+            applyTheme(theme);
+            
+            // Listen for system preference changes
+            matchMedia("(prefers-color-scheme: dark)").addEventListener("change", ({ matches }) => {
+                // Only update if using system preference (no localStorage entry)
+                if (!localStorage.getItem(THEME_KEY)) {
+                    applyTheme(matches ? DARK : LIGHT);
+                }
+            });
+            
+            // Set body classes once DOM is ready
+            if (document.readyState !== "loading") {
+                document.body.classList.add(theme + "-mode");
+            } else {
+                document.addEventListener("DOMContentLoaded", () => {
+                    document.body.classList.add(theme + "-mode");
+                    document.body.classList.remove((theme === DARK ? LIGHT : DARK) + "-mode");
+                });
+            }
+        })();
+    </script>
+    
+    <!-- Critical CSS to prevent flash -->
+    <style>
+        :root[data-theme="dark"] {
+            --background-color: #202124;
+            --background-color-transparent: rgba(32, 33, 36, 0.6);
+            --second-background-color: #2d2e32;
+            --third-background-color: #34353a;
+            --third-background-color-transparent: rgba(32, 33, 36, 0.6);
+            --primary-color: #0066CC;
+            --first-text-color: #ffffff;
+            --second-text-color: #eeeeee;
+            --third-text-color: #bebec6;
+            --fourth-text-color: #999999;
+            --default-text-color: #bebec6;
+            --invert-text-color: #373D3F;
+            --border-color: rgba(255, 255, 255, 0.08);
+            --selection-color: #0066CC;
+            --shadow-color-1: rgba(255, 255, 255, 0.08);
+            --shadow-color-2: rgba(255, 255, 255, 0.05);
+        }
+        
+        :root[data-theme="light"] {
+            --background-color: #fff;
+            --background-color-transparent: rgba(255, 255, 255, 0.6);
+            --second-background-color: #f8f8f8;
+            --third-background-color: #f2f2f2;
+            --third-background-color-transparent: rgba(241, 241, 241, 0.6);
+            --primary-color: #0066CC;
+            --first-text-color: #16171a;
+            --second-text-color: #2f3037;
+            --third-text-color: #5e5e5e;
+            --fourth-text-color: #eeeeee;
+            --default-text-color: #373D3F;
+            --invert-text-color: #bebec6;
+            --border-color: rgba(0, 0, 0, 0.08);
+            --selection-color: #0066CC;
+            --shadow-color-1: rgba(0, 0, 0, 0.08);
+            --shadow-color-2: rgba(0, 0, 0, 0.05);
+        }
+        
+        body {
+            background-color: var(--background-color);
+            color: var(--default-text-color);
+        }
+        
+        /* Apply body classes as soon as DOM is ready */
+        :root[data-theme="dark"] body {
+            background-color: var(--background-color);
+            color: var(--default-text-color);
+        }
+    </style>
+    
+    <!-- preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    
+    <!--- Seo Part-->
+    
+    <link rel="canonical" href="https://raye.ink/2025/07/06/2025重回hexo/"/>
+    <meta name="robots" content="index,follow">
+    <meta name="googlebot" content="index,follow">
+    <meta name="revisit-after" content="1 days">
     
     
     
         
-            <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
-        
-    
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"raye","sameAs":[],"image":"https://picgo-1258058044.cos.ap-chengdu.myqcloud.com/img/photoby_1751730325747.jpg"},"articleBody":"\n—— 图片是白鹭在捕食\n \n\nhexo报错记录排查安装主题 hexo-theme-tranquilpeak&#x2F;DOCUMENTATION.md at main · LouisBarranqueiro&#x2F;hexo-theme-tranquilpeak\n步骤如下：\n\n下载主题代码包，放入到hexo主题themes文件夹下，解压，修改名字为 tranquilpeak\n修改根目录下的 _config.yml 文件 theme 字段\n接着又进入到hexo themes&#x2F;tranquilpeak目录下，运行 npm install &amp;&amp; npm run prod 这一步遇到了报错，这里首先解决 npm install的报错\n\n首先是安装依赖的报错，会提示没有python，那么就安装python，因为需要用到本地编译一个包\n接着又开始报错，报错信息贴在下面，AI告诉我是node-sass已经不用了，直接换成sass就好\n123456789101112131415161718192021222324npm warn deprecated debug@3.2.6: Debug versions &gt;=3.2.0 &lt;3.2.7 || &gt;=4 &lt;4.3.1 have a low-severity ReDos regression when used in a Node.js environment. It is recommended you upgrade to 3.2.7 or 4.3.1. (https://github.com/visionmedia/debug/issues/797)npm warn deprecated @npmcli/fs@1.1.0: this version had an improper engines field added, update to 1.1.1npm warn deprecated axios@0.19.2: Critical security vulnerability fixed in v0.21.1. For more information, see https://github.com/axios/axios/pull/3410npm warn deprecated core-js@1.2.7: core-js@&lt;3.23.3 is no longer maintained and not recommended for usage due to the number of issues. Because of the V8 engine whims, feature detection in old core-js versions could cause a slowdown up to 100x even if nothing is polyfilled. Some versions have web compatibility issues. Please, upgrade your dependencies to the actual version of core-js.npm error code 1npm error path D:\\workspace\\myblog\\themes\\tranquilpeak\\node_modules\\node-sassnpm error command failednpm error command C:\\WINDOWS\\system32\\cmd.exe /d /s /c node scripts/build.jsnpm error Building: C:\\Program Files\\nodejs\\node.exe D:\\workspace\\myblog\\themes\\tranquilpeak\\node_modules\\node-gyp\\bin\\node-gyp.js rebuild --verbose --libsass_ext= --libsass_cflags= --libsass_ldflags= --libsass_library=npm error gyp info it worked if it ends with oknpm error gyp verb cli [npm error gyp verb cli   &#x27;C:\\\\Program Files\\\\nodejs\\\\node.exe&#x27;,npm error gyp verb cli   &#x27;D:\\\\workspace\\\\myblog\\\\themes\\\\tranquilpeak\\\\node_modules\\\\node-gyp\\\\bin\\\\node-gyp.js&#x27;,npm error gyp verb cli   &#x27;rebuild&#x27;,npm error gyp verb cli   &#x27;--verbose&#x27;,npm error gyp verb cli   &#x27;--libsass_ext=&#x27;,npm error gyp verb cli   &#x27;--libsass_cflags=&#x27;,npm error gyp verb cli   &#x27;--libsass_ldflags=&#x27;,npm error gyp verb cli   &#x27;--libsass_library=&#x27;npm error gyp verb cli ]npm error gyp info using node-gyp@8.4.1npm error gyp info using node@24.3.0 | win32 | x64npm error gyp verb command rebuild []npm error gyp verb command clean []\n\n\n\n安装sass，安装依赖成功了\n1npm i sass@latest\n\nnpm run prod 报错，这里是因为我已经修改了依赖，这时候就需要修改 &quot;themes\\tranquilpeak\\tasks\\config\\sass.js&quot; 这个文件，将其 require 的依赖给修改为 sass\n至此，这个主题终于安装成功了\nhexo写作——typora如何配置自动化压缩并上传图片至腾讯云cos目前采用的是typora写作 + picgo自动上传图片 + 坚果云同步的方式，因为坚果云使用的是免费的1G流量上传，所以不能把图片存在本地，这里聊一下如何解决写作的时候图片存储问题\n最好的方式就是用CDN，直接腾讯云买一个也不贵，然后使用picgo工具来实现图片上传，这个工具分为命令行和GUI客户端，我最开始用的是GUI客户端，每次复制图片然后快捷键调用一下就能自动复制出markdown的图片插入文本，非常方便\n但还有更方便的，即使用typora+picgo命令行实现自动上传，配置方式如下：\n需要注意的是，typora会自动下载一个picgo的命令行程序版本，这个和 npm install -g picgo 不是同一个，比如我这里typora自动下载的命令行程序就位于\n1C:\\\\Users\\\\Admin\\\\AppData\\\\Roaming\\\\Typora\\\\picgo\\\\win64\\\\picgo.exe\n\n\n\n这样我后续要安装插件，比如图片压缩插件，ref：juzisang&#x2F;picgo-plugin-compress: Image compression plugin for PicGo\n这时候我就需要执行，这样就安装好插件了（对的我就是因为没搞清楚GUI客户端怎么安装插件所以才选择了命令行，不过这样也有一个好处，就是可以默认图片是压缩的，如果需要上传原图，那么就用picgo客户端即可）\n123C:\\\\Users\\\\Admin\\\\AppData\\\\Roaming\\\\Typora\\\\picgo\\\\win64\\\\picgo.exe add compressC:\\\\Users\\\\Admin\\\\AppData\\\\Roaming\\\\Typora\\\\picgo\\\\win64\\\\picgo.exe use transformerC:\\\\Users\\\\Admin\\\\AppData\\\\Roaming\\\\Typora\\\\picgo\\\\win64\\\\picgo.exe config plugin compress\n\n\n\n\n配置好之后，选择验证图片上传选项，可以看到整个的执行过程会以日志的形式打出来\n\n","dateCreated":"2025-07-06T11:12:10+08:00","dateModified":"2025-07-06T22:51:18+08:00","datePublished":"2025-07-06T11:12:10+08:00","description":"\n—— 图片是白鹭在捕食","headline":"2025重回hexo","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://raye.ink/2025/07/06/2025%E9%87%8D%E5%9B%9Ehexo/"},"publisher":{"@type":"Organization","name":"raye","sameAs":[],"image":"https://picgo-1258058044.cos.ap-chengdu.myqcloud.com/img/photoby_1751730325747.jpg","logo":{"@type":"ImageObject","url":"https://picgo-1258058044.cos.ap-chengdu.myqcloud.com/img/photoby_1751730325747.jpg"}},"url":"https://raye.ink/2025/07/06/2025%E9%87%8D%E5%9B%9Ehexo/","keywords":"hexo, 博客"}</script>
-    <meta name="description" content="—— 图片是白鹭在捕食">
-<meta property="og:type" content="blog">
+        <meta name="description" content="Hexo Theme Redefine, Redefine Your Hexo Journey.">
+<meta property="og:type" content="article">
 <meta property="og:title" content="2025重回hexo">
 <meta property="og:url" content="https://raye.ink/2025/07/06/2025%E9%87%8D%E5%9B%9Ehexo/index.html">
 <meta property="og:site_name" content="Raye&#39;s Blog">
-<meta property="og:description" content="—— 图片是白鹭在捕食">
+<meta property="og:description" content="Hexo Theme Redefine, Redefine Your Hexo Journey.">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://picgo-1258058044.cos.ap-chengdu.myqcloud.com/img/e62a20776fbb0e5b68124b22b3b6e8b4.jpg">
-<meta property="og:image" content="https://picgo-1258058044.cos.ap-chengdu.myqcloud.com/img/image-20250706140144197.png">
-<meta property="og:image" content="https://picgo-1258058044.cos.ap-chengdu.myqcloud.com/img/image-20250706140434549.png">
+<meta property="og:image" content="https://raye.ink/images/redefine-og.webp">
 <meta property="article:published_time" content="2025-07-06T03:12:10.000Z">
 <meta property="article:modified_time" content="2025-07-06T14:51:18.235Z">
 <meta property="article:author" content="raye">
 <meta property="article:tag" content="hexo">
 <meta property="article:tag" content="博客">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://picgo-1258058044.cos.ap-chengdu.myqcloud.com/img/e62a20776fbb0e5b68124b22b3b6e8b4.jpg">
+<meta name="twitter:image" content="https://raye.ink/images/redefine-og.webp">
     
+    
+    <!--- Icon Part-->
+    <link rel="icon" type="image/png" href="/null" sizes="192x192">
+    <link rel="apple-touch-icon" sizes="180x180" href="/null">
+    <meta name="theme-color" content="#A31F34">
+    <link rel="shortcut icon" href="/null">
+    <!--- Page Info-->
+    
+    <title>
+        
+            2025重回hexo | raye 写字的地方
+        
+    </title>
+
+    
+<link rel="stylesheet" href="/fonts/Chillax/chillax.css">
+
+
+    <!--- Inject Part-->
+    
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
     
         
-    
-    
-        <meta property="og:image" content="https://picgo-1258058044.cos.ap-chengdu.myqcloud.com/img/photoby_1751730325747.jpg"/>
-    
-    
-    
-    
-    <!--STYLES-->
-    
-<link rel="stylesheet" href="/assets/css/style-9g1rw920opyvgiu12rfkig0ixkvirkc1fnvbtxfon2clnryjueve33yunt0g.min.css">
-
-    <!--STYLES END-->
-    
+<link rel="stylesheet" href="/css/build/tailwind.css">
 
     
 
     
-        
+<link rel="stylesheet" href="/fonts/GeistMono/geist-mono.css">
+
     
+<link rel="stylesheet" href="/fonts/Geist/geist.css">
+
+    <!--- Font Part-->
+    
+    
+    
+    
+    
+    
+
+    <script id="hexo-configurations">
+    window.config = {"hostname":"raye.ink","root":"/","language":"en"};
+    window.theme = {"articles":{"style":{"font_size":"16px","line_height":1.5,"image_border_radius":"14px","image_alignment":"center","image_caption":false,"link_icon":true,"delete_mask":false,"title_alignment":"left","headings_top_spacing":{"h1":"3.2rem","h2":"2.4rem","h3":"1.9rem","h4":"1.6rem","h5":"1.4rem","h6":"1.3rem"}},"word_count":{"enable":true,"count":true,"min2read":true},"author_label":{"enable":true,"auto":false,"list":[]},"code_block":{"copy":true,"style":"mac","highlight_theme":{"light":"github","dark":"vs2015"},"font":{"enable":false,"family":null,"url":null}},"toc":{"enable":true,"max_depth":3,"number":false,"expand":true,"init_open":true},"copyright":{"enable":true,"default":"cc_by_nc_sa"},"lazyload":true,"pangu_js":false,"recommendation":{"enable":false,"title":"推荐阅读","limit":3,"mobile_limit":2,"placeholder":"/images/wallhaven-wqery6-light.webp","skip_dirs":[]}},"colors":{"primary":"#A31F34","secondary":null,"default_mode":"light"},"global":{"fonts":{"chinese":{"enable":false,"family":null,"url":null},"english":{"enable":false,"family":null,"url":null},"title":{"enable":false,"family":null,"url":null}},"content_max_width":"1000px","sidebar_width":"210px","hover":{"shadow":true,"scale":false},"scroll_progress":"bar:true","website_counter":{"url":"https://cn.vercount.one/js","enable":true,"site_pv":true,"site_uv":true,"post_pv":true},"single_page":true,"preloader":{"enable":false,"custom_message":null},"side_tools":{"gear_rotation":true,"auto_expand":false},"open_graph":{"enable":true,"image":"/images/redefine-og.webp","description":"Hexo Theme Redefine, Redefine Your Hexo Journey."},"google_analytics":{"enable":false,"id":null}},"home_banner":{"enable":true,"style":"fixed","image":{"light":"/images/wallhaven-wqery6-light.webp","dark":"/images/wallhaven-wqery6-dark.webp"},"title":"欢迎！","subtitle":{"text":[],"hitokoto":{"enable":false,"show_author":false,"api":"https://v1.hitokoto.cn"},"typing_speed":100,"backing_speed":80,"starting_delay":500,"backing_delay":1500,"loop":true,"smart_backspace":true},"text_color":{"light":"#fff","dark":"#d1d1b6"},"text_style":{"title_size":"2.8rem","subtitle_size":"1.5rem","line_height":1.2},"custom_font":{"enable":false,"family":null,"url":null},"social_links":{"enable":false,"style":"default","links":{"github":null,"instagram":null,"zhihu":null,"twitter":null,"email":null},"qrs":{"weixin":null}}},"plugins":{"feed":{"enable":false},"aplayer":{"enable":false,"type":"fixed","audios":[{"name":null,"artist":null,"url":null,"cover":null,"lrc":null}]},"mermaid":{"enable":false,"version":"11.4.1"}},"version":"2.8.4","navbar":{"auto_hide":false,"color":{"left":"#f78736","right":"#367df7","transparency":35},"width":{"home":"1200px","pages":"1000px"},"links":{"Home":{"path":"/","icon":"fa-regular fa-house"},"Categories":{"icon":"fa-solid fa-folder","path":"/categories/"},"Tags":{"icon":"fa-solid fa-tags","path":"/tags/"},"About":{"icon":"fa-solid fa-user","path":"/about/"},"Album":{"icon":"fa-solid fa-image","path":"/masonry/"}},"search":{"enable":false,"preload":true}},"page_templates":{"friends_column":2,"tags_style":"blur"},"home":{"sidebar":{"enable":true,"position":"left","first_item":"menu","announcement":null,"show_on_mobile":true,"links":null},"article_date_format":"auto","excerpt_length":200,"categories":{"enable":true,"limit":3},"tags":{"enable":true,"limit":3}},"footerStart":"2022/8/17 11:45:14"};
+    window.lang_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+    window.data = {"masonry":true};
+  </script>
+    
+    <!--- Fontawesome Part-->
+    
+<link rel="stylesheet" href="/fontawesome/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/brands.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/solid.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/regular.min.css">
+
+    
+    
+    
+    
+<meta name="generator" content="Hexo 7.3.0"><link rel="alternate" href="/atom.xml" title="Raye's Blog" type="application/atom+xml">
 </head>
 
-    <body>
-        <div id="blog">
-            <!-- Define author's picture -->
 
 
-    
-        
+<body>
+	<div class="progress-bar-container">
+	
+
+	
+	<span class="pjax-progress-bar"></span>
+	<!--        <span class="swup-progress-icon">-->
+	<!--            <i class="fa-solid fa-circle-notch fa-spin"></i>-->
+	<!--        </span>-->
+	
+</div>
+
+<main class="page-container" id="swup">
+
+	
+
+	<div class="main-content-container flex flex-col justify-between min-h-dvh">
+		<div class="main-content-header">
+			<header class="navbar-container px-6 md:px-12">
+    <div class="navbar-content transition-navbar ">
+        <div class="left">
             
-        
-    
-
-<header id="header" data-behavior="4">
-    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
-    <div class="header-title">
-        <a
-            class="header-title-link"
-            href="/"
-            aria-label=""
-        >
-            Raye&#39;s Blog
-        </a>
-    </div>
-    
-        
-            <a
-                class="header-right-picture "
-                href="#about"
-                aria-label="Open the link: /#about"
-            >
-        
-        
-            <img class="header-picture" src="https://picgo-1258058044.cos.ap-chengdu.myqcloud.com/img/photoby_1751730325747.jpg" alt="Author&#39;s picture"/>
-        
-        </a>
-    
-</header>
-
-            <!-- Define author's picture -->
-
-
-
-        
-    
-
-<nav id="sidebar" data-behavior="4">
-    <div class="sidebar-container">
-        
-            <div class="sidebar-profile">
-                <a
-                    href="/#about"
-                    aria-label="Read more about the author"
-                >
-                    <img class="sidebar-profile-picture" src="https://picgo-1258058044.cos.ap-chengdu.myqcloud.com/img/photoby_1751730325747.jpg" alt="Author&#39;s picture"/>
-                </a>
-                <h4 class="sidebar-profile-name">raye</h4>
+            <a class="logo-title" href="/">
                 
-                    <h5 class="sidebar-profile-bio"><p>author.bio</p>
-</h5>
+                raye 写字的地方
                 
+            </a>
+        </div>
+
+        <div class="right">
+            <!-- PC -->
+            <div class="desktop">
+                <ul class="navbar-list">
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/"
+                                        >
+                                    <i class="fa-regular fa-house fa-fw"></i>
+                                    HOME
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/categories/"
+                                        >
+                                    <i class="fa-solid fa-folder fa-fw"></i>
+                                    CATEGORIES
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/tags/"
+                                        >
+                                    <i class="fa-solid fa-tags fa-fw"></i>
+                                    TAGS
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/about/"
+                                        >
+                                    <i class="fa-solid fa-user fa-fw"></i>
+                                    ABOUT
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/masonry/"
+                                        >
+                                    <i class="fa-solid fa-image fa-fw"></i>
+                                    ALBUM
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                    
+                </ul>
             </div>
-        
-        
-            <ul class="sidebar-buttons">
+            <!-- Mobile -->
+            <div class="mobile">
+                
+                <div class="icon-item navbar-bar">
+                    <div class="navbar-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile sheet -->
+    <div class="navbar-drawer h-dvh w-full absolute top-0 left-0 bg-background-color flex flex-col justify-between">
+        <ul class="drawer-navbar-list flex flex-col px-4 justify-center items-start">
             
-                <li class="sidebar-button">
+                
                     
-                        <a
-                            class="sidebar-button-link "
-                            href="/"
-                            
-                            rel="noopener"
-                            title="Home"
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/"
                         >
-                        <i class="sidebar-button-icon fa fa-home" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">Home</span>
-                    </a>
-            </li>
+                            <span>
+                                HOME
+                            </span>
+                            
+                                <i class="fa-regular fa-house fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
             
-                <li class="sidebar-button">
+                
                     
-                        <a
-                            class="sidebar-button-link "
-                            href="/all-categories"
-                            
-                            rel="noopener"
-                            title="Categories"
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/categories/"
                         >
-                        <i class="sidebar-button-icon fa fa-bookmark" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">Categories</span>
-                    </a>
-            </li>
+                            <span>
+                                CATEGORIES
+                            </span>
+                            
+                                <i class="fa-solid fa-folder fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
             
-                <li class="sidebar-button">
+                
                     
-                        <a
-                            class="sidebar-button-link "
-                            href="/all-tags"
-                            
-                            rel="noopener"
-                            title="Tags"
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/tags/"
                         >
-                        <i class="sidebar-button-icon fa fa-tags" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">Tags</span>
-                    </a>
-            </li>
+                            <span>
+                                TAGS
+                            </span>
+                            
+                                <i class="fa-solid fa-tags fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
             
-                <li class="sidebar-button">
+                
                     
-                        <a
-                            class="sidebar-button-link "
-                            href="/all-archives"
-                            
-                            rel="noopener"
-                            title="Archives"
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/about/"
                         >
-                        <i class="sidebar-button-icon fa fa-archive" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">Archives</span>
-                    </a>
-            </li>
+                            <span>
+                                ABOUT
+                            </span>
+                            
+                                <i class="fa-solid fa-user fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
             
-                <li class="sidebar-button">
+                
                     
-                        <a
-                            class="sidebar-button-link open-algolia-search"
-                            href="#search"
-                            
-                            rel="noopener"
-                            title="Search"
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/masonry/"
                         >
-                        <i class="sidebar-button-icon fa fa-search" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">Search</span>
-                    </a>
-            </li>
+                            <span>
+                                ALBUM
+                            </span>
+                            
+                                <i class="fa-solid fa-image fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
             
-                <li class="sidebar-button">
-                    
-                        <a
-                            class="sidebar-button-link "
-                            href="#about"
-                            
-                            rel="noopener"
-                            title="About"
-                        >
-                        <i class="sidebar-button-icon fa fa-question" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">About</span>
-                    </a>
-            </li>
+
+            
             
         </ul>
-        
+
+        <div class="statistics flex justify-around my-2.5">
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/tags">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">10</div>
+        <div class="label text-third-text-color text-sm">Tags</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/categories">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">0</div>
+        <div class="label text-third-text-color text-sm">Categories</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/archives">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">11</div>
+        <div class="label text-third-text-color text-sm">Posts</div>
+    </a>
+</div>
     </div>
-</nav>
 
-            
-            <div id="main" data-behavior="4"
-                 class="
-                        hasCoverMetaIn
-                        ">
+    <div class="window-mask"></div>
+
+</header>
+
+
+		</div>
+
+		<div class="main-content-body transition-fade-up">
+			
+
+			<div class="main-content">
+				<div class="post-page-container flex relative justify-between box-border w-full h-full">
+	<div class="article-content-container">
+
+		<div class="article-title relative w-full">
+			
+			<div class="w-full flex items-center pt-6 justify-start">
+				<h1 class="article-title-regular text-second-text-color tracking-tight text-4xl md:text-6xl font-semibold px-2 sm:px-6 md:px-8 py-3">2025重回hexo</h1>
+			</div>
+			
+		</div>
+
+		
+		<div class="article-header flex flex-row gap-2 items-center px-2 sm:px-6 md:px-8">
+			<div class="avatar w-[46px] h-[46px] flex-shrink-0 rounded-medium border border-border-color p-[1px]">
+				<img src="https://picgo-1258058044.cos.ap-chengdu.myqcloud.com/img/11.jpg">
+			</div>
+			<div class="info flex flex-col justify-between">
+				<div class="author flex items-center">
+					<span class="name text-default-text-color text-lg font-semibold">rayepeng</span>
+					
+					<span class="author-label ml-1.5 text-xs px-2 py-0.5 rounded-small text-third-text-color border border-shadow-color-1">Lv2</span>
+					
+				</div>
+				<div class="meta-info">
+					<div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fa-regular fa-pen-fancy"></i>&nbsp;
+        <span class="desktop">2025-07-06 11:12:10</span>
+        <span class="mobile">2025-07-06 11:12:10</span>
+        <span class="hover-info">Created</span>
+    </span>
+    
+        <span class="article-date article-meta-item">
+            <i class="fa-regular fa-wrench"></i>&nbsp;
+            <span class="desktop">2025-07-06 22:51:18</span>
+            <span class="mobile">2025-07-06 22:51:18</span>
+            <span class="hover-info">Updated</span>
+        </span>
+    
+
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fa-regular fa-tags"></i>&nbsp;
+            <ul>
                 
-<article class="post">
+                    <li>
+                        <a href="/tags/hexo/">hexo</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/%E5%8D%9A%E5%AE%A2/">博客</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
     
     
-        <div class="post-header main-content-wrap text-left">
-    
-        <h1 class="post-title">
-            2025重回hexo
-        </h1>
     
     
-        <div class="post-meta">
-    <time datetime="2025-07-06T11:12:10+08:00">
-	
-		    Jul 06, 2025
-    	
-    </time>
+        <span class="article-pv article-meta-item">
+            <i class="fa-regular fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
     
 </div>
 
-    
-</div>
+				</div>
+			</div>
+		</div>
+		
 
-    
-    <div class="post-content markdown">
-        <div class="main-content-wrap">
-            <p><img src="https://picgo-1258058044.cos.ap-chengdu.myqcloud.com/img/e62a20776fbb0e5b68124b22b3b6e8b4.jpg"></p>
+		
+
+
+		<div class="article-content markdown-body px-2 sm:px-6 md:px-8 pb-8">
+			<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://picgo-1258058044.cos.ap-chengdu.myqcloud.com/img/e62a20776fbb0e5b68124b22b3b6e8b4.jpg"
+                     
+                ></p>
 <p>—— 图片是白鹭在捕食</p>
 <span id="more"></span> 
 
-<h2 id="hexo报错记录排查"><a href="#hexo报错记录排查" class="headerlink" title="hexo报错记录排查"></a>hexo报错记录排查</h2><p>安装主题 <a target="_blank" rel="noopener" href="https://github.com/LouisBarranqueiro/hexo-theme-tranquilpeak/blob/main/DOCUMENTATION.md">hexo-theme-tranquilpeak&#x2F;DOCUMENTATION.md at main · LouisBarranqueiro&#x2F;hexo-theme-tranquilpeak</a></p>
+<h2 id="hexo报错记录排查"><a href="#hexo报错记录排查" class="headerlink" title="hexo报错记录排查"></a>hexo报错记录排查</h2><p>安装主题 <a class="link"   target="_blank" rel="noopener" href="https://github.com/LouisBarranqueiro/hexo-theme-tranquilpeak/blob/main/DOCUMENTATION.md" >hexo-theme-tranquilpeak&#x2F;DOCUMENTATION.md at main · LouisBarranqueiro&#x2F;hexo-theme-tranquilpeak<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
 <p>步骤如下：</p>
 <ol>
 <li>下载主题代码包，放入到hexo主题themes文件夹下，解压，修改名字为 tranquilpeak</li>
@@ -254,12 +584,12 @@
 </ol>
 <p>首先是安装依赖的报错，会提示没有python，那么就安装python，因为需要用到本地编译一个包</p>
 <p>接着又开始报错，报错信息贴在下面，AI告诉我是node-sass已经不用了，直接换成sass就好</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">npm warn deprecated debug@3.2.6: Debug versions &gt;=3.2.0 &lt;3.2.7 || &gt;=4 &lt;4.3.1 have a low-severity ReDos regression when used <span class="keyword">in</span> a Node.js environment. It is recommended you upgrade to 3.2.7 or 4.3.1. (https://github.com/visionmedia/debug/issues/797)</span><br><span class="line">npm warn deprecated @npmcli/fs@1.1.0: this version had an improper engines field added, update to 1.1.1</span><br><span class="line">npm warn deprecated axios@0.19.2: Critical security vulnerability fixed <span class="keyword">in</span> v0.21.1. For more information, see https://github.com/axios/axios/pull/3410</span><br><span class="line">npm warn deprecated core-js@1.2.7: core-js@&lt;3.23.3 is no longer maintained and not recommended <span class="keyword">for</span> usage due to the number of issues. Because of the V8 engine whims, feature detection <span class="keyword">in</span> old core-js versions could cause a slowdown up to 100x even <span class="keyword">if</span> nothing is polyfilled. Some versions have web compatibility issues. Please, upgrade your dependencies to the actual version of core-js.</span><br><span class="line">npm error code 1</span><br><span class="line">npm error path D:\workspace\myblog\themes\tranquilpeak\node_modules\node-sass</span><br><span class="line">npm error <span class="built_in">command</span> failed</span><br><span class="line">npm error <span class="built_in">command</span> C:\WINDOWS\system32\cmd.exe /d /s /c node scripts/build.js</span><br><span class="line">npm error Building: C:\Program Files\nodejs\node.exe D:\workspace\myblog\themes\tranquilpeak\node_modules\node-gyp\bin\node-gyp.js rebuild --verbose --libsass_ext= --libsass_cflags= --libsass_ldflags= --libsass_library=</span><br><span class="line">npm error gyp info it worked <span class="keyword">if</span> it ends with ok</span><br><span class="line">npm error gyp verb cli [</span><br><span class="line">npm error gyp verb cli   <span class="string">&#x27;C:\\Program Files\\nodejs\\node.exe&#x27;</span>,</span><br><span class="line">npm error gyp verb cli   <span class="string">&#x27;D:\\workspace\\myblog\\themes\\tranquilpeak\\node_modules\\node-gyp\\bin\\node-gyp.js&#x27;</span>,</span><br><span class="line">npm error gyp verb cli   <span class="string">&#x27;rebuild&#x27;</span>,</span><br><span class="line">npm error gyp verb cli   <span class="string">&#x27;--verbose&#x27;</span>,</span><br><span class="line">npm error gyp verb cli   <span class="string">&#x27;--libsass_ext=&#x27;</span>,</span><br><span class="line">npm error gyp verb cli   <span class="string">&#x27;--libsass_cflags=&#x27;</span>,</span><br><span class="line">npm error gyp verb cli   <span class="string">&#x27;--libsass_ldflags=&#x27;</span>,</span><br><span class="line">npm error gyp verb cli   <span class="string">&#x27;--libsass_library=&#x27;</span></span><br><span class="line">npm error gyp verb cli ]</span><br><span class="line">npm error gyp info using node-gyp@8.4.1</span><br><span class="line">npm error gyp info using node@24.3.0 | win32 | x64</span><br><span class="line">npm error gyp verb <span class="built_in">command</span> rebuild []</span><br><span class="line">npm error gyp verb <span class="built_in">command</span> clean []</span><br></pre></td></tr></table></figure>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">npm warn deprecated debug@3.2.6: Debug versions &gt;=3.2.0 &lt;3.2.7 || &gt;=4 &lt;4.3.1 have a low-severity ReDos regression when used <span class="keyword">in</span> a Node.js environment. It is recommended you upgrade to 3.2.7 or 4.3.1. (https://github.com/visionmedia/debug/issues/797)</span><br><span class="line">npm warn deprecated @npmcli/fs@1.1.0: this version had an improper engines field added, update to 1.1.1</span><br><span class="line">npm warn deprecated axios@0.19.2: Critical security vulnerability fixed <span class="keyword">in</span> v0.21.1. For more information, see https://github.com/axios/axios/pull/3410</span><br><span class="line">npm warn deprecated core-js@1.2.7: core-js@&lt;3.23.3 is no longer maintained and not recommended <span class="keyword">for</span> usage due to the number of issues. Because of the V8 engine whims, feature detection <span class="keyword">in</span> old core-js versions could cause a slowdown up to 100x even <span class="keyword">if</span> nothing is polyfilled. Some versions have web compatibility issues. Please, upgrade your dependencies to the actual version of core-js.</span><br><span class="line">npm error code 1</span><br><span class="line">npm error path D:\workspace\myblog\themes\tranquilpeak\node_modules\node-sass</span><br><span class="line">npm error <span class="built_in">command</span> failed</span><br><span class="line">npm error <span class="built_in">command</span> C:\WINDOWS\system32\cmd.exe /d /s /c node scripts/build.js</span><br><span class="line">npm error Building: C:\Program Files\nodejs\node.exe D:\workspace\myblog\themes\tranquilpeak\node_modules\node-gyp\bin\node-gyp.js rebuild --verbose --libsass_ext= --libsass_cflags= --libsass_ldflags= --libsass_library=</span><br><span class="line">npm error gyp info it worked <span class="keyword">if</span> it ends with ok</span><br><span class="line">npm error gyp verb cli [</span><br><span class="line">npm error gyp verb cli   <span class="string">&#x27;C:\\Program Files\\nodejs\\node.exe&#x27;</span>,</span><br><span class="line">npm error gyp verb cli   <span class="string">&#x27;D:\\workspace\\myblog\\themes\\tranquilpeak\\node_modules\\node-gyp\\bin\\node-gyp.js&#x27;</span>,</span><br><span class="line">npm error gyp verb cli   <span class="string">&#x27;rebuild&#x27;</span>,</span><br><span class="line">npm error gyp verb cli   <span class="string">&#x27;--verbose&#x27;</span>,</span><br><span class="line">npm error gyp verb cli   <span class="string">&#x27;--libsass_ext=&#x27;</span>,</span><br><span class="line">npm error gyp verb cli   <span class="string">&#x27;--libsass_cflags=&#x27;</span>,</span><br><span class="line">npm error gyp verb cli   <span class="string">&#x27;--libsass_ldflags=&#x27;</span>,</span><br><span class="line">npm error gyp verb cli   <span class="string">&#x27;--libsass_library=&#x27;</span></span><br><span class="line">npm error gyp verb cli ]</span><br><span class="line">npm error gyp info using node-gyp@8.4.1</span><br><span class="line">npm error gyp info using node@24.3.0 | win32 | x64</span><br><span class="line">npm error gyp verb <span class="built_in">command</span> rebuild []</span><br><span class="line">npm error gyp verb <span class="built_in">command</span> clean []</span><br></pre></td></tr></table></figure></div>
 
 
 
 <p>安装sass，安装依赖成功了</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm i sass@latest</span><br></pre></td></tr></table></figure>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm i sass@latest</span><br></pre></td></tr></table></figure></div>
 
 <p><code>npm run prod</code> 报错，这里是因为我已经修改了依赖，这时候就需要修改 <code>&quot;themes\tranquilpeak\tasks\config\sass.js&quot;</code> 这个文件，将其 <code>require</code> 的依赖给修改为 sass</p>
 <p>至此，这个主题终于安装成功了</p>
@@ -267,272 +597,442 @@
 <p>最好的方式就是用CDN，直接腾讯云买一个也不贵，然后使用picgo工具来实现图片上传，这个工具分为命令行和GUI客户端，我最开始用的是GUI客户端，每次复制图片然后快捷键调用一下就能自动复制出markdown的图片插入文本，非常方便</p>
 <p>但还有更方便的，即使用typora+picgo命令行实现自动上传，配置方式如下：</p>
 <p>需要注意的是，typora会自动下载一个picgo的命令行程序版本，这个和 <code>npm install -g picgo</code> 不是同一个，比如我这里typora自动下载的命令行程序就位于</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">C:\\Users\\Admin\\AppData\\Roaming\\Typora\\picgo\\win64\\picgo.exe</span><br></pre></td></tr></table></figure>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">C:\\Users\\Admin\\AppData\\Roaming\\Typora\\picgo\\win64\\picgo.exe</span><br></pre></td></tr></table></figure></div>
 
 
 
-<p>这样我后续要安装插件，比如图片压缩插件，ref：<a target="_blank" rel="noopener" href="https://github.com/JuZiSang/picgo-plugin-compress?tab=readme-ov-file">juzisang&#x2F;picgo-plugin-compress: Image compression plugin for PicGo</a></p>
+<p>这样我后续要安装插件，比如图片压缩插件，ref：<a class="link"   target="_blank" rel="noopener" href="https://github.com/JuZiSang/picgo-plugin-compress?tab=readme-ov-file" >juzisang&#x2F;picgo-plugin-compress: Image compression plugin for PicGo<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
 <p>这时候我就需要执行，这样就安装好插件了（对的我就是因为没搞清楚GUI客户端怎么安装插件所以才选择了命令行，不过这样也有一个好处，就是可以默认图片是压缩的，如果需要上传原图，那么就用picgo客户端即可）</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">C:\\Users\\Admin\\AppData\\Roaming\\Typora\\picgo\\win64\\picgo.exe add compress</span><br><span class="line">C:\\Users\\Admin\\AppData\\Roaming\\Typora\\picgo\\win64\\picgo.exe use transformer</span><br><span class="line">C:\\Users\\Admin\\AppData\\Roaming\\Typora\\picgo\\win64\\picgo.exe config plugin compress</span><br></pre></td></tr></table></figure>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">C:\\Users\\Admin\\AppData\\Roaming\\Typora\\picgo\\win64\\picgo.exe add compress</span><br><span class="line">C:\\Users\\Admin\\AppData\\Roaming\\Typora\\picgo\\win64\\picgo.exe use transformer</span><br><span class="line">C:\\Users\\Admin\\AppData\\Roaming\\Typora\\picgo\\win64\\picgo.exe config plugin compress</span><br></pre></td></tr></table></figure></div>
 
 
 
-<p><img src="https://picgo-1258058044.cos.ap-chengdu.myqcloud.com/img/image-20250706140144197.png" alt="image-20250706140144197"></p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://picgo-1258058044.cos.ap-chengdu.myqcloud.com/img/image-20250706140144197.png"
+                      alt="image-20250706140144197"
+                ></p>
 <p>配置好之后，选择验证图片上传选项，可以看到整个的执行过程会以日志的形式打出来</p>
-<p><img src="https://picgo-1258058044.cos.ap-chengdu.myqcloud.com/img/image-20250706140434549.png" alt="image-20250706140434549"></p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://picgo-1258058044.cos.ap-chengdu.myqcloud.com/img/image-20250706140434549.png"
+                      alt="image-20250706140434549"
+                ></p>
 
-            
+		</div>
 
-
-        </div>
-    </div>
-    <div id="post-footer" class="post-footer main-content-wrap">
+		
+		<div class="post-copyright-info w-full my-8 px-2 sm:px-6 md:px-8">
+			<div class="article-copyright-info-container">
+    <ul>
+        <li><strong>Title:</strong> 2025重回hexo</li>
+        <li><strong>Author:</strong> rayepeng</li>
+        <li><strong>Created at
+                :</strong> 2025-07-06 11:12:10</li>
         
-            <div class="post-footer-tags">
-                <span class="text-color-light text-small">TAGGED IN</span><br/>
-                
-    <a class="tag tag--primary tag--small t-none-link" href="/tags/hexo/" rel="tag">hexo</a> <a class="tag tag--primary tag--small t-none-link" href="/tags/%E5%8D%9A%E5%AE%A2/" rel="tag">博客</a>
-
-            </div>
-        
-        
-            <div class="post-actions-wrap">
-    <nav>
-        <ul class="post-actions post-action-nav">
-            <li class="post-action">
-                
-                    
-                <a
-                    class="post-action-btn btn btn--default tooltip--top"
-                    href="/2025/07/06/%E5%91%A8%E6%8A%A5-37-%E9%87%8D%E6%96%B0%E6%8B%BE%E8%B5%B7%E7%9A%84%E5%86%99%E4%BD%9C/"
-                    data-tooltip="周报#37 重新拾起的写作"
-                    aria-label="PREVIOUS: 周报#37 重新拾起的写作"
-                >
-                    
-                        <i class="fa fa-angle-left" aria-hidden="true"></i>
-                        <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
-                    </a>
+            <li>
+                <strong>Updated at
+                    :</strong> 2025-07-06 22:51:18
             </li>
-            <li class="post-action">
-                
-                    
-                <a
-                    class="post-action-btn btn btn--default tooltip--top"
-                    href="/2025/07/06/hello-world/"
-                    data-tooltip="Hello World"
-                    aria-label="NEXT: Hello World"
-                >
-                    
-                        <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
-                        <i class="fa fa-angle-right" aria-hidden="true"></i>
-                    </a>
-            </li>
-        </ul>
-    </nav>
-    <ul class="post-actions post-action-share">
-        <li class="post-action hide-lg hide-md hide-sm">
-            <a
-                class="post-action-btn btn btn--default btn-open-shareoptions"
-                href="#btn-open-shareoptions"
-                aria-label="Share this post"
-            >
-                <i class="fa fa-share-alt" aria-hidden="true"></i>
-            </a>
+        
+        <li>
+            <strong>Link:</strong> https://raye.ink/2025/07/06/2025重回hexo/
         </li>
-        
+        <li>
+            <strong>
+                License:
+            </strong>
             
+
             
-            <li class="post-action hide-xs">
-                <a
-                    class="post-action-btn btn btn--default"
-                    target="new" href="https://twitter.com/intent/tweet?text=https://raye.ink/2025/07/06/2025%E9%87%8D%E5%9B%9Ehexo/"
-                    title="Share on Twitter"
-                    aria-label="Share on Twitter"
-                >
-                    <i class="fab fa-twitter" aria-hidden="true"></i>
-                </a>
-            </li>
-        
-        
+                This work is licensed under <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0">CC BY-NC-SA 4.0</a>.
             
-        
-        <li class="post-action">
-            
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
-            
-                <i class="fa fa-list" aria-hidden="true"></i>
-            </a>
         </li>
     </ul>
 </div>
 
+		</div>
+		
 
-        
+		
+		<ul class="post-tags-box text-lg mt-1.5 flex-wrap justify-center flex md:hidden">
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/hexo/">#hexo</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/%E5%8D%9A%E5%AE%A2/">#博客</a>&nbsp;
+			</li>
+			
+		</ul>
+		
+
+		
+
+		
+		<div class="article-nav my-8 flex justify-between items-center px-2 sm:px-6 md:px-8">
+			
+			<div class="article-prev border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
+				<a class="prev" rel="prev" href="/2025/07/06/%E5%91%A8%E6%8A%A5-37-%E9%87%8D%E6%96%B0%E6%8B%BE%E8%B5%B7%E7%9A%84%E5%86%99%E4%BD%9C/">
+					<span class="left arrow-icon flex justify-center items-center">
+						<i class="fa-solid fa-chevron-left"></i>
+					</span>
+					<span class="title flex justify-center items-center">
+						<span class="post-nav-title-item truncate max-w-48">周报#37 重新拾起的写作</span>
+						<span class="post-nav-item">Prev posts</span>
+					</span>
+				</a>
+			</div>
+			
+			
+			<div class="article-next border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
+				<a class="next" rel="next" href="/2025/07/06/hello-world/">
+					<span class="title flex justify-center items-center">
+						<span class="post-nav-title-item truncate max-w-48">Hello World</span>
+						<span class="post-nav-item">Next posts</span>
+					</span>
+					<span class="right arrow-icon flex justify-center items-center">
+						<i class="fa-solid fa-chevron-right"></i>
+					</span>
+				</a>
+			</div>
+			
+		</div>
+		
+
+
+		
+		<div class="comment-container px-2 sm:px-6 md:px-8 pb-8">
+			<div class="comments-container mt-10 w-full ">
+    <div id="comment-anchor" class="w-full h-2.5"></div>
+    <div class="comment-area-title w-full my-1.5 md:my-2.5 text-xl md:text-3xl font-bold">
+        Comments
+    </div>
+    
+
         
             
+    <div id="waline"></div>
+    <script type="module" data-swup-reload-script>
+      import { init } from '/js/libs/waline.mjs';
+
+      function loadWaline() {
+        init({
+          el: '#waline',
+          serverURL: 'https://example.example.com',
+          dark: 'body[class~="dark-mode"]',
+          reaction: false,
+          requiredMeta: ['nick', 'mail'],
+          emoji: [],
+                    lang: 'zh-CN',
+        });
+      }
+
+      if (typeof swup !== 'undefined') {
+        loadWaline();
+      } else {
+        window.addEventListener('DOMContentLoaded', loadWaline);
+      }
+    </script>
+
+
+
         
-    </div>
-</article>
+    
+</div>
 
+		</div>
+		
+	</div>
 
+	
+	<div class="toc-content-container">
+		<div class="post-toc-wrap">
+	<div class="post-toc">
+		<div class="toc-title">On this page</div>
+		<div class="page-title">2025重回hexo</div>
+		<ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#hexo%E6%8A%A5%E9%94%99%E8%AE%B0%E5%BD%95%E6%8E%92%E6%9F%A5"><span class="nav-text">hexo报错记录排查</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#hexo%E5%86%99%E4%BD%9C%E2%80%94%E2%80%94typora%E5%A6%82%E4%BD%95%E9%85%8D%E7%BD%AE%E8%87%AA%E5%8A%A8%E5%8C%96%E5%8E%8B%E7%BC%A9%E5%B9%B6%E4%B8%8A%E4%BC%A0%E5%9B%BE%E7%89%87%E8%87%B3%E8%85%BE%E8%AE%AF%E4%BA%91cos"><span class="nav-text">hexo写作——typora如何配置自动化压缩并上传图片至腾讯云cos</span></a></li></ol>
 
-                <footer id="footer" class="main-content-wrap">
-    <span class="copyrights">
-        Copyrights &copy; 2025 raye. All Rights Reserved.
-    </span>
+	</div>
+</div>
+	</div>
+	
+</div>
+			</div>
+
+			
+		</div>
+
+		<div class="main-content-footer">
+			<footer class="footer mt-5 py-5 h-auto text-base text-third-text-color relative border-t-2 border-t-border-color">
+    <div class="info-container py-3 text-center">
+        
+        <div class="text-center">
+            &copy;
+            
+              <span>2022</span>
+              -
+            
+            2025&nbsp;&nbsp;<i class="fa-solid fa-heart fa-beat" style="--fa-animation-duration: 0.5s; color: #f54545"></i>&nbsp;&nbsp;<a href="/">rayepeng</a>
+            
+                
+                <p class="post-count space-x-0.5">
+                    <span>
+                        11 posts in total
+                    </span>
+                    
+                </p>
+            
+        </div>
+        
+            <script data-swup-reload-script src="https://cn.vercount.one/js"></script>
+            <div class="relative text-center lg:absolute lg:right-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-right">
+                
+                    <span id="busuanzi_container_site_uv" class="lg:!block">
+                        <span class="text-sm">VISITOR COUNT</span>
+                        <span id="busuanzi_value_site_uv"></span>
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv" class="lg:!block">
+                        <span class="text-sm">TOTAL PAGE VIEWS</span>
+                        <span id="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="relative text-center lg:absolute lg:left-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-left">
+            <span class="lg:block text-sm">POWERED BY <?xml version="1.0" encoding="utf-8"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg class="relative top-[2px] inline-block align-baseline" version="1.1" id="圖層_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1rem" height="1rem" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve"><path fill="#0E83CD" d="M256.4,25.8l-200,115.5L56,371.5l199.6,114.7l200-115.5l0.4-230.2L256.4,25.8z M349,354.6l-18.4,10.7l-18.6-11V275H200v79.6l-18.4,10.7l-18.6-11v-197l18.5-10.6l18.5,10.8V237h112v-79.6l18.5-10.6l18.5,10.8V354.6z"/></svg><a target="_blank" class="text-base" href="https://hexo.io">Hexo</a></span>
+            <span class="text-sm lg:block">THEME&nbsp;<a class="text-base" target="_blank" href="https://github.com/EvanNotFound/hexo-theme-redefine">Redefine v2.8.4</a></span>
+        </div>
+        
+        
+            <div>
+                Blog up for <span class="odometer" id="runtime_days" ></span> days <span class="odometer" id="runtime_hours"></span> hrs <span class="odometer" id="runtime_minutes"></span> Min <span class="odometer" id="runtime_seconds"></span> Sec
+            </div>
+        
+        
+            <script data-swup-reload-script>
+                try {
+                    function odometer_init() {
+                    const elements = document.querySelectorAll('.odometer');
+                    elements.forEach(el => {
+                        new Odometer({
+                            el,
+                            format: '( ddd).dd',
+                            duration: 200
+                        });
+                    });
+                    }
+                    odometer_init();
+                } catch (error) {}
+            </script>
+        
+        
+        
+    </div>  
 </footer>
+		</div>
+	</div>
 
-            </div>
-            
-                <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
-                    <div class="post-actions-wrap">
-    <nav>
-        <ul class="post-actions post-action-nav">
-            <li class="post-action">
-                
-                    
-                <a
-                    class="post-action-btn btn btn--default tooltip--top"
-                    href="/2025/07/06/%E5%91%A8%E6%8A%A5-37-%E9%87%8D%E6%96%B0%E6%8B%BE%E8%B5%B7%E7%9A%84%E5%86%99%E4%BD%9C/"
-                    data-tooltip="周报#37 重新拾起的写作"
-                    aria-label="PREVIOUS: 周报#37 重新拾起的写作"
-                >
-                    
-                        <i class="fa fa-angle-left" aria-hidden="true"></i>
-                        <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
-                    </a>
-            </li>
-            <li class="post-action">
-                
-                    
-                <a
-                    class="post-action-btn btn btn--default tooltip--top"
-                    href="/2025/07/06/hello-world/"
-                    data-tooltip="Hello World"
-                    aria-label="NEXT: Hello World"
-                >
-                    
-                        <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
-                        <i class="fa fa-angle-right" aria-hidden="true"></i>
-                    </a>
-            </li>
-        </ul>
-    </nav>
-    <ul class="post-actions post-action-share">
-        <li class="post-action hide-lg hide-md hide-sm">
-            <a
-                class="post-action-btn btn btn--default btn-open-shareoptions"
-                href="#btn-open-shareoptions"
-                aria-label="Share this post"
-            >
-                <i class="fa fa-share-alt" aria-hidden="true"></i>
-            </a>
-        </li>
-        
-            
-            
-            <li class="post-action hide-xs">
-                <a
-                    class="post-action-btn btn btn--default"
-                    target="new" href="https://twitter.com/intent/tweet?text=https://raye.ink/2025/07/06/2025%E9%87%8D%E5%9B%9Ehexo/"
-                    title="Share on Twitter"
-                    aria-label="Share on Twitter"
-                >
-                    <i class="fab fa-twitter" aria-hidden="true"></i>
-                </a>
-            </li>
-        
-        
-            
-        
-        <li class="post-action">
-            
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
-            
-                <i class="fa fa-list" aria-hidden="true"></i>
-            </a>
-        </li>
-    </ul>
+	
+	<div class="post-tools">
+		<div class="post-tools-container">
+	<ul class="article-tools-list">
+		<!-- TOC aside toggle -->
+		
+		<li class="right-bottom-tools page-aside-toggle">
+			<i class="fa-regular fa-outdent"></i>
+		</li>
+		
+
+		<!-- go comment -->
+		
+		<li class="go-comment">
+			<i class="fa-regular fa-comments"></i>
+		</li>
+		
+	</ul>
+</div>
+	</div>
+	
+
+	<div class="right-side-tools-container">
+		<div class="side-tools-container">
+	<ul class="hidden-tools-list">
+		<li class="right-bottom-tools tool-font-adjust-plus flex justify-center items-center">
+			<i class="fa-regular fa-magnifying-glass-plus"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-font-adjust-minus flex justify-center items-center">
+			<i class="fa-regular fa-magnifying-glass-minus"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-dark-light-toggle flex justify-center items-center">
+			<i class="fa-regular fa-moon"></i>
+		</li>
+
+		<!-- rss -->
+		
+
+		
+		<li class="right-bottom-tools tool-scroll-to-top flex justify-center items-center">
+			<i class="fa-regular fa-arrow-up"></i>
+		</li>
+		
+
+		<li class="right-bottom-tools tool-scroll-to-bottom flex justify-center items-center">
+			<i class="fa-regular fa-arrow-down"></i>
+		</li>
+	</ul>
+
+	<ul class="visible-tools-list">
+		<li class="right-bottom-tools toggle-tools-list flex justify-center items-center">
+			<i class="fa-regular fa-cog fa-spin"></i>
+		</li>
+		
+		
+	</ul>
+</div>
+	</div>
+
+	<div class="image-viewer-container">
+	<img src="">
 </div>
 
+	
 
-                </div>
-                
-    <div id="share-options-bar" class="share-options-bar" data-behavior="4">
-        <i id="btn-close-shareoptions" class="fa fa-times"></i>
-        <ul class="share-options">
-            
-                
-                
-                <li class="share-option">
-                    <a
-                        class="share-option-btn"
-                        target="new"
-                        href="https://twitter.com/intent/tweet?text=https://raye.ink/2025/07/06/2025%E9%87%8D%E5%9B%9Ehexo/"
-                        aria-label="Share on Twitter"
-                    >
-                        <i class="fab fa-twitter" aria-hidden="true"></i><span>Share on Twitter</span>
-                    </a>
-                </li>
-            
-        </ul>
-    </div>
+</main>
 
 
-            
-        </div>
-        
+
+<script src="/js/build/libs/Swup.min.js"></script>
+
+<script src="/js/build/libs/SwupSlideTheme.min.js"></script>
+
+<script src="/js/build/libs/SwupScriptsPlugin.min.js"></script>
+
+<script src="/js/build/libs/SwupProgressPlugin.min.js"></script>
+
+<script src="/js/build/libs/SwupScrollPlugin.min.js"></script>
+
+<script src="/js/build/libs/SwupPreloadPlugin.min.js"></script>
+
+<script>
+    const swup = new Swup({
+        plugins: [
+            new SwupScriptsPlugin({
+                optin: true,
+            }),
+            new SwupProgressPlugin(),
+            new SwupScrollPlugin({
+                offset: 80,
+            }),
+            new SwupSlideTheme({
+                mainElement: ".main-content-body",
+            }),
+            new SwupPreloadPlugin(),
+        ],
+        containers: ["#swup"],
+    });
+</script>
+
+
+
+
+	
+<script src="/js/build/tools/imageViewer.js" type="module"></script>
+
+<script src="/js/build/utils.js" type="module"></script>
+
+<script src="/js/build/main.js" type="module"></script>
+
+<script src="/js/build/layouts/navbarShrink.js" type="module"></script>
+
+<script src="/js/build/tools/scrollTopBottom.js" type="module"></script>
+
+<script src="/js/build/tools/lightDarkSwitch.js" type="module"></script>
+
+<script src="/js/build/layouts/categoryList.js" type="module"></script>
+
+
+
 
 
     
-        
-    
+<script src="/js/build/tools/codeBlock.js" type="module"></script>
 
-<div id="about">
-    <div id="about-card">
-        <div id="about-btn-close">
-            <i class="fa fa-times"></i>
-        </div>
-        
-            <img id="about-card-picture" src="https://picgo-1258058044.cos.ap-chengdu.myqcloud.com/img/photoby_1751730325747.jpg" alt="Author&#39;s picture"/>
-        
-            <h4 id="about-card-name">raye</h4>
-        
-            <div id="about-card-bio"><p>author.bio</p>
-</div>
-        
-        
-            <div id="about-card-job">
-                <i class="fa fa-briefcase"></i>
-                <br/>
-                <p>author.job</p>
 
-            </div>
-        
-        
-            <div id="about-card-location">
-                <i class="fa fa-map-marker-alt"></i>
-                <br/>
-                深圳
-            </div>
-        
-    </div>
-</div>
-
-        
-        
-<div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
-        <!--SCRIPTS-->
-
-<script src="/assets/js/script-sfmeovlhidz64ilwer4sayh1gerh2yr7pczuem3qtdxlexemgo3vcmw7xr0v.min.js"></script>
-
-<!--SCRIPTS END-->
 
 
     
+<script src="/js/build/layouts/lazyload.js" type="module"></script>
 
 
 
 
-    </body>
+    
+<script src="/js/build/tools/runtime.js"></script>
+
+    
+<script src="/js/build/libs/odometer.min.js"></script>
+
+    
+<link rel="stylesheet" href="/assets/odometer-theme-minimal.css">
+
+
+
+
+  
+<script src="/js/build/libs/Typed.min.js"></script>
+
+  
+<script src="/js/build/plugins/typed.js" type="module"></script>
+
+
+
+
+
+
+    
+<script src="/js/build/libs/minimasonry.min.js"></script>
+
+    
+<script src="/js/build/plugins/masonry.js" type="module"></script>
+
+
+
+
+    
+<script src="/js/build/libs/anime.min.js"></script>
+
+
+
+
+
+    
+<script src="/js/build/tools/tocToggle.js" type="module" data-swup-reload-script=""></script>
+
+<script src="/js/build/layouts/toc.js" type="module" data-swup-reload-script=""></script>
+
+<script src="/js/build/plugins/tabs.js" type="module" data-swup-reload-script=""></script>
+
+
+
+
+<script src="/js/build/libs/moment-with-locales.min.js" data-swup-reload-script=""></script>
+
+
+<script src="/js/build/layouts/essays.js" type="module" data-swup-reload-script=""></script>
+
+
+
+
+
+	
+</body>
+
 </html>

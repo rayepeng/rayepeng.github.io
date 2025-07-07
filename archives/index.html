@@ -1,857 +1,839 @@
-
 <!DOCTYPE html>
 <html lang="en">
-    
 <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="generator" content="Raye&#39;s Blog">
-    <title>Archives - Raye&#39;s Blog</title>
-    <meta name="author" content="raye">
+    <meta name="keywords" content="Hexo Theme Redefine">
+    
+    <meta name="author" content="rayepeng">
+    
+    <!-- Completely eliminate flash of wrong theme -->
+    <script>
+        (function() {
+            const THEME_KEY = "REDEFINE-THEME-STATUS";
+            const DARK = "dark", LIGHT = "light";
+            
+            // Get preferred theme
+            function getTheme() {
+                try {
+                    const saved = localStorage.getItem(THEME_KEY);
+                    if (saved) {
+                        const { isDark } = JSON.parse(saved);
+                        return isDark ? DARK : LIGHT;
+                    }
+                } catch (e) {}
+                
+                return matchMedia("(prefers-color-scheme: dark)").matches ? DARK : LIGHT;
+            }
+            
+            // Apply theme to document
+            function applyTheme(theme) {
+                const isDark = theme === DARK;
+                const root = document.documentElement;
+                
+                // Set data attribute for CSS variables
+                root.setAttribute("data-theme", theme);
+                
+                // Set classes for compatibility
+                root.classList.add(theme);
+                root.classList.remove(isDark ? LIGHT : DARK);
+                root.style.colorScheme = theme;
+            }
+            
+            // Initial application
+            const theme = getTheme();
+            applyTheme(theme);
+            
+            // Listen for system preference changes
+            matchMedia("(prefers-color-scheme: dark)").addEventListener("change", ({ matches }) => {
+                // Only update if using system preference (no localStorage entry)
+                if (!localStorage.getItem(THEME_KEY)) {
+                    applyTheme(matches ? DARK : LIGHT);
+                }
+            });
+            
+            // Set body classes once DOM is ready
+            if (document.readyState !== "loading") {
+                document.body.classList.add(theme + "-mode");
+            } else {
+                document.addEventListener("DOMContentLoaded", () => {
+                    document.body.classList.add(theme + "-mode");
+                    document.body.classList.remove((theme === DARK ? LIGHT : DARK) + "-mode");
+                });
+            }
+        })();
+    </script>
+    
+    <!-- Critical CSS to prevent flash -->
+    <style>
+        :root[data-theme="dark"] {
+            --background-color: #202124;
+            --background-color-transparent: rgba(32, 33, 36, 0.6);
+            --second-background-color: #2d2e32;
+            --third-background-color: #34353a;
+            --third-background-color-transparent: rgba(32, 33, 36, 0.6);
+            --primary-color: #0066CC;
+            --first-text-color: #ffffff;
+            --second-text-color: #eeeeee;
+            --third-text-color: #bebec6;
+            --fourth-text-color: #999999;
+            --default-text-color: #bebec6;
+            --invert-text-color: #373D3F;
+            --border-color: rgba(255, 255, 255, 0.08);
+            --selection-color: #0066CC;
+            --shadow-color-1: rgba(255, 255, 255, 0.08);
+            --shadow-color-2: rgba(255, 255, 255, 0.05);
+        }
+        
+        :root[data-theme="light"] {
+            --background-color: #fff;
+            --background-color-transparent: rgba(255, 255, 255, 0.6);
+            --second-background-color: #f8f8f8;
+            --third-background-color: #f2f2f2;
+            --third-background-color-transparent: rgba(241, 241, 241, 0.6);
+            --primary-color: #0066CC;
+            --first-text-color: #16171a;
+            --second-text-color: #2f3037;
+            --third-text-color: #5e5e5e;
+            --fourth-text-color: #eeeeee;
+            --default-text-color: #373D3F;
+            --invert-text-color: #bebec6;
+            --border-color: rgba(0, 0, 0, 0.08);
+            --selection-color: #0066CC;
+            --shadow-color-1: rgba(0, 0, 0, 0.08);
+            --shadow-color-2: rgba(0, 0, 0, 0.05);
+        }
+        
+        body {
+            background-color: var(--background-color);
+            color: var(--default-text-color);
+        }
+        
+        /* Apply body classes as soon as DOM is ready */
+        :root[data-theme="dark"] body {
+            background-color: var(--background-color);
+            color: var(--default-text-color);
+        }
+    </style>
+    
+    <!-- preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    
+    <!--- Seo Part-->
+    
+    <link rel="canonical" href="https://raye.ink/archives/"/>
+    <meta name="robots" content="index,follow">
+    <meta name="googlebot" content="index,follow">
+    <meta name="revisit-after" content="1 days">
     
     
     
         
-            <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
-        
-    
-    <script type="application/ld+json">{}</script>
-    <meta name="description" content="raye写字的地方">
-<meta property="og:type" content="blog">
+        <meta name="description" content="Hexo Theme Redefine, Redefine Your Hexo Journey.">
+<meta property="og:type" content="website">
 <meta property="og:title" content="Raye&#39;s Blog">
 <meta property="og:url" content="https://raye.ink/archives/index.html">
 <meta property="og:site_name" content="Raye&#39;s Blog">
-<meta property="og:description" content="raye写字的地方">
+<meta property="og:description" content="Hexo Theme Redefine, Redefine Your Hexo Journey.">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://raye.ink/images/redefine-og.webp">
 <meta property="article:author" content="raye">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://raye.ink/images/redefine-og.webp">
     
+    
+    <!--- Icon Part-->
+    <link rel="icon" type="image/png" href="/null" sizes="192x192">
+    <link rel="apple-touch-icon" sizes="180x180" href="/null">
+    <meta name="theme-color" content="#A31F34">
+    <link rel="shortcut icon" href="/null">
+    <!--- Page Info-->
+    
+    <title>
+        
+            Archive | raye 写字的地方
+        
+    </title>
+
+    
+<link rel="stylesheet" href="/fonts/Chillax/chillax.css">
+
+
+    <!--- Inject Part-->
+    
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
     
         
-    
-    
-        <meta property="og:image" content="https://picgo-1258058044.cos.ap-chengdu.myqcloud.com/img/photoby_1751730325747.jpg"/>
-    
-    
-    
-    
-    <!--STYLES-->
-    
-<link rel="stylesheet" href="/assets/css/style-9g1rw920opyvgiu12rfkig0ixkvirkc1fnvbtxfon2clnryjueve33yunt0g.min.css">
-
-    <!--STYLES END-->
-    
+<link rel="stylesheet" href="/css/build/tailwind.css">
 
     
 
     
+<link rel="stylesheet" href="/fonts/GeistMono/geist-mono.css">
+
+    
+<link rel="stylesheet" href="/fonts/Geist/geist.css">
+
+    <!--- Font Part-->
+    
+    
+    
+    
+    
+    
+
+    <script id="hexo-configurations">
+    window.config = {"hostname":"raye.ink","root":"/","language":"en"};
+    window.theme = {"articles":{"style":{"font_size":"16px","line_height":1.5,"image_border_radius":"14px","image_alignment":"center","image_caption":false,"link_icon":true,"delete_mask":false,"title_alignment":"left","headings_top_spacing":{"h1":"3.2rem","h2":"2.4rem","h3":"1.9rem","h4":"1.6rem","h5":"1.4rem","h6":"1.3rem"}},"word_count":{"enable":true,"count":true,"min2read":true},"author_label":{"enable":true,"auto":false,"list":[]},"code_block":{"copy":true,"style":"mac","highlight_theme":{"light":"github","dark":"vs2015"},"font":{"enable":false,"family":null,"url":null}},"toc":{"enable":true,"max_depth":3,"number":false,"expand":true,"init_open":true},"copyright":{"enable":true,"default":"cc_by_nc_sa"},"lazyload":true,"pangu_js":false,"recommendation":{"enable":false,"title":"推荐阅读","limit":3,"mobile_limit":2,"placeholder":"/images/wallhaven-wqery6-light.webp","skip_dirs":[]}},"colors":{"primary":"#A31F34","secondary":null,"default_mode":"light"},"global":{"fonts":{"chinese":{"enable":false,"family":null,"url":null},"english":{"enable":false,"family":null,"url":null},"title":{"enable":false,"family":null,"url":null}},"content_max_width":"1000px","sidebar_width":"210px","hover":{"shadow":true,"scale":false},"scroll_progress":"bar:true","website_counter":{"url":"https://cn.vercount.one/js","enable":true,"site_pv":true,"site_uv":true,"post_pv":true},"single_page":true,"preloader":{"enable":false,"custom_message":null},"side_tools":{"gear_rotation":true,"auto_expand":false},"open_graph":{"enable":true,"image":"/images/redefine-og.webp","description":"Hexo Theme Redefine, Redefine Your Hexo Journey."},"google_analytics":{"enable":false,"id":null}},"home_banner":{"enable":true,"style":"fixed","image":{"light":"/images/wallhaven-wqery6-light.webp","dark":"/images/wallhaven-wqery6-dark.webp"},"title":"欢迎！","subtitle":{"text":[],"hitokoto":{"enable":false,"show_author":false,"api":"https://v1.hitokoto.cn"},"typing_speed":100,"backing_speed":80,"starting_delay":500,"backing_delay":1500,"loop":true,"smart_backspace":true},"text_color":{"light":"#fff","dark":"#d1d1b6"},"text_style":{"title_size":"2.8rem","subtitle_size":"1.5rem","line_height":1.2},"custom_font":{"enable":false,"family":null,"url":null},"social_links":{"enable":false,"style":"default","links":{"github":null,"instagram":null,"zhihu":null,"twitter":null,"email":null},"qrs":{"weixin":null}}},"plugins":{"feed":{"enable":false},"aplayer":{"enable":false,"type":"fixed","audios":[{"name":null,"artist":null,"url":null,"cover":null,"lrc":null}]},"mermaid":{"enable":false,"version":"11.4.1"}},"version":"2.8.4","navbar":{"auto_hide":false,"color":{"left":"#f78736","right":"#367df7","transparency":35},"width":{"home":"1200px","pages":"1000px"},"links":{"Home":{"path":"/","icon":"fa-regular fa-house"},"Categories":{"icon":"fa-solid fa-folder","path":"/categories/"},"Tags":{"icon":"fa-solid fa-tags","path":"/tags/"},"About":{"icon":"fa-solid fa-user","path":"/about/"},"Album":{"icon":"fa-solid fa-image","path":"/masonry/"}},"search":{"enable":false,"preload":true}},"page_templates":{"friends_column":2,"tags_style":"blur"},"home":{"sidebar":{"enable":true,"position":"left","first_item":"menu","announcement":null,"show_on_mobile":true,"links":null},"article_date_format":"auto","excerpt_length":200,"categories":{"enable":true,"limit":3},"tags":{"enable":true,"limit":3}},"footerStart":"2022/8/17 11:45:14"};
+    window.lang_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+    window.data = {"masonry":true};
+  </script>
+    
+    <!--- Fontawesome Part-->
+    
+<link rel="stylesheet" href="/fontawesome/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/brands.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/solid.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/regular.min.css">
+
+    
+    
+    
+    
+<meta name="generator" content="Hexo 7.3.0"><link rel="alternate" href="/atom.xml" title="Raye's Blog" type="application/atom+xml">
 </head>
 
-    <body>
-        <div id="blog">
-            <!-- Define author's picture -->
 
 
-    
-        
+<body>
+	<div class="progress-bar-container">
+	
+
+	
+	<span class="pjax-progress-bar"></span>
+	<!--        <span class="swup-progress-icon">-->
+	<!--            <i class="fa-solid fa-circle-notch fa-spin"></i>-->
+	<!--        </span>-->
+	
+</div>
+
+<main class="page-container" id="swup">
+
+	
+
+	<div class="main-content-container flex flex-col justify-between min-h-dvh">
+		<div class="main-content-header">
+			<header class="navbar-container px-6 md:px-12">
+    <div class="navbar-content transition-navbar ">
+        <div class="left">
             
-        
-    
-
-<header id="header" data-behavior="1">
-    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
-    <div class="header-title">
-        <a
-            class="header-title-link"
-            href="/"
-            aria-label=""
-        >
-            Raye&#39;s Blog
-        </a>
-    </div>
-    
-        
-            <a
-                class="header-right-picture "
-                href="#about"
-                aria-label="Open the link: /#about"
-            >
-        
-        
-            <img class="header-picture" src="https://picgo-1258058044.cos.ap-chengdu.myqcloud.com/img/photoby_1751730325747.jpg" alt="Author&#39;s picture"/>
-        
-        </a>
-    
-</header>
-
-            <!-- Define author's picture -->
-
-
-
-        
-    
-
-<nav id="sidebar" data-behavior="1">
-    <div class="sidebar-container">
-        
-            <div class="sidebar-profile">
-                <a
-                    href="/#about"
-                    aria-label="Read more about the author"
-                >
-                    <img class="sidebar-profile-picture" src="https://picgo-1258058044.cos.ap-chengdu.myqcloud.com/img/photoby_1751730325747.jpg" alt="Author&#39;s picture"/>
-                </a>
-                <h4 class="sidebar-profile-name">raye</h4>
+            <a class="logo-title" href="/">
                 
-                    <h5 class="sidebar-profile-bio"><p>author.bio</p>
-</h5>
+                raye 写字的地方
                 
+            </a>
+        </div>
+
+        <div class="right">
+            <!-- PC -->
+            <div class="desktop">
+                <ul class="navbar-list">
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/"
+                                        >
+                                    <i class="fa-regular fa-house fa-fw"></i>
+                                    HOME
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/categories/"
+                                        >
+                                    <i class="fa-solid fa-folder fa-fw"></i>
+                                    CATEGORIES
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/tags/"
+                                        >
+                                    <i class="fa-solid fa-tags fa-fw"></i>
+                                    TAGS
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/about/"
+                                        >
+                                    <i class="fa-solid fa-user fa-fw"></i>
+                                    ABOUT
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/masonry/"
+                                        >
+                                    <i class="fa-solid fa-image fa-fw"></i>
+                                    ALBUM
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                    
+                </ul>
             </div>
-        
-        
-            <ul class="sidebar-buttons">
+            <!-- Mobile -->
+            <div class="mobile">
+                
+                <div class="icon-item navbar-bar">
+                    <div class="navbar-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile sheet -->
+    <div class="navbar-drawer h-dvh w-full absolute top-0 left-0 bg-background-color flex flex-col justify-between">
+        <ul class="drawer-navbar-list flex flex-col px-4 justify-center items-start">
             
-                <li class="sidebar-button">
+                
                     
-                        <a
-                            class="sidebar-button-link "
-                            href="/"
-                            
-                            rel="noopener"
-                            title="Home"
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/"
                         >
-                        <i class="sidebar-button-icon fa fa-home" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">Home</span>
-                    </a>
-            </li>
+                            <span>
+                                HOME
+                            </span>
+                            
+                                <i class="fa-regular fa-house fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
             
-                <li class="sidebar-button">
+                
                     
-                        <a
-                            class="sidebar-button-link "
-                            href="/all-categories"
-                            
-                            rel="noopener"
-                            title="Categories"
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/categories/"
                         >
-                        <i class="sidebar-button-icon fa fa-bookmark" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">Categories</span>
-                    </a>
-            </li>
+                            <span>
+                                CATEGORIES
+                            </span>
+                            
+                                <i class="fa-solid fa-folder fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
             
-                <li class="sidebar-button">
+                
                     
-                        <a
-                            class="sidebar-button-link "
-                            href="/all-tags"
-                            
-                            rel="noopener"
-                            title="Tags"
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/tags/"
                         >
-                        <i class="sidebar-button-icon fa fa-tags" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">Tags</span>
-                    </a>
-            </li>
+                            <span>
+                                TAGS
+                            </span>
+                            
+                                <i class="fa-solid fa-tags fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
             
-                <li class="sidebar-button">
+                
                     
-                        <a
-                            class="sidebar-button-link "
-                            href="/all-archives"
-                            
-                            rel="noopener"
-                            title="Archives"
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/about/"
                         >
-                        <i class="sidebar-button-icon fa fa-archive" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">Archives</span>
-                    </a>
-            </li>
+                            <span>
+                                ABOUT
+                            </span>
+                            
+                                <i class="fa-solid fa-user fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
             
-                <li class="sidebar-button">
+                
                     
-                        <a
-                            class="sidebar-button-link open-algolia-search"
-                            href="#search"
-                            
-                            rel="noopener"
-                            title="Search"
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/masonry/"
                         >
-                        <i class="sidebar-button-icon fa fa-search" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">Search</span>
-                    </a>
-            </li>
+                            <span>
+                                ALBUM
+                            </span>
+                            
+                                <i class="fa-solid fa-image fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
             
-                <li class="sidebar-button">
-                    
-                        <a
-                            class="sidebar-button-link "
-                            href="#about"
-                            
-                            rel="noopener"
-                            title="About"
-                        >
-                        <i class="sidebar-button-icon fa fa-question" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">About</span>
-                    </a>
-            </li>
+
+            
             
         </ul>
-        
-    </div>
-</nav>
 
+        <div class="statistics flex justify-around my-2.5">
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/tags">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">10</div>
+        <div class="label text-third-text-color text-sm">Tags</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/categories">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">0</div>
+        <div class="label text-third-text-color text-sm">Categories</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/archives">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">11</div>
+        <div class="label text-third-text-color text-sm">Posts</div>
+    </a>
+</div>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+		</div>
+
+		<div class="main-content-body transition-fade-up">
+			
+
+			<div class="main-content">
+				<div class="archive-container shadow-none hover:shadow-none sm:shadow-redefine sm:hover:shadow-redefine-hover">
+	
+<div class="archive-list-container">
+    
+        <section class="archive-item mb-spacing-unit last:mb-0">
+            <div class="archive-item-header flex flex-row items-center mb-2">
+                <span class="archive-year font-semibold text-3xl mr-2">2025</span>
+                <span class="archive-year-post-count text-xs md:text-sm font-bold rounded-small bg-third-background-color py-[2px] px-[10px] border border-border-color">11</span>
+            </div>
             
-            <div id="main" data-behavior="1"
-                 class="
-                        hasCoverMetaIn
-                        ">
+            <ul class="article-list pl-0 md:pl-8 text-lg leading-[1.5]">
                 
-    <section class="postShorten-group main-content-wrap">
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-bottom">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
                     
-                        <a
-                            class="link-unstyled"
-                            href="/2025/07/06/%E5%91%A8%E6%8A%A5-40-%E4%B8%80%E5%B8%AD%E3%80%81%E6%98%8E%E4%BA%AE%E7%9A%84%E5%A4%9C%E6%99%9A/"
-                            aria-label=": 周报#40 一席、明亮的夜晚"
-                        >
-                            周报#40 一席、明亮的夜晚
-                        </a>
                     
-                </h1>
-                <div class="postShorten-meta">
-    <time datetime="2025-07-06T14:12:13+08:00">
-	
-		    Jul 06, 2025
-    	
-    </time>
+                         <!-- Close the previous LI if not the first item -->
+                        <li class="article-item space-y-2 px-6 pt-10 pb-2 text-xl relative border-l-2 border-border-color" date-is='07-06'>
+                    
+                    <a href="/2025/07/06/%E5%91%A8%E6%8A%A5-40-%E4%B8%80%E5%B8%AD%E3%80%81%E6%98%8E%E4%BA%AE%E7%9A%84%E5%A4%9C%E6%99%9A/" class="block w-fit">
+                        <span class="article-title my-0.5 text-2xl">周报#40 一席、明亮的夜晚</span>
+                    </a>
+                    
+                
+                    
+                    
+                    <a href="/2025/07/06/%E3%80%8A%E5%AD%98%E5%9C%A8%E4%B8%BB%E4%B9%89%E6%98%AF%E4%B8%80%E7%A7%8D%E4%BA%BA%E9%81%93%E4%B8%BB%E4%B9%89%E3%80%8B%E8%AF%BB%E5%90%8E%E8%AE%B0%E5%BD%95/" class="block w-fit">
+                        <span class="article-title my-0.5 text-2xl">《存在主义是一种人道主义》读后记录</span>
+                    </a>
+                    
+                
+                    
+                    
+                    <a href="/2025/07/06/%E5%91%A8%E6%8A%A5-39-%E6%B9%9B%E6%B1%9F%E4%B9%8B%E8%A1%8C/" class="block w-fit">
+                        <span class="article-title my-0.5 text-2xl">周报#39 湛江之行</span>
+                    </a>
+                    
+                
+                    
+                    
+                    <a href="/2025/07/06/%E5%91%A8%E6%8A%A5-38-%E6%B1%95%E5%B0%BE%E4%B9%8B%E8%A1%8C/" class="block w-fit">
+                        <span class="article-title my-0.5 text-2xl">周报#38 汕尾之行</span>
+                    </a>
+                    
+                
+                    
+                    
+                    <a href="/2025/07/06/%E5%91%A8%E6%8A%A5-38-%E9%87%8D%E5%BA%86%E4%B9%8B%E8%A1%8C/" class="block w-fit">
+                        <span class="article-title my-0.5 text-2xl">周报#38 重庆之行</span>
+                    </a>
+                    
+                
+                    
+                    
+                    <a href="/2025/07/06/%E5%A6%82%E4%BD%95%E7%9C%8B%E5%BE%85%E8%AE%B0%E5%BD%95%E6%B5%81%E6%B0%B4%E8%B4%A6/" class="block w-fit">
+                        <span class="article-title my-0.5 text-2xl">如何看待记录流水账</span>
+                    </a>
+                    
+                
+                    
+                    
+                    <a href="/2025/07/06/wsl2%E9%85%8D%E7%BD%AE%E9%97%AE%E9%A2%98%EF%BC%9F%E6%9C%AA%E8%A7%A3%E5%86%B3/" class="block w-fit">
+                        <span class="article-title my-0.5 text-2xl">wsl2配置问题？未解决</span>
+                    </a>
+                    
+                
+                    
+                    
+                    <a href="/2025/07/06/wasm%E5%86%85%E5%AD%98%E8%AE%BF%E9%97%AE%E7%A0%94%E7%A9%B6/" class="block w-fit">
+                        <span class="article-title my-0.5 text-2xl">wasm内存访问研究</span>
+                    </a>
+                    
+                
+                    
+                    
+                    <a href="/2025/07/06/%E5%91%A8%E6%8A%A5-37-%E9%87%8D%E6%96%B0%E6%8B%BE%E8%B5%B7%E7%9A%84%E5%86%99%E4%BD%9C/" class="block w-fit">
+                        <span class="article-title my-0.5 text-2xl">周报#37 重新拾起的写作</span>
+                    </a>
+                    
+                
+                    
+                    
+                    <a href="/2025/07/06/2025%E9%87%8D%E5%9B%9Ehexo/" class="block w-fit">
+                        <span class="article-title my-0.5 text-2xl">2025重回hexo</span>
+                    </a>
+                    
+                
+                    
+                    
+                    <a href="/2025/07/06/hello-world/" class="block w-fit">
+                        <span class="article-title my-0.5 text-2xl">Hello World</span>
+                    </a>
+                    
+                
+                </li> <!-- Ensure the last item is properly closed -->
+            </ul>
+        </section>
     
 </div>
+</div>
+			</div>
 
-            </div>
+			
+		</div>
+
+		<div class="main-content-footer">
+			<footer class="footer mt-5 py-5 h-auto text-base text-third-text-color relative border-t-2 border-t-border-color">
+    <div class="info-container py-3 text-center">
+        
+        <div class="text-center">
+            &copy;
             
-                <div class="postShorten-content">
-                    <p>aaaaa</p>
-
+              <span>2022</span>
+              -
+            
+            2025&nbsp;&nbsp;<i class="fa-solid fa-heart fa-beat" style="--fa-animation-duration: 0.5s; color: #f54545"></i>&nbsp;&nbsp;<a href="/">rayepeng</a>
+            
+                
+                <p class="post-count space-x-0.5">
+                    <span>
+                        11 posts in total
+                    </span>
                     
-                        
-
-
-                    
-                    
-                        <p>
-                            <a
-                                href="/2025/07/06/%E5%91%A8%E6%8A%A5-40-%E4%B8%80%E5%B8%AD%E3%80%81%E6%98%8E%E4%BA%AE%E7%9A%84%E5%A4%9C%E6%99%9A/#post-footer"
-                                class="postShorten-excerpt_link link"
-                                aria-label=""
-                            >
-                                Comment and share
-                            </a>
-                        </p>
-                    
-                </div>
+                </p>
             
         </div>
         
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-right">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a
-                            class="link-unstyled"
-                            href="/2025/07/06/%E3%80%8A%E5%AD%98%E5%9C%A8%E4%B8%BB%E4%B9%89%E6%98%AF%E4%B8%80%E7%A7%8D%E4%BA%BA%E9%81%93%E4%B8%BB%E4%B9%89%E3%80%8B%E8%AF%BB%E5%90%8E%E8%AE%B0%E5%BD%95/"
-                            aria-label=": 《存在主义是一种人道主义》读后记录"
-                        >
-                            《存在主义是一种人道主义》读后记录
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time datetime="2025-07-06T14:11:06+08:00">
-	
-		    Jul 06, 2025
-    	
-    </time>
-    
-</div>
-
+            <script data-swup-reload-script src="https://cn.vercount.one/js"></script>
+            <div class="relative text-center lg:absolute lg:right-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-right">
+                
+                    <span id="busuanzi_container_site_uv" class="lg:!block">
+                        <span class="text-sm">VISITOR COUNT</span>
+                        <span id="busuanzi_value_site_uv"></span>
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv" class="lg:!block">
+                        <span class="text-sm">TOTAL PAGE VIEWS</span>
+                        <span id="busuanzi_value_site_pv"></span>
+                    </span>
+                
             </div>
-            
-                <div class="postShorten-excerpt">
-                    <p><img src="https://picgo-1258058044.cos.ap-chengdu.myqcloud.com/img/20250706142840.png"></p>
-<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>《存在主义是一种人道主义》这本书其实是萨特的一篇演讲稿，正如作者在开头所说到的，“是针对几种存在主义的责难为他辩护”，有人认为存在主义是一种悲观的学说，“鼓励人们对人生采取无所作为的绝望态度”。而共产党人则批判存在主义给了人太多选择，这是一种犹豫不决的“观望”，是“另一种资产阶级哲学”。萨特为了回应这些责难，在这篇文章中深入地探讨了存在主义的核心思想————存在先于本质，人是自由的、选择塑造自我，以及选择如何影响他人与世界。</p>
-                    
-                        <a
-                            href="/2025/07/06/%E3%80%8A%E5%AD%98%E5%9C%A8%E4%B8%BB%E4%B9%89%E6%98%AF%E4%B8%80%E7%A7%8D%E4%BA%BA%E9%81%93%E4%B8%BB%E4%B9%89%E3%80%8B%E8%AF%BB%E5%90%8E%E8%AE%B0%E5%BD%95/"
-                            class="postShorten-excerpt_link link"
-                            aria-label=": 《存在主义是一种人道主义》读后记录"
-                        >
-                            Continue reading
-                        </a>
-                        
-                    
-                </div>
-            
+        
+        <div class="relative text-center lg:absolute lg:left-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-left">
+            <span class="lg:block text-sm">POWERED BY <?xml version="1.0" encoding="utf-8"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg class="relative top-[2px] inline-block align-baseline" version="1.1" id="圖層_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1rem" height="1rem" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve"><path fill="#0E83CD" d="M256.4,25.8l-200,115.5L56,371.5l199.6,114.7l200-115.5l0.4-230.2L256.4,25.8z M349,354.6l-18.4,10.7l-18.6-11V275H200v79.6l-18.4,10.7l-18.6-11v-197l18.5-10.6l18.5,10.8V237h112v-79.6l18.5-10.6l18.5,10.8V354.6z"/></svg><a target="_blank" class="text-base" href="https://hexo.io">Hexo</a></span>
+            <span class="text-sm lg:block">THEME&nbsp;<a class="text-base" target="_blank" href="https://github.com/EvanNotFound/hexo-theme-redefine">Redefine v2.8.4</a></span>
         </div>
         
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-bottom">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a
-                            class="link-unstyled"
-                            href="/2025/07/06/%E5%91%A8%E6%8A%A5-39-%E6%B9%9B%E6%B1%9F%E4%B9%8B%E8%A1%8C/"
-                            aria-label=": 周报#39 湛江之行"
-                        >
-                            周报#39 湛江之行
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time datetime="2025-07-06T14:09:23+08:00">
-	
-		    Jul 06, 2025
-    	
-    </time>
-    
-</div>
-
+        
+            <div>
+                Blog up for <span class="odometer" id="runtime_days" ></span> days <span class="odometer" id="runtime_hours"></span> hrs <span class="odometer" id="runtime_minutes"></span> Min <span class="odometer" id="runtime_seconds"></span> Sec
             </div>
-            
-                <div class="postShorten-content">
-                    <p>我怕再不记录，所有的图片都要在微信过期了，这才是逼迫我不断去记录的动力啊</p>
-
-                    
-                        
-
-
-                    
-                    
-                        <p>
-                            <a
-                                href="/2025/07/06/%E5%91%A8%E6%8A%A5-39-%E6%B9%9B%E6%B1%9F%E4%B9%8B%E8%A1%8C/#post-footer"
-                                class="postShorten-excerpt_link link"
-                                aria-label=""
-                            >
-                                Comment and share
-                            </a>
-                        </p>
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-right">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a
-                            class="link-unstyled"
-                            href="/2025/07/06/%E5%91%A8%E6%8A%A5-38-%E6%B1%95%E5%B0%BE%E4%B9%8B%E8%A1%8C/"
-                            aria-label=": 周报#38 汕尾之行"
-                        >
-                            周报#38 汕尾之行
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time datetime="2025-07-06T14:09:10+08:00">
-	
-		    Jul 06, 2025
-    	
-    </time>
-    
-</div>
-
-            </div>
-            
-                <div class="postShorten-excerpt">
-                    <p><img src="https://picgo-1258058044.cos.ap-chengdu.myqcloud.com/img/32461156bffc0b43f087ce7877e9933a.jpg"></p>
-<p>—— 图片是在汕尾观鸟，偶然拍下，然后截图后二次构图得到的</p>
-<p>这是一篇拾遗文章，作为我的回忆补充</p>
-<p>跟着山羊老师一起去汕尾吃喝玩乐+观鸟~</p>
-<p>也是在读书分享会上第一次认识了山羊老师，然后知道了观鸟这种偏小众的爱好，恰逢深圳每到冬季，总有大批的候鸟来深圳过冬，深圳湾好多好多的海鸥、黑脸琵鹭，简直就是观鸟爱好者的天堂哈哈哈</p>
-                    
-                        <a
-                            href="/2025/07/06/%E5%91%A8%E6%8A%A5-38-%E6%B1%95%E5%B0%BE%E4%B9%8B%E8%A1%8C/"
-                            class="postShorten-excerpt_link link"
-                            aria-label=": 周报#38 汕尾之行"
-                        >
-                            Continue reading
-                        </a>
-                        
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-bottom">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a
-                            class="link-unstyled"
-                            href="/2025/07/06/%E5%91%A8%E6%8A%A5-38-%E9%87%8D%E5%BA%86%E4%B9%8B%E8%A1%8C/"
-                            aria-label=": 周报#38 重庆之行"
-                        >
-                            周报#38 重庆之行
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time datetime="2025-07-06T14:08:18+08:00">
-	
-		    Jul 06, 2025
-    	
-    </time>
-    
-</div>
-
-            </div>
-            
-                <div class="postShorten-content">
-                    <p>龙门浩</p>
-<p><img src="https://picgo-1258058044.cos.ap-chengdu.myqcloud.com/img/65e06b98d8705f2454a2b22db8f28711.jpg"></p>
-<p>李子坝</p>
-<p><img src="https://picgo-1258058044.cos.ap-chengdu.myqcloud.com/img/71e19d754a9c71b4935bb0affebd3527.jpg"></p>
-<p><img src="https://picgo-1258058044.cos.ap-chengdu.myqcloud.com/img/9aeef260d7f90b3cfd0e80ed3e78561c.jpg"></p>
-<p>鹅公岩大桥</p>
-<p><img src="https://picgo-1258058044.cos.ap-chengdu.myqcloud.com/img/41c4c2687ed4f0583b751b03be4c7d75.jpg"></p>
-<p>洪崖洞夜景</p>
-<p><img src="https://picgo-1258058044.cos.ap-chengdu.myqcloud.com/img/e8adb43eab55f082266789a26d4a4966.jpg"></p>
-<p><img src="https://picgo-1258058044.cos.ap-chengdu.myqcloud.com/img/64c4202b3bd262b481ea9b3abe50ec42.jpg"></p>
-<p>动物园大熊猫</p>
-<p><img src="https://picgo-1258058044.cos.ap-chengdu.myqcloud.com/img/2a730156732e8a568ed269d445ae7fcc.jpg"></p>
-
-                    
-                        
-
-
-                    
-                    
-                        <p>
-                            <a
-                                href="/2025/07/06/%E5%91%A8%E6%8A%A5-38-%E9%87%8D%E5%BA%86%E4%B9%8B%E8%A1%8C/#post-footer"
-                                class="postShorten-excerpt_link link"
-                                aria-label=""
-                            >
-                                Comment and share
-                            </a>
-                        </p>
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-right">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a
-                            class="link-unstyled"
-                            href="/2025/07/06/%E5%A6%82%E4%BD%95%E7%9C%8B%E5%BE%85%E8%AE%B0%E5%BD%95%E6%B5%81%E6%B0%B4%E8%B4%A6/"
-                            aria-label=": 如何看待记录流水账"
-                        >
-                            如何看待记录流水账
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time datetime="2025-07-06T13:19:53+08:00">
-	
-		    Jul 06, 2025
-    	
-    </time>
-    
-</div>
-
-            </div>
-            
-                <div class="postShorten-excerpt">
-                    <p><img src="https://picgo-1258058044.cos.ap-chengdu.myqcloud.com/img/DSC_3096.jpg" alt="DSC_3096"></p>
-<p>—— 图片是虎皮鹦鹉</p>
-<p>回看我的flomo记录，以“博客”关键词搜索，可以发现我的一些思考过程：</p>
-                    
-                        <a
-                            href="/2025/07/06/%E5%A6%82%E4%BD%95%E7%9C%8B%E5%BE%85%E8%AE%B0%E5%BD%95%E6%B5%81%E6%B0%B4%E8%B4%A6/"
-                            class="postShorten-excerpt_link link"
-                            aria-label=": 如何看待记录流水账"
-                        >
-                            Continue reading
-                        </a>
-                        
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-bottom">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a
-                            class="link-unstyled"
-                            href="/2025/07/06/wsl2%E9%85%8D%E7%BD%AE%E9%97%AE%E9%A2%98%EF%BC%9F%E6%9C%AA%E8%A7%A3%E5%86%B3/"
-                            aria-label=": wsl2配置问题？未解决"
-                        >
-                            wsl2配置问题？未解决
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time datetime="2025-07-06T11:32:02+08:00">
-	
-		    Jul 06, 2025
-    	
-    </time>
-    
-</div>
-
-            </div>
-            
-                <div class="postShorten-content">
-                    <p>奇了怪了，我按照官方文档写的wsl2配置一直失效，重启重装wsl子系统都没有解决这个问题，如下是我的配置，因为我想在wsl2中直接使用Windows的代理</p>
-<figure class="highlight toml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">[wsl2]</span></span><br><span class="line"><span class="attr">networkingMode</span>=mirrored</span><br><span class="line"><span class="attr">dnsTunneling</span>=<span class="literal">true</span></span><br><span class="line"><span class="attr">firewall</span>=<span class="literal">true</span></span><br><span class="line"><span class="attr">autoProxy</span>=<span class="literal">true</span></span><br></pre></td></tr></table></figure>
-
-
-
-<p>不过直接原因还是wsl2配置有点麻烦，核心问题： wsl2是docker运行的虚拟机，这就导致：</p>
-<ul>
-<li>wsl2和Windows本机的127.0.0.1不是同一个，如果wsl2要想访问Windows的服务，或者Windows想要访问wsl2的服务，这时候这俩本质上是在一个局域网里的，要用局域网的ip地址</li>
-</ul>
-
-                    
-                        
-
-
-                    
-                    
-                        <p>
-                            <a
-                                href="/2025/07/06/wsl2%E9%85%8D%E7%BD%AE%E9%97%AE%E9%A2%98%EF%BC%9F%E6%9C%AA%E8%A7%A3%E5%86%B3/#post-footer"
-                                class="postShorten-excerpt_link link"
-                                aria-label=""
-                            >
-                                Comment and share
-                            </a>
-                        </p>
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-right">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a
-                            class="link-unstyled"
-                            href="/2025/07/06/wasm%E5%86%85%E5%AD%98%E8%AE%BF%E9%97%AE%E7%A0%94%E7%A9%B6/"
-                            aria-label=": wasm内存访问研究"
-                        >
-                            wasm内存访问研究
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time datetime="2025-07-06T11:30:54+08:00">
-	
-		    Jul 06, 2025
-    	
-    </time>
-    
-</div>
-
-            </div>
-            
-                <div class="postShorten-excerpt">
-                    <h2 id="wasm内存越界读写测试"><a href="#wasm内存越界读写测试" class="headerlink" title="wasm内存越界读写测试"></a>wasm内存越界读写测试</h2><p>手工编写一个wasm模块，wat代码如下:</p>
-<ul>
-<li>声明需要一段内存空间</li>
-<li>暴露两个函数，写内存和读内存，之后在js代码中调用</li>
-</ul>
-                    
-                        <a
-                            href="/2025/07/06/wasm%E5%86%85%E5%AD%98%E8%AE%BF%E9%97%AE%E7%A0%94%E7%A9%B6/"
-                            class="postShorten-excerpt_link link"
-                            aria-label=": wasm内存访问研究"
-                        >
-                            Continue reading
-                        </a>
-                        
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-bottom">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a
-                            class="link-unstyled"
-                            href="/2025/07/06/%E5%91%A8%E6%8A%A5-37-%E9%87%8D%E6%96%B0%E6%8B%BE%E8%B5%B7%E7%9A%84%E5%86%99%E4%BD%9C/"
-                            aria-label=": 周报#37 重新拾起的写作"
-                        >
-                            周报#37 重新拾起的写作
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time datetime="2025-07-06T11:13:48+08:00">
-	
-		    Jul 06, 2025
-    	
-    </time>
-    
-</div>
-
-            </div>
-            
-                <div class="postShorten-content">
-                    <p>已经有4个月没有好好开始写作了，其实这段时间里，有很多值得被记录的事情，但总是提不起劲来写，人总是有惯性的，这种惯性的力量之于我仿佛更加强大。</p>
-<p>做一件事，冷启动是最难的，与之对应的，热停止也是很难的（hhh我造的词），但只要迈过了这个坎，就能如同冰雪消融后的春天到来一般美好。</p>
-<p>也不扯太多有的没的了，我还是想坚持记录下自己的想法和生活经历，但与之前不同，这次的首发平台我选择了medium，不再是xlog了，不过也会同步更新文章上去。</p>
-<p>xlog之前有几次不太好的体验，比如存储草稿没办法多端同步，比如评论区的管控，还有之前点击发布文章之后就会发布好多重复的，这些让我很困恼，但是也没有心思去反馈了，xlog确实是我非常喜欢的平台。</p>
-<h2 id="写作平台切换"><a href="#写作平台切换" class="headerlink" title="写作平台切换"></a>写作平台切换</h2><p>这次我选择了medium，这也是我一直非常喜欢的一个平台，虽然这里面的文章有时候给我一种标题党的感觉，但这个简洁优雅的平台还是让我有种被吸引住的感觉，我没有什么心思去吹有多好的体验hh，因为感觉很容易被打脸，但目前阶段，我还是觉得web2的体验比web3好太多了，可能是我真的被监管给pua的吧hh</p>
-<p>写作内容还是以技术文章+生活文章为主，离别歌大佬曾今写过这段话，我认为值得多次品读：</p>
-<blockquote>
-<p>经常有人问我，我是怎么成长起来的。我今天在这里分享一个最简单的答案：对技术，我是有目标的，我的目标很简单，就是让我的博客不停更。如果有一段时间我博客一个月没有新文章，我就会特别着急，我会想我能研究什么东西，然后写一篇日记。<br>当然，慢慢的我发现，自己经常会有时间研究各种东西（不用愁没有东西写），当然也会失败，失败并不可怕，可怕的是没有竭尽全力就半途而废。我也做过很多半途而废的事情，也说过很多不负责的言论，但这些点滴都在我的博客里我永远不会删。<br>安全界有个很知名的理论：“不能够相信用户的所有输入”，但我坚决不支持这句话被放到现实生活中，我选择相信而不是怀疑。怀疑的生活会变得很累，如果你总是考虑怎样去防范他人。</p>
-</blockquote>
-<p>其实我也没有什么自己的思考，在停止更新的这段时间里，基本上也是用flomo来进行记录及日常回顾的，我也只是一个不断吸收信息然后过滤再转述的人罢了。</p>
-<p>正好我在写这篇文章的过程中，发现medium又开始提示我保存失败了，估计是又检测到了什么关键词之类的吧。。。放弃了，果然被打脸了</p>
-<p>那我还是重新回到typora的写作吧，目前的写作方案就是typora写作，picgo+腾讯云cos作为图床存储，再使用坚果云备份文章（坚果云有1G上传流量，对于纯文本来说绝对是够用了，其实一直想搞个nas的，但奈何家里网络条件太差了）</p>
-<h2 id="莲花山打鸟"><a href="#莲花山打鸟" class="headerlink" title="莲花山打鸟"></a>莲花山打鸟</h2><p>非原图，原图太大了，我怕CDN流量超标hhh，都是朋友圈压缩过后的，所以噪点会比较多</p>
-<p>周五晚上没睡好加上空调温度太低，导致我早上起来极度不适，于是索性休了一天年假，在家宅了下，死亡搁浅的进度推进不是很多。</p>
-<p>休息一天还是会让自己心情好点，并且睡眠质量也得到了恢复。周六一大早，六点二十左右，当一般打工人还在睡梦中的时候，我已经带着我的相机前往莲花山去找小鸟了</p>
-<p>林鸟其实是很难拍的，因为林鸟普遍都藏在山高林密的树丛里，走在山间的小路上，空气很是清新，但其实这时候只是空气清新而已，氧气浓度并不是很高（这是很简单的生物学知识，因为晚上植物都是在进行呼吸作用的呀哈哈哈）</p>
-<p>但我还是想挑战下林鸟的拍摄，提前在小红书上找好了攻略，其实也就是一些经验贴，但并不能保证自己就能遇到的刚刚好，在漾日湖边找了找，只看到几只天鹅，于是继续往山里进发</p>
-<p>树林荫翳，鸣声上下，只有在山中才能体会到欧阳修笔下这句话的意境</p>
-<p>欸那只，学名叫斑颈穗（sui）鹛（mei），毛的颜色和树枝很像，让本就因早起而视线模糊的我分辨了好久</p>
-<p>但是林鸟真的太难找了，我走了好久，明明听到了好多只的叫声，但就是找不到，正当我准备放弃的时候，抬头一看，枝头上停了一只红耳鹎（bei），红色的小点点点在眼睛正下方，真的好漂亮哈哈哈（但还是没有小翠漂亮&#x2F;doge）</p>
-<p>还是准备考虑购入一个望远镜了，纯靠肉眼和相机定位有时候挺困难的，望远镜的视野更大，更方便找鸟，不过还是等我多出去拍拍吧</p>
-<p><img src="https://picgo-1258058044.cos.ap-chengdu.myqcloud.com/img/532392bd3a8107cdac72463984b686c5.jpg"></p>
-<p><img src="https://picgo-1258058044.cos.ap-chengdu.myqcloud.com/img/e5f09db6d943f9b2573bfbcfc15fdc7d.jpg"></p>
-<p><img src="https://picgo-1258058044.cos.ap-chengdu.myqcloud.com/img/4a346408afc8540243c36a43f4c4ce5e.jpg"></p>
-<p><img src="https://picgo-1258058044.cos.ap-chengdu.myqcloud.com/img/651ec07f3f90d766e79eb60f2db491f8.jpg"></p>
-<p><img src="https://picgo-1258058044.cos.ap-chengdu.myqcloud.com/img/fac7342297cc4601227ea9b07da07dee.jpg"></p>
-<p><img src="https://picgo-1258058044.cos.ap-chengdu.myqcloud.com/img/940d63c626f95f83bcc89d927487f29d.jpg"></p>
-<p><img src="https://picgo-1258058044.cos.ap-chengdu.myqcloud.com/img/87250590a74dda2ff027c58d584d23c0.jpg"></p>
-<p><img src="https://picgo-1258058044.cos.ap-chengdu.myqcloud.com/img/29e5cacf896cfeae14820f957845c5ab.jpg"></p>
-<p><img src="https://picgo-1258058044.cos.ap-chengdu.myqcloud.com/img/2f887d71d98cf0aeee1a50c22ef38649.jpg"></p>
-<h2 id="满格家吃饭饭！"><a href="#满格家吃饭饭！" class="headerlink" title="满格家吃饭饭！"></a>满格家吃饭饭！</h2><p>继5.2去满格家玩之后，再一次又去满格家蹭饭了，这次还带上了我的switch，相机及无人机（东西有点点多）</p>
-<p>顺带一提，switch的玛利欧派对游戏，直接把我和hh给整崩溃了哈哈哈，我们的运气也太差了吧</p>
-<p>但不管怎样，满格的手艺是不会让我们失望的，下图如果不说是在满格家，会真的以为是在饭店啊！</p>
-<p>z8+24120拍摄，非原图，微信朋友圈已经帮我压缩过一遍了</p>
-<p><img src="https://picgo-1258058044.cos.ap-chengdu.myqcloud.com/img/07be591c2600aaa5a49c57e8f3684e29.jpg"></p>
-<p><img src="https://picgo-1258058044.cos.ap-chengdu.myqcloud.com/img/237c4d3c52a6a4967b1326df7592cf0b.jpg"></p>
-<p><img src="https://picgo-1258058044.cos.ap-chengdu.myqcloud.com/img/2954bb663d4f203c9d47fed91c019d47.jpg"></p>
-<p><img src="https://picgo-1258058044.cos.ap-chengdu.myqcloud.com/img/b4189409a12b2970fa01e774db544889.jpg"></p>
-<p><img src="https://picgo-1258058044.cos.ap-chengdu.myqcloud.com/img/810d8a5459e0fecaf91730160ed27df5.jpg"></p>
-<p>与买桂花同载酒，终不似，少年游~</p>
-<p><img src="https://picgo-1258058044.cos.ap-chengdu.myqcloud.com/img/IMG_5853.JPG"></p>
-<p>当然还少不了可爱的冲冲：</p>
-<p><img src="https://picgo-1258058044.cos.ap-chengdu.myqcloud.com/img/73cc2d317a89c9d3a7b5e6fcb1fb1b18.jpg"></p>
-<p><img src="https://picgo-1258058044.cos.ap-chengdu.myqcloud.com/img/0132b751e7fcd02eeb82af101217002e.jpg"></p>
-<p>以及没有迟到的晚霞，当天都下了一阵雨，我们听着外面的雨声，在房间里玩三国杀和switch游戏，临近7点时，我从窗户边看向天空，发现天空竟然意外的蓝，于是果断上楼，终究还是没有错过绝美的晚霞</p>
-<p><img src="https://picgo-1258058044.cos.ap-chengdu.myqcloud.com/img/dji_export_20250706_photo_0006.JPG"></p>
-<p><img src="https://picgo-1258058044.cos.ap-chengdu.myqcloud.com/img/dji_fly_20250705_192758_0098_1751737603206_photo.jpg"></p>
-
-                    
-                        
-
-
-                    
-                    
-                        <p>
-                            <a
-                                href="/2025/07/06/%E5%91%A8%E6%8A%A5-37-%E9%87%8D%E6%96%B0%E6%8B%BE%E8%B5%B7%E7%9A%84%E5%86%99%E4%BD%9C/#post-footer"
-                                class="postShorten-excerpt_link link"
-                                aria-label=""
-                            >
-                                Comment and share
-                            </a>
-                        </p>
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-right">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a
-                            class="link-unstyled"
-                            href="/2025/07/06/2025%E9%87%8D%E5%9B%9Ehexo/"
-                            aria-label=": 2025重回hexo"
-                        >
-                            2025重回hexo
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time datetime="2025-07-06T11:12:10+08:00">
-	
-		    Jul 06, 2025
-    	
-    </time>
-    
-</div>
-
-            </div>
-            
-                <div class="postShorten-excerpt">
-                    <p><img src="https://picgo-1258058044.cos.ap-chengdu.myqcloud.com/img/e62a20776fbb0e5b68124b22b3b6e8b4.jpg"></p>
-<p>—— 图片是白鹭在捕食</p>
-                    
-                        <a
-                            href="/2025/07/06/2025%E9%87%8D%E5%9B%9Ehexo/"
-                            class="postShorten-excerpt_link link"
-                            aria-label=": 2025重回hexo"
-                        >
-                            Continue reading
-                        </a>
-                        
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    <div class="pagination-bar">
-    <ul class="pagination">
         
         
-          <li class="pagination-next">
-            <a
-                class="btn btn--default btn--small"
-                href="/archives/page/2/"
-                aria-label="OLDER POSTS"
-            >
-              <span>OLDER POSTS</span>
-              <i class="fa fa-angle-right text-base icon-ml"></i>
-            </a>
-          </li>
+            <script data-swup-reload-script>
+                try {
+                    function odometer_init() {
+                    const elements = document.querySelectorAll('.odometer');
+                    elements.forEach(el => {
+                        new Odometer({
+                            el,
+                            format: '( ddd).dd',
+                            duration: 200
+                        });
+                    });
+                    }
+                    odometer_init();
+                } catch (error) {}
+            </script>
         
-        <li class="pagination-number">page 1 of 2</li>
-    </ul>
-</div>
-
-</section>
-
-
-
-                <footer id="footer" class="main-content-wrap">
-    <span class="copyrights">
-        Copyrights &copy; 2025 raye. All Rights Reserved.
-    </span>
+        
+        
+    </div>  
 </footer>
+		</div>
+	</div>
 
-            </div>
-            
-        </div>
-        
+	
+
+	<div class="right-side-tools-container">
+		<div class="side-tools-container">
+	<ul class="hidden-tools-list">
+		<li class="right-bottom-tools tool-font-adjust-plus flex justify-center items-center">
+			<i class="fa-regular fa-magnifying-glass-plus"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-font-adjust-minus flex justify-center items-center">
+			<i class="fa-regular fa-magnifying-glass-minus"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-dark-light-toggle flex justify-center items-center">
+			<i class="fa-regular fa-moon"></i>
+		</li>
+
+		<!-- rss -->
+		
+
+		
+		<li class="right-bottom-tools tool-scroll-to-top flex justify-center items-center">
+			<i class="fa-regular fa-arrow-up"></i>
+		</li>
+		
+
+		<li class="right-bottom-tools tool-scroll-to-bottom flex justify-center items-center">
+			<i class="fa-regular fa-arrow-down"></i>
+		</li>
+	</ul>
+
+	<ul class="visible-tools-list">
+		<li class="right-bottom-tools toggle-tools-list flex justify-center items-center">
+			<i class="fa-regular fa-cog fa-spin"></i>
+		</li>
+		
+		
+	</ul>
+</div>
+	</div>
+
+	<div class="image-viewer-container">
+	<img src="">
+</div>
+
+	
+
+</main>
+
+
+
+<script src="/js/build/libs/Swup.min.js"></script>
+
+<script src="/js/build/libs/SwupSlideTheme.min.js"></script>
+
+<script src="/js/build/libs/SwupScriptsPlugin.min.js"></script>
+
+<script src="/js/build/libs/SwupProgressPlugin.min.js"></script>
+
+<script src="/js/build/libs/SwupScrollPlugin.min.js"></script>
+
+<script src="/js/build/libs/SwupPreloadPlugin.min.js"></script>
+
+<script>
+    const swup = new Swup({
+        plugins: [
+            new SwupScriptsPlugin({
+                optin: true,
+            }),
+            new SwupProgressPlugin(),
+            new SwupScrollPlugin({
+                offset: 80,
+            }),
+            new SwupSlideTheme({
+                mainElement: ".main-content-body",
+            }),
+            new SwupPreloadPlugin(),
+        ],
+        containers: ["#swup"],
+    });
+</script>
+
+
+
+	
+<script src="/js/build/tools/imageViewer.js" type="module"></script>
+
+<script src="/js/build/utils.js" type="module"></script>
+
+<script src="/js/build/main.js" type="module"></script>
+
+<script src="/js/build/layouts/navbarShrink.js" type="module"></script>
+
+<script src="/js/build/tools/scrollTopBottom.js" type="module"></script>
+
+<script src="/js/build/tools/lightDarkSwitch.js" type="module"></script>
+
+<script src="/js/build/layouts/categoryList.js" type="module"></script>
+
+
+
 
 
     
-        
+<script src="/js/build/tools/codeBlock.js" type="module"></script>
+
+
+
+
     
+<script src="/js/build/layouts/lazyload.js" type="module"></script>
 
-<div id="about">
-    <div id="about-card">
-        <div id="about-btn-close">
-            <i class="fa fa-times"></i>
-        </div>
-        
-            <img id="about-card-picture" src="https://picgo-1258058044.cos.ap-chengdu.myqcloud.com/img/photoby_1751730325747.jpg" alt="Author&#39;s picture"/>
-        
-            <h4 id="about-card-name">raye</h4>
-        
-            <div id="about-card-bio"><p>author.bio</p>
-</div>
-        
-        
-            <div id="about-card-job">
-                <i class="fa fa-briefcase"></i>
-                <br/>
-                <p>author.job</p>
 
-            </div>
-        
-        
-            <div id="about-card-location">
-                <i class="fa fa-map-marker-alt"></i>
-                <br/>
-                深圳
-            </div>
-        
-    </div>
-</div>
 
-        
-        
-<div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
-        <!--SCRIPTS-->
 
-<script src="/assets/js/script-sfmeovlhidz64ilwer4sayh1gerh2yr7pczuem3qtdxlexemgo3vcmw7xr0v.min.js"></script>
+    
+<script src="/js/build/tools/runtime.js"></script>
 
-<!--SCRIPTS END-->
+    
+<script src="/js/build/libs/odometer.min.js"></script>
+
+    
+<link rel="stylesheet" href="/assets/odometer-theme-minimal.css">
+
+
+
+
+  
+<script src="/js/build/libs/Typed.min.js"></script>
+
+  
+<script src="/js/build/plugins/typed.js" type="module"></script>
 
 
 
 
 
-    </body>
+
+    
+<script src="/js/build/libs/minimasonry.min.js"></script>
+
+    
+<script src="/js/build/plugins/masonry.js" type="module"></script>
+
+
+
+
+    
+<script src="/js/build/libs/anime.min.js"></script>
+
+
+
+
+
+    
+<script src="/js/build/tools/tocToggle.js" type="module" data-swup-reload-script=""></script>
+
+<script src="/js/build/layouts/toc.js" type="module" data-swup-reload-script=""></script>
+
+<script src="/js/build/plugins/tabs.js" type="module" data-swup-reload-script=""></script>
+
+
+
+
+<script src="/js/build/libs/moment-with-locales.min.js" data-swup-reload-script=""></script>
+
+
+<script src="/js/build/layouts/essays.js" type="module" data-swup-reload-script=""></script>
+
+
+
+
+
+	
+</body>
+
 </html>

@@ -1,0 +1,42 @@
+.side-tools-container .right-bottom-tools {
+  width: 42px;
+  height: 42px;
+  font-size: 1.3rem;
+  margin-bottom: 5px;
+  cursor: pointer;
+  border-right: none;
+  border-radius: 12px;
+  box-shadow: var(--redefine-box-shadow);
+  color: var(--default-text-color);
+  background: var(--background-color);
+redefine-tablet()
+}
+.side-tools-container .right-bottom-tools i {
+  color: var(--default-text-color);
+}
+.side-tools-container .right-bottom-tools:hover {
+  color: var(--background-color);
+  background: var(--primary-color);
+  box-shadow: var(--redefine-box-shadow);
+}
+.side-tools-container .right-bottom-tools:hover i {
+  color: var(--background-color);
+}
+.side-tools-container .right-bottom-tools.rss a {
+  border-radius: 12px;
+  width: 100%;
+  height: 100%;
+}
+.side-tools-container .right-bottom-tools.rss a:hover {
+  color: var(--background-color);
+  background: var(--primary-color);
+  box-shadow: var(--redefine-box-shadow);
+}
+.side-tools-container .hidden-tools-list {
+  opacity: 0;
+  transform: translateX(250%);
+}
+.side-tools-container .hidden-tools-list.show {
+  opacity: 1;
+  transform: translateX(0);
+}
