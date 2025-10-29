@@ -19,7 +19,7 @@ function stripInvalidXmlChars(str: string): string {
 export async function GET(context: APIContext) {
 	const blog = await getSortedPosts();
 
-	return rss({
+	const rssResponse = await rss({
 		title: siteConfig.title,
 		description: siteConfig.subtitle || "No description",
 		site: context.site ?? "https://fuwari.vercel.app",
@@ -38,5 +38,13 @@ export async function GET(context: APIContext) {
 			};
 		}),
 		customData: `<language>${siteConfig.lang}</language>`,
+	});
+
+	// 手动设置 Content-Type 头，确保浏览器识别为 XML
+	return new Response(rssResponse.body, {
+		status: 200,
+		headers: {
+			"Content-Type": "application/xml; charset=utf-8",
+		},
 	});
 }
