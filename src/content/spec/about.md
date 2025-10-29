@@ -12,7 +12,7 @@ This is my repository [rayepeng.github.io](https://github.com/rayepeng/rayepeng.
 - 📝 尽量做到每周更新两篇，一篇技术/杂文，一篇周报
 - 💭 一些想法，会记录到 https://page.raye.wiki/
 - 😆 找到我 [twitter](https://twitter.com/rayepeng_) | [telegram](https://t.me/RayeJourney) | [微信读书](https://weread.qq.com/web/redirect?schemeName=profile&uId=5184160&wfrom=appProfileShare)
-- 以前写过的博客 [blog](https://blog.raye.wiki/) | [blog1](https://blog1.raye.wiki/) | [blog2](https://blog2.raye.wiki/) | [简书](https://www.jianshu.com/u/7b4cb9cdc0c8)
+- 以前写过的博客 [blog](https://blog.raye.wiki/) | [blog1](https://github.com/rayepeng/blog1.git) | [blog2](https://github.com/rayepeng/blog2.git) | [简书](https://www.jianshu.com/u/7b4cb9cdc0c8)
 - 🎮 御三家+steam deck重度游戏玩家，偏好肉鸽，策略，JRPG等
 - 🏸 羽毛球左撇子选手，业余可能3级都到不了吧
 
