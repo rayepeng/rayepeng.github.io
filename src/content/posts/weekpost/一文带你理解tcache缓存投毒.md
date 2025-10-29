@@ -63,7 +63,7 @@ assert((long)&stack_var == (long)c); // 此时我们已经获得了针对栈地�
 
 1. 连续申请两个 chunk，再释放，此时释放的chunk进入到tcache管理起来
 
-```C
+```c
 intptr_t *a = malloc(128); // addr: 0x5555555592a0
 intptr_t *b = malloc(128); // addr: 0x555555559330
 
@@ -96,7 +96,7 @@ pwndbg> heapinfo
 
 2. 根据上文提到的内存布局，相同大小的`tcache` 通过链表维护起来。修改指针指向（后面会分析），使得tcache链表的指针指向栈上的地址
 
-```C
+```c
 size_t stack_var; // addr: 0x7fffffffe508
 b[0] = (intptr_t)&stack_var; 
 ```
@@ -248,7 +248,7 @@ main函数主要功能：
 3. `write_book`程序主要功能
 
 
-```C
+```c
 int __cdecl main(int argc, const char **argv, const char **envp)
 {
   setup(argc, argv, envp);
@@ -277,7 +277,7 @@ int __cdecl main(int argc, const char **argv, const char **envp)
 - 2 编辑一本书
 - 3 删除一本书
 
-```C
+```c
 unsigned __int64 write_books()
 {
   int choice; // [rsp+0h] [rbp-10h] BYREF
@@ -337,7 +337,7 @@ LABEL_19:
 可以看到一个书chunk的大小为输入的内容 + 0x10，并且会存储在 book 结构体中的size字段
 
 
-```C
+```c
 unsigned __int64 write_book()
 {
   int idx2; // ebx
@@ -384,7 +384,7 @@ unsigned __int64 write_book()
 
 编辑一本书，但是注意到这里能够输入的内容为 `books[idx].size` ,而这就意味着我们可以多输入 0x10 的内容（oob，即out-of-bounds）来实现 chunk overlap（因为上文分析道用户数据的长度事实上只有 `books[idx].size - 0x10`
 
-```C
+```c
 unsigned __int64 rewrite_book()
 {
   _QWORD *v0; // rcx
@@ -423,7 +423,7 @@ unsigned __int64 rewrite_book()
 
 删除一本书，调用 `free` 函数
 
-```C
+```c
 unsigned __int64 throw_book()
 {
   int v1; // [rsp+4h] [rbp-Ch] BYREF
