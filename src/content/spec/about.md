@@ -1,5 +1,5 @@
 # About
-This is the demo site for [Fuwari](https://github.com/saicaca/fuwari).
+This is my repository [rayepeng.github.io](https://github.com/rayepeng/rayepeng.github.io).
 
 ::github{repo="rayepeng/rayepeng.github.io"}
 
