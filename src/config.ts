@@ -31,11 +31,11 @@ export const siteConfig: SiteConfig = {
 	},
 	favicon: [
 		// Leave this array empty to use the default favicon
-		// {
-		//   src: '/favicon/icon.png',    // Path of the favicon, relative to the /public directory
+		{
+		  src: '/favicon/favicon-32x32.png',    // Path of the favicon, relative to the /public directory
 		//   theme: 'light',              // (Optional) Either 'light' or 'dark', set only if you have different favicons for light and dark mode
 		//   sizes: '32x32',              // (Optional) Size of the favicon, set only if you have favicons of different sizes
-		// }
+		}
 	],
 };
 
@@ -53,7 +53,7 @@ export const navBarConfig: NavBarConfig = {
 };
 
 export const profileConfig: ProfileConfig = {
-	avatar: "assets/images/demo-avatar.png", // Relative to the /src directory. Relative to the /public directory if it starts with '/'
+	avatar: "assets/images/me.JPG", // Relative to the /src directory. Relative to the /public directory if it starts with '/'
 	name: "Raye",
 	bio: "且趁闲身未老，尽放我、些子疏狂。",
 	links: [
@@ -62,18 +62,33 @@ export const profileConfig: ProfileConfig = {
 			icon: "fa6-brands:twitter", // Visit https://icones.js.org/ for icon codes
 			// You will need to install the corresponding icon set if it's not already included
 			// `pnpm add @iconify-json/<icon-set-name>`
-			url: "https://twitter.com",
+			url: "https://x.com/rayepeng_",
 		},
 		{
 			name: "Steam",
 			icon: "fa6-brands:steam",
-			url: "https://store.steampowered.com",
+			url: "https://steamcommunity.com/profiles/76561198800631930/",
 		},
 		{
 			name: "GitHub",
 			icon: "fa6-brands:github",
-			url: "https://github.com/saicaca/fuwari",
+			url: "https://github.com/rayepeng",
 		},
+		{
+			name: "Telegram",
+			icon: "fa6-brands:telegram",
+			url: "https://t.me/RayeJourney",
+		},
+		// {
+		// 	name: "playstation",
+		// 	icon: "fa6-brands:playstation",
+		// 	url: "https://psnprofiles.com/recycled-hiccup4",
+		// },
+		{
+			name: "Medium",
+			icon: "fa6-brands:medium",
+			url: "https://medium.com/@rayepeng",
+		}
 	],
 };
 

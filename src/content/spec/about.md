@@ -3,11 +3,11 @@ This is my repository [rayepeng.github.io](https://github.com/rayepeng/rayepeng.
 
 ::github{repo="rayepeng/rayepeng.github.io"}
 
- About Me
+## About Me
 - 🐶一个想成为黑客的文人
 - 🥰 ENFJ-A 随时欢迎打扰
 
- About the Site
+## About the Site
 
 - 📝 尽量做到每周更新两篇，一篇技术/杂文，一篇周报
 - 💭 一些想法，会记录到 https://page.raye.wiki/
@@ -17,7 +17,7 @@ This is my repository [rayepeng.github.io](https://github.com/rayepeng/rayepeng.
 - 🏸 羽毛球左撇子选手，业余可能3级都到不了吧
 
 
- Self-Introduction
+## Self-Introduction
 
 喜欢追剧、记录、阅读、运动的打工人一枚
 
