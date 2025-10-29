@@ -126,7 +126,7 @@ Emulate ARM code
 
 三个寄存器就够了，互相做加法，最后的代码：
 
-```x86
+```
 .global main
 main:
     MOV R0, 10          // 设置斐波那契数列的长度为10
@@ -172,7 +172,7 @@ end:
 
 这里因为我们是直接写的arm汇编代码，机器其实是不认识的，因此还需要借助 keystone 工具来将其转为机器码，转为机器码之后就可以模拟执行了
 
-```x86
+```
 from unicorn import *
 from unicorn.arm_const import *
 from keystone import *

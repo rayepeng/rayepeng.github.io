@@ -46,6 +46,7 @@ const content = `---
 title: ${args[0]}
 published: ${getDate()}
 description: ''
+customSlug: ''
 image: ''
 tags: []
 category: ''
