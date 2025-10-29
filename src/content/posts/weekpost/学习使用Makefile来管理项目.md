@@ -3,7 +3,7 @@ title: 学习使用Makefile来管理项目
 published: 2024-11-11
 description: ''
 image: ''
-tags: ['post', '开发', 'Makefile', '技术']
+tags: ['开发', 'Makefile', '技术']
 category: '周报'
 draft: false
 lang: ''

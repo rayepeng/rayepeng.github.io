@@ -3,7 +3,7 @@ title: 周报7 我们都需要快照
 published: 2023-07-16
 description: ''
 image: ''
-tags: ['post', '周报', 'Review', '记录']
+tags: ['Review', '记录']
 category: '周报'
 draft: false
 lang: ''

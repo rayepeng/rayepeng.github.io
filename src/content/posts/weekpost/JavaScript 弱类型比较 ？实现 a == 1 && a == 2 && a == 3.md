@@ -3,8 +3,8 @@ title: JavaScript 弱类型比较 ？实现 a == 1 && a == 2 && a == 3
 published: 2023-12-25
 description: ''
 image: ''
-tags: ['post', 'JavaScript', '编程']
-category: '周报'
+tags: ['JavaScript']
+category: '编程'
 draft: false
 lang: ''
 ---

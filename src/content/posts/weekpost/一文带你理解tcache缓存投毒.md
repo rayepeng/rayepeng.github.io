@@ -3,8 +3,8 @@ title: 一文带你理解tcache缓存投毒
 published: 2023-06-27
 description: ''
 image: ''
-tags: ['post', 'tcache', 'pwn', '源码']
-category: '周报'
+tags: ['tcache', 'pwn']
+category: '安全'
 draft: false
 lang: ''
 ---

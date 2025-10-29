@@ -3,7 +3,7 @@ title: 支付宝购买的礼品卡可能有问题，充值chatGPT plus的同学�
 published: 2023-06-01
 description: ''
 image: ''
-tags: ['post', 'ChatGPT', '生活']
+tags: ['ChatGPT', '生活']
 category: '周报'
 draft: false
 lang: ''

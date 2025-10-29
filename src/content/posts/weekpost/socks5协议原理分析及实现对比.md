@@ -3,8 +3,8 @@ title: socks5协议原理分析及实现对比
 published: 2023-04-10
 description: ''
 image: ''
-tags: ['post']
-category: '周报'
+tags: []
+category: '编程'
 draft: false
 lang: ''
 ---

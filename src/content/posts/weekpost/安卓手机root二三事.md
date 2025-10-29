@@ -3,8 +3,8 @@ title: 安卓手机root二三事
 published: 2023-08-20
 description: ''
 image: ''
-tags: ['post', 'Magisk', '安卓', '编程']
-category: '周报'
+tags: ['Magisk', '安卓', '编程']
+category: '折腾'
 draft: false
 lang: ''
 ---
@@ -133,9 +133,9 @@ fastboot flash recovery recovery.img
 
 ```js
 fastboot boot magisk_patched-26100_nRGcd.img
-Sending 'boot.img' (98304 KB)                      OKAY [  2.521s]
+Sending 'boot.img' (98304 KB)                      OKAY [2.521s]
 Booting                                            (bootloader) boot.img missing cmdline or OS version
-OKAY [  1.577s]
+OKAY [1.577s]
 Finished. Total time: 4.145s
 ```
 

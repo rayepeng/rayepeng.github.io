@@ -16,7 +16,7 @@ title: 周报33 立冬
 published: 2024-11-11
 customSlug: week-33-winter  # 自定义 URL
 description: ''
-tags: ['post', '周报']
+tags: [ '周报']
 category: '周报'
 draft: false
 ---
@@ -68,7 +68,7 @@ URL 仍然是：`/posts/文件夹名称/文件名/`
 title: 周报33 立冬
 published: 2024-11-11
 customSlug: weekly/2024-week-33
-tags: ['post', '周报']
+tags: [ '周报']
 category: '周报'
 ---
 ```

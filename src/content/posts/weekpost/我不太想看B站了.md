@@ -3,8 +3,8 @@ title: 我不太想看B站了
 published: 2024-01-15
 description: ''
 image: ''
-tags: ['post']
-category: '周报'
+tags: []
+category: '随笔'
 draft: false
 lang: ''
 ---

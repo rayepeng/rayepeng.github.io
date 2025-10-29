@@ -3,7 +3,7 @@ title: 周报1  xlog第一篇周报
 published: 2023-04-03
 description: ''
 image: ''
-tags: ['post', '周记', 'ChatGPT', '生活', '周报']
+tags: ['周记', 'ChatGPT', '生活', '周报']
 category: '周报'
 draft: false
 lang: ''

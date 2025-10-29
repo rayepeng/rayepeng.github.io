@@ -3,7 +3,7 @@ title: 周报4 泰国、写信、阅读、Midjourney
 published: 2023-05-09
 description: ''
 image: ''
-tags: ['post', '阅读', '旅行', 'Review', '周报']
+tags: ['读书', '旅行', 'Review', '周报']
 category: '周报'
 draft: false
 lang: ''

@@ -3,8 +3,8 @@ title: surge入坑指南（一）
 published: 2024-02-06
 description: ''
 image: ''
-tags: ['post', '编程', 'surge']
-category: '周报'
+tags: ['编程', 'surge']
+category: '折腾'
 draft: false
 lang: ''
 ---

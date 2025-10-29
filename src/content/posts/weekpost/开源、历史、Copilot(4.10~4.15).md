@@ -3,7 +3,7 @@ title: 开源、历史、Copilot(4.10~4.15)
 published: 2023-04-15
 description: ''
 image: ''
-tags: ['post', '历史']
+tags: ['历史']
 category: '周报'
 draft: false
 lang: ''

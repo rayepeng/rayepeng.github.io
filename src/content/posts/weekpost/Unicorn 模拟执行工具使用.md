@@ -3,8 +3,8 @@ title: Unicorn 模拟执行工具使用
 published: 2024-05-18
 description: ''
 image: ''
-tags: ['post', '逆向', '学习']
-category: '周报'
+tags: ['逆向']
+category: '安全'
 draft: false
 lang: ''
 ---

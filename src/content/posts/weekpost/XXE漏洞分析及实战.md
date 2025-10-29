@@ -3,8 +3,8 @@ title: XXE漏洞分析及实战
 published: 2020-05-10
 description: ''
 image: ''
-tags: ['post', 'XXE', '安全', 'CTF']
-category: '周报'
+tags: ['XXE', 'CTF']
+category: '安全'
 draft: false
 lang: ''
 ---

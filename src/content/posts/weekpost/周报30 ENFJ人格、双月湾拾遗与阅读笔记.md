@@ -3,7 +3,7 @@ title: 周报30 ENFJ人格、双月湾拾遗与阅读笔记
 published: 2024-08-03
 description: ''
 image: ''
-tags: ['post', '周报', '生活']
+tags: ['生活']
 category: '周报'
 draft: false
 lang: ''

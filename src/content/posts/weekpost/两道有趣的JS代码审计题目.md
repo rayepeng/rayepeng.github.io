@@ -3,8 +3,8 @@ title: 两道有趣的JS代码审计题目
 published: 2023-08-12
 description: ''
 image: ''
-tags: ['post', '编程', '安全', 'CTF', 'JS', '代码审计']
-category: '周报'
+tags: ['编程', '安全', 'CTF', 'JS', '代码审计']
+category: '安全'
 draft: false
 lang: ''
 ---

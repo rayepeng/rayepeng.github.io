@@ -3,8 +3,8 @@ title: pipedream免费自动化工作流使用教程
 published: 2024-02-06
 description: ''
 image: ''
-tags: ['post', '编程', '自动化']
-category: '周报'
+tags: ['编程', '自动化']
+category: '编程'
 draft: false
 lang: ''
 ---
@@ -133,7 +133,7 @@ export default defineComponent({
       // 发送消息
       const result = await axios($, {
         url: `https://api.telegram.org/bot${this.telegram_bot_api.$auth.token}/sendMessage`,
-        method: 'POST',
+        method: ,
         headers: {
           'Content-Type': 'application/json',
         },
@@ -220,7 +220,7 @@ export default defineComponent({
       try {
         const result = await axios($, {
           url: `https://api.telegram.org/bot${this.telegram_bot_api.$auth.token}/sendMessage`,
-          method: 'POST',
+          method: ,
           headers: {
             'Content-Type': 'application/json',
           },

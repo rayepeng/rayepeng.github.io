@@ -3,8 +3,8 @@ title: JS原型链污染及AST注入的几道题目
 published: 2023-09-25
 description: ''
 image: ''
-tags: ['post', '编程', 'JS', 'CTF', '安全']
-category: '周报'
+tags: ['JS', 'CTF', '安全']
+category: '编程'
 draft: false
 lang: ''
 ---

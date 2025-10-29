@@ -3,7 +3,7 @@ title: 周报33 立冬
 published: 2024-11-11
 description: ''
 image: ''
-tags: ['post', '周报']
+tags: ['周报']
 category: '周报'
 draft: false
 lang: ''

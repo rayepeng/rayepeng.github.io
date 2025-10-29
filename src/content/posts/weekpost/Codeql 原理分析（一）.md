@@ -3,7 +3,7 @@ title: Codeql 原理分析（一）
 published: 2024-01-15
 description: ''
 image: ''
-tags: ['post', '编程', '安全', 'codeql']
+tags: ['编程', '安全', 'codeql']
 category: '周报'
 draft: false
 lang: ''

@@ -3,7 +3,7 @@ title: golang 安全问题
 published: 2023-11-21
 description: ''
 image: ''
-tags: ['post', '安全', '漏洞']
+tags: ['安全', '漏洞']
 category: '周报'
 draft: false
 lang: ''

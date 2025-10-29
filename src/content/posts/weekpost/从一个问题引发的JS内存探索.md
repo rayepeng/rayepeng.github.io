@@ -3,8 +3,8 @@ title: 从一个问题引发的JS内存探索
 published: 2023-08-28
 description: ''
 image: ''
-tags: ['post', 'JS', '编程', 'v8', '内存']
-category: '周报'
+tags: ['JS', '编程', 'v8', '内存']
+category: '编程'
 draft: false
 lang: ''
 ---
@@ -374,7 +374,7 @@ class UserData {
     
 </body>
 <script>
-var _____testArray_____ = [ {value: 'hello'}, {money: 9999} ];
+var _____testArray_____ = [{value: 'hello'}, {money: 9999} ];
 console.info(_____testArray_____);
 </script>
 </html>
@@ -399,7 +399,7 @@ console.info(_____testArray_____);
 即：
 - hello 字符串 @17037（可以理解为一段内存的标识符）
 	- 存储在 Object@92971 （对应 `{value: ;'hello'}`）
-		- Obj又作为数组，存储在 Array@92961（对应 `[ {value: 'hello'} ]`)
+		- Obj又作为数组，存储在 Array@92961（对应 `[{value: 'hello'} ]`)
 			- 数组存储在 `testArray`这个变量中，由于是全局变量，因此对应到 Window@92867 上
 
 > 这也对应了通过 var 声明的变量是直接挂载在 Window对象的属性上

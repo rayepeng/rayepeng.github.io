@@ -3,8 +3,8 @@ title: bitbar渗透实验
 published: 2020-06-08
 description: ''
 image: ''
-tags: ['post', '渗透测试', '网络安全', 'ruby', '编程']
-category: '周报'
+tags: ['渗透测试', '网络安全', 'ruby', '编程']
+category: '安全'
 draft: false
 lang: ''
 ---

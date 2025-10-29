@@ -3,7 +3,7 @@ title: pixi.js开发微信小游戏——一个问题的解决
 published: 2024-02-06
 description: ''
 image: ''
-tags: ['post', '编程']
+tags: ['编程']
 category: '周报'
 draft: false
 lang: ''

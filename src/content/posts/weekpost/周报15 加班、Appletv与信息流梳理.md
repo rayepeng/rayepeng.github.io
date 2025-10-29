@@ -3,7 +3,7 @@ title: 周报15 加班、Appletv与信息流梳理
 published: 2023-09-25
 description: ''
 image: ''
-tags: ['post', '生活', '周报', '思考']
+tags: ['生活',  '思考']
 category: '周报'
 draft: false
 lang: ''

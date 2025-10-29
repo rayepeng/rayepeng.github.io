@@ -3,8 +3,8 @@ title: wasm内存访问研究
 published: 2025-07-02
 description: ''
 image: ''
-tags: ['post']
-category: '周报'
+tags: ['WASM']
+category: '安全'
 draft: false
 lang: ''
 ---
