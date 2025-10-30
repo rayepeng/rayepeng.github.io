@@ -4,5 +4,11 @@
 		"siteDesc": "一个喜欢记录生活、思考人生的赛博电子人。在这里，你会看到我的生活片段、技术思考、游戏体验，以及一些关于人生和世界的胡思乱想。",
 		"siteUrl": "https://niracler.com/",
 		"siteIcon": "https://picgo-1258058044.cos.ap-chengdu.myqcloud.com/img/favicon.svg"
+	},
+	{
+		"siteTitle": "印记",
+		"siteDesc": "我见青山多妩媚，料青山见我应如是",
+		"siteUrl": "https://yinji.org/",
+		"siteIcon": "https://picgo-1258058044.cos.ap-chengdu.myqcloud.com/img/site_icon.png"
 	}
 ]
