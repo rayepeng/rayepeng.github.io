@@ -7,7 +7,7 @@ This is my repository [rayepeng.github.io](https://github.com/rayepeng/rayepeng.
 - 🐶一个想成为黑客的文人
 - 🥰 ENFJ-A 随时欢迎打扰
 
-可以使用folo订阅![](https://badge.folo.is/feed/41342818708527119?color=FF5C00&labelColor=black&style=flat-square)
+可以使用[folo](https://app.folo.is/share/feeds/41342818708527119)订阅![](https://badge.folo.is/feed/41342818708527119?color=FF5C00&labelColor=black&style=flat-square)
 
 ## About the Site
 
