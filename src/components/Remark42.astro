@@ -1,0 +1,45 @@
+---
+interface Props {
+  class?: string;
+}
+
+const { class: className } = Astro.props;
+---
+
+<div class={className}>
+  <div id="remark42"></div>
+</div>
+
+<script>
+  function loadRemark42() {
+    if (!window.remark_config) {
+      window.remark_config = {
+        host: "https://comment.rayepeng.net",
+        site_id: "blog",
+      };
+      
+      !function(e,n){for(var o=0;o<e.length;o++){var r=n.createElement("script"),c=".js",d=n.head||n.body;"noModule"in r?(r.type="module",c=".mjs"):r.async=!0,r.defer=!0,r.src=remark_config.host+"/web/"+e[o]+c,d.appendChild(r)}}(remark_config.components||["embed"],document);
+    } else if (window.REMARK42) {
+      window.REMARK42.createInstance(window.remark_config);
+    }
+  }
+
+  loadRemark42();
+
+  const setup = () => {
+    if (window.swup) {
+      window.swup.hooks.on('page:view', () => {
+        if (document.getElementById('remark42')) {
+          loadRemark42();
+        }
+      });
+    }
+  };
+
+  if (window.swup) {
+    setup();
+  } else {
+    document.addEventListener('swup:enable', setup);
+  }
+</script>
+

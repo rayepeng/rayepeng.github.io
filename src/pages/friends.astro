@@ -5,6 +5,7 @@ import I18nKey from "../i18n/i18nKey";
 import {i18n} from "../i18n/translation";
 import MainGridLayout from "../layouts/MainGridLayout.astro";
 import friendsItems from "../_data/friends.json";
+import Remark42 from "@components/Remark42.astro";
 const friendsPage = await getEntry("spec", "friends");
 if (!friendsPage) {
     throw new Error("Friends page content not found");
@@ -42,6 +43,9 @@ const items = friendsItems;
             <Markdown class="mt-2">
                 <Content/>
             </Markdown>
+            <div class="border-[var(--line-divider)] border-dashed border-t-[1px] mt-8 pt-8">
+                <Remark42 />
+            </div>
         </div>
     </div>
 </MainGridLayout>
