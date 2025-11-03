@@ -4,12 +4,23 @@ import fs from "fs"
 import path from "path"
 
 function getDate() {
-  const today = new Date()
-  const year = today.getFullYear()
-  const month = String(today.getMonth() + 1).padStart(2, "0")
-  const day = String(today.getDate()).padStart(2, "0")
+  // 获取当前时间并转换为东八区（UTC+8）
+  const now = new Date()
+  // 获取当前 UTC 时间戳，然后加上 8 小时得到东八区时间戳
+  const utcTimestamp = now.getTime() + now.getTimezoneOffset() * 60 * 1000
+  const utc8Timestamp = utcTimestamp + 8 * 60 * 60 * 1000
+  const utc8Date = new Date(utc8Timestamp)
+  
+  const year = utc8Date.getUTCFullYear()
+  const month = String(utc8Date.getUTCMonth() + 1).padStart(2, "0")
+  const day = String(utc8Date.getUTCDate()).padStart(2, "0")
+  const hours = String(utc8Date.getUTCHours()).padStart(2, "0")
+  const minutes = String(utc8Date.getUTCMinutes()).padStart(2, "0")
+  const seconds = String(utc8Date.getUTCSeconds()).padStart(2, "0")
 
-  return `${year}-${month}-${day}`
+  // 返回 ISO 8601 格式: YYYY-MM-DDTHH:mm:ss+08:00 (东八区，兼容 Astro 的 z.date() 解析)
+  // 注意：这里格式化的时间已经是东八区的时间，+08:00 只是标识时区
+  return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}+08:00`
 }
 
 const args = process.argv.slice(2)
