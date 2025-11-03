@@ -1,7 +1,7 @@
 import type { APIRoute } from "astro";
 
 const robotsTxt = `
-c381cbc421b173300035c84d86a89c532c3a7cb3
+bd9ff7a74173d2a4bc880816d474fa312a624dcb
 `.trim();
 
 export const GET: APIRoute = () => {
