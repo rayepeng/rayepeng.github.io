@@ -7,6 +7,7 @@ tags: ['编程', 'surge']
 category: '折腾'
 draft: false
 lang: ''
+customSlug: 'surge-first-step'
 ---
  surge入坑指南（一）
 
