@@ -2,6 +2,7 @@
 import type { MarkdownHeading } from "astro";
 import { siteConfig } from "../../config";
 import { url } from "../../utils/url-utils";
+import { getSortedPosts } from "../../utils/content-utils";
 
 interface Props {
 	class?: string;
@@ -16,7 +17,13 @@ for (const heading of headings) {
 }
 
 const className = Astro.props.class;
-const isPostsRoute = Astro.url.pathname.startsWith(url("/posts/"));
+// Check if current page is a blog post by checking if it matches any post slug
+const allPosts = await getSortedPosts();
+const currentPath = Astro.url.pathname.replace(/\/$/, ''); // Remove trailing slash
+const isPostsRoute = allPosts.some(post => {
+    const postPath = url(`/${post.data.customSlug || post.slug}`).replace(/\/$/, '');
+    return currentPath === postPath;
+});
 
 const removeTailingHash = (text: string) => {
 	let lastIndexOfHash = text.lastIndexOf("#");

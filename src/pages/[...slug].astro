@@ -9,18 +9,36 @@ import { getSortedPosts } from "@utils/content-utils";
 import { getDir, getPostUrlBySlug } from "@utils/url-utils";
 import { Icon } from "astro-icon/components";
 import { licenseConfig } from "src/config";
-import ImageWrapper from "../../components/misc/ImageWrapper.astro";
-import PostMetadata from "../../components/PostMeta.astro";
-import { profileConfig, siteConfig } from "../../config";
-import { formatDateToYYYYMMDD } from "../../utils/date-utils";
+import ImageWrapper from "../components/misc/ImageWrapper.astro";
+import PostMetadata from "../components/PostMeta.astro";
+import { profileConfig, siteConfig } from "../config";
+import { formatDateToYYYYMMDD } from "../utils/date-utils";
 import Remark42 from "@components/Remark42.astro";
 
 export async function getStaticPaths() {
 	const blogEntries = await getSortedPosts();
-	return blogEntries.map((entry) => ({
-		params: { slug: entry.data.customSlug || entry.slug },
-		props: { entry },
-	}));
+	
+	// List of reserved paths that should not be used for blog posts
+	const reservedPaths = [
+		'about',
+		'archive', 
+		'friends',
+		'feed',
+		'rss.xml',
+		'robots.txt',
+		'tencent11389703921308857248.txt'
+	];
+	
+	return blogEntries
+		.filter((entry) => {
+			const slug = entry.data.customSlug || entry.slug;
+			// Exclude reserved paths and numeric paths (used by pagination)
+			return !reservedPaths.includes(slug) && !/^\d+$/.test(slug);
+		})
+		.map((entry) => ({
+			params: { slug: entry.data.customSlug || entry.slug },
+			props: { entry },
+		}));
 }
 
 const { entry } = Astro.props;
