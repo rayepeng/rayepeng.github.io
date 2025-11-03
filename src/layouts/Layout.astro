@@ -26,9 +26,11 @@ interface Props {
 	description?: string;
 	lang?: string;
 	setOGTypeArticle?: boolean;
+	image?: string;
+	published?: Date;
 }
 
-let { title, banner, description, lang, setOGTypeArticle } = Astro.props;
+let { title, banner, description, lang, setOGTypeArticle, image, published } = Astro.props;
 
 // apply a class to the body element to decide the height of the banner, only used for initial page load
 // Swup can update the body for each page visit, but it's after the page transition, causing a delay for banner height change
@@ -78,26 +80,32 @@ const bannerOffset =
 >
 	<head>
 
-		<title>{pageTitle}</title>
+	<title>{pageTitle}</title>
 
-		<meta charset="UTF-8" />
-		<meta name="description" content={description || pageTitle}>
-		<meta name="author" content={profileConfig.name}>
+	<meta charset="UTF-8" />
+	<meta name="description" content={description || pageTitle}>
+	<meta name="author" content={profileConfig.name}>
 
-		<meta property="og:site_name" content={siteConfig.title}>
-		<meta property="og:url" content={Astro.url}>
-		<meta property="og:title" content={pageTitle}>
-		<meta property="og:description" content={description || pageTitle}>
-		{setOGTypeArticle ? (
+	<meta property="og:site_name" content={siteConfig.title}>
+	<meta property="og:url" content={Astro.url}>
+	<meta property="og:title" content={pageTitle}>
+	<meta property="og:description" content={description || pageTitle}>
+	{setOGTypeArticle ? (
         <meta property="og:type" content="article" />
         ) : (
         <meta property="og:type" content="website" />
         )}
+	{image && <meta property="og:image" content={image.startsWith('http') ? image : new URL(image, Astro.site).toString()}>}
+	{!image && banner && <meta property="og:image" content={banner.startsWith('http') ? banner : new URL(banner, Astro.site).toString()}>}
+	{setOGTypeArticle && published && <meta property="article:published_time" content={published.toISOString()}>}
+	{setOGTypeArticle && <meta property="article:author" content={profileConfig.name}>}
 
-		<meta name="twitter:card" content="summary_large_image">
-		<meta property="twitter:url" content={Astro.url}>
-		<meta name="twitter:title" content={pageTitle}>
-		<meta name="twitter:description" content={description || pageTitle}>
+	<meta name="twitter:card" content="summary_large_image">
+	<meta property="twitter:url" content={Astro.url}>
+	<meta name="twitter:title" content={pageTitle}>
+	<meta name="twitter:description" content={description || pageTitle}>
+	{image && <meta name="twitter:image" content={image.startsWith('http') ? image : new URL(image, Astro.site).toString()}>}
+	{!image && banner && <meta name="twitter:image" content={banner.startsWith('http') ? banner : new URL(banner, Astro.site).toString()}>}
 
 		<meta name="viewport" content="width=device-width" />
 		<meta name="generator" content={Astro.generator} />

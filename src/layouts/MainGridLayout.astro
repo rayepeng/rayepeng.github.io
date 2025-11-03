@@ -22,12 +22,16 @@ interface Props {
 	lang?: string;
 	setOGTypeArticle?: boolean;
 	headings?: MarkdownHeading[];
+	image?: string;
+	published?: Date;
 }
 
 const {
 	title,
 	banner,
 	description,
+	image,
+	published,
 	lang,
 	setOGTypeArticle,
 	headings = [],
@@ -41,7 +45,7 @@ const mainPanelTop = siteConfig.banner.enable
 	: "5.5rem";
 ---
 
-<Layout title={title} banner={banner} description={description} lang={lang} setOGTypeArticle={setOGTypeArticle}>
+<Layout title={title} banner={banner} description={description} lang={lang} setOGTypeArticle={setOGTypeArticle} image={image} published={published}>
 
 <!-- Navbar -->
 <slot slot="head" name="head"></slot>
