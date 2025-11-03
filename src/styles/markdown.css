@@ -1,8 +1,65 @@
 @import './main.css';
 
 .custom-md {
+    /* 初始化计数器 */
+    counter-reset: h2-counter;
+
     h1 {
         @apply text-3xl;
+    }
+
+    /* 二级标题自动编号 */
+    h2 {
+        counter-reset: h3-counter;
+        counter-increment: h2-counter;
+        
+        &::before {
+            content: counter(h2-counter) ". ";
+            @apply text-[var(--primary)] mr-2;
+        }
+    }
+
+    /* 三级标题自动编号 */
+    h3 {
+        counter-reset: h4-counter;
+        counter-increment: h3-counter;
+        
+        &::before {
+            content: counter(h2-counter) "." counter(h3-counter) " ";
+            @apply text-[var(--primary)] mr-2;
+        }
+    }
+
+    /* 四级标题自动编号 */
+    h4 {
+        counter-reset: h5-counter;
+        counter-increment: h4-counter;
+        
+        &::before {
+            content: counter(h2-counter) "." counter(h3-counter) "." counter(h4-counter) " ";
+            @apply text-[var(--primary)] mr-2;
+        }
+    }
+
+    /* 五级标题自动编号 */
+    h5 {
+        counter-reset: h6-counter;
+        counter-increment: h5-counter;
+        
+        &::before {
+            content: counter(h2-counter) "." counter(h3-counter) "." counter(h4-counter) "." counter(h5-counter) " ";
+            @apply text-[var(--primary)] mr-2;
+        }
+    }
+
+    /* 六级标题自动编号 */
+    h6 {
+        counter-increment: h6-counter;
+        
+        &::before {
+            content: counter(h2-counter) "." counter(h3-counter) "." counter(h4-counter) "." counter(h5-counter) "." counter(h6-counter) " ";
+            @apply text-[var(--primary)] mr-2;
+        }
     }
 
     h1, h2, h3, h4, h5, h6 {

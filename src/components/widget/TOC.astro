@@ -30,26 +30,54 @@ const removeTailingHash = (text: string) => {
 let heading1Count = 1;
 
 const maxLevel = siteConfig.toc.depth;
+
+// 为每个标题生成序号
+const headingsWithNumbers = headings.filter((heading) => heading.depth < minDepth + maxLevel).map((heading) => {
+	return {
+		...heading,
+		number: ""
+	};
+});
+
+// 计数器，支持多级标题
+const counters: number[] = [0, 0, 0, 0, 0, 0];
+
+headingsWithNumbers.forEach((heading) => {
+	const level = heading.depth - minDepth;
+	counters[level]++;
+	
+	// 重置所有更深层级的计数器
+	for (let i = level + 1; i < counters.length; i++) {
+		counters[i] = 0;
+	}
+	
+	// 生成序号
+	let number = "";
+	for (let i = 0; i <= level; i++) {
+		if (counters[i] > 0) {
+			number += (number ? "." : "") + counters[i];
+		}
+	}
+	heading.number = number;
+});
 ---
 {isPostsRoute &&
 <table-of-contents class:list={[className, "group"]}>
-    {headings.filter((heading) => heading.depth < minDepth + maxLevel).map((heading) =>
+    {headingsWithNumbers.map((heading) =>
             <a href={`#${heading.slug}`} class="px-2 flex gap-2 relative transition w-full min-h-9 rounded-xl
         hover:bg-[var(--toc-btn-hover)] active:bg-[var(--toc-btn-active)] py-2
     ">
-                <div class:list={["transition w-5 h-5 shrink-0 rounded-lg text-xs flex items-center justify-center font-bold",
+                <div class:list={["transition shrink-0 text-xs flex items-center justify-center font-bold text-[var(--primary)]",
                     {
-                        "bg-[var(--toc-badge-bg)] text-[var(--btn-content)]": heading.depth == minDepth,
+                        "ml-0": heading.depth == minDepth,
                         "ml-4": heading.depth == minDepth + 1,
                         "ml-8": heading.depth == minDepth + 2,
                     }
                 ]}
                 >
-                    {heading.depth == minDepth && heading1Count++}
-                    {heading.depth == minDepth + 1 && <div class="transition w-2 h-2 rounded-[0.1875rem] bg-[var(--toc-badge-bg)]"></div>}
-                    {heading.depth == minDepth + 2 && <div class="transition w-1.5 h-1.5 rounded-sm bg-black/5 dark:bg-white/10"></div>}
+                    {heading.number}.
                 </div>
-                <div class:list={["transition text-sm", {
+                <div class:list={["transition text-sm flex-1", {
                     "text-50": heading.depth == minDepth || heading.depth == minDepth + 1,
                     "text-30": heading.depth == minDepth + 2,
                 }]}>{removeTailingHash(heading.text)}</div>

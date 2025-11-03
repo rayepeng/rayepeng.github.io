@@ -23,6 +23,11 @@ const { class: className } = Astro.props;
   // 存储当前的 Remark42 实例
   let remark42Instance = null;
 
+  // 获取当前主题（light 或 dark）
+  function getCurrentTheme() {
+    return document.documentElement.classList.contains('dark') ? 'dark' : 'light';
+  }
+
   // 加载 Remark42 脚本（仅首次加载）
   function loadRemark42Script() {
     if (window.REMARK42 || document.querySelector('script[src*="remark42"]')) {
@@ -53,7 +58,7 @@ const { class: className } = Astro.props;
       remark42Instance = null;
     }
 
-    // 创建新实例
+    // 创建新实例，设置主题
     if (window.REMARK42) {
       remark42Instance = window.REMARK42.createInstance({
         node: node,
@@ -61,8 +66,37 @@ const { class: className } = Astro.props;
         site_id: window.remark_config.site_id,
         // url 使用当前页面路径作为唯一标识
         url: window.location.origin + window.location.pathname,
+        // 设置主题跟随博客
+        theme: getCurrentTheme(),
       });
     }
+  }
+
+  // 监听主题变化
+  let themeObserver = null;
+  function setupThemeObserver() {
+    // 如果已有观察器，先断开
+    if (themeObserver) {
+      themeObserver.disconnect();
+    }
+
+    // 创建 MutationObserver 监听 class 变化
+    themeObserver = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+          // 当主题变化时，重新初始化 Remark42 以应用新主题
+          if (document.getElementById('remark42') && window.REMARK42) {
+            initRemark42();
+          }
+        }
+      });
+    });
+
+    // 监听 document.documentElement 的 class 属性变化
+    themeObserver.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['class']
+    });
   }
 
   // 首次加载
@@ -71,9 +105,11 @@ const { class: className } = Astro.props;
   // 等待 REMARK42 准备就绪
   if (window.REMARK42) {
     initRemark42();
+    setupThemeObserver();
   } else {
     window.addEventListener('REMARK42::ready', () => {
       initRemark42();
+      setupThemeObserver();
     });
   }
 
@@ -84,10 +120,11 @@ const { class: className } = Astro.props;
       window.swup.hooks.on('page:view', () => {
         if (document.getElementById('remark42')) {
           initRemark42();
+          setupThemeObserver();
         }
       });
 
-      // 页面离开前销毁实例
+      // 页面离开前销毁实例和观察器
       window.swup.hooks.on('visit:start', () => {
         if (remark42Instance) {
           try {
@@ -96,6 +133,10 @@ const { class: className } = Astro.props;
             console.warn('Failed to destroy Remark42 instance on route leave:', e);
           }
           remark42Instance = null;
+        }
+        if (themeObserver) {
+          themeObserver.disconnect();
+          themeObserver = null;
         }
       });
     }
