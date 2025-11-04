@@ -46,9 +46,9 @@ message ResourceModify {
 
 
 
-### key + value
+### tag + value
 
-可以简单的把pb的二进制编码看作是 key + value ，首先看key怎么计算
+可以简单的把pb的二进制编码看作是 tag + value ，首先看tag怎么计算
 
 
 
@@ -57,7 +57,7 @@ message ResourceModify {
 
 
 ```
-key = (field_number << 3) | wire_type
+tag = (field_number << 3) | wire_type
 ```
 
 
@@ -102,7 +102,7 @@ key = (field_number << 3) | wire_type
 
 
 
-计算key：`2 <<3 |0 = 0x10` 
+计算tag：`2 <<3 |0 = 0x10` 
 
 
 
