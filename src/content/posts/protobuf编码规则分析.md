@@ -3,7 +3,7 @@ title: protobuf编码规则分析
 published: 2025-11-03T13:35:10+08:00
 description: ''
 customSlug: 'pb-rule-analysis'
-image: ''
+image: 'https://picgo-1258058044.cos.ap-chengdu.myqcloud.com/img/protobuf.png'
 tags: ['protobuf','逆向']
 category: '编程'
 draft: false
