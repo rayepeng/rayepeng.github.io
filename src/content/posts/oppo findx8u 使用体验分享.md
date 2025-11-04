@@ -2,7 +2,7 @@
 title: oppo findx8u 使用体验分享
 published: 2025-11-03T13:54:53+08:00
 description: ''
-customSlug: 'oppo findx8u'
+customSlug: 'oppo-findx8u'
 image: 'https://picgo-1258058044.cos.ap-chengdu.myqcloud.com/img/oppo.png'
 tags: ['oppo', '数码']
 category: '折腾'
