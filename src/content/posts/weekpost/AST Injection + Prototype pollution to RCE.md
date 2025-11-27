@@ -3,6 +3,7 @@ title: AST Injection + Prototype pollution to RCE
 published: 2023-06-04
 description: ''
 image: ''
+customSlug: 'ast-injection'
 tags: ['post', '安全', '源码', '技术', '编程']
 category: '周报'
 draft: false
@@ -91,7 +92,7 @@ console.log(html);
 
 词法解析 -\> 语法解析 -\> 代码生成
 
-<!-- ![image](./attachments/bafkreicjmsqkgp4dphfifmsholucdmqytkor2txsb3rsskch5ikktfhmqa.png) -->
+![image](./attachments/bafkreicjmsqkgp4dphfifmsholucdmqytkor2txsb3rsskch5ikktfhmqa.png)
 
 
 但是在语法树处理的过程中，如果存在原型链污染，则可以随意修改AST树，进而影响生成的代码，最终达到RCE（远程代码执行）的目的
@@ -100,7 +101,7 @@ console.log(html);
 
 
 
-<!-- ![image](./attachments/bafkreiesq72kyh4u6c5s5xsm6au6mvvd53gsfswzaoaubnuuspjfeveopi.png) -->
+![image](./attachments/bafkreiesq72kyh4u6c5s5xsm6au6mvvd53gsfswzaoaubnuuspjfeveopi.png)
 
 
 
@@ -331,7 +332,7 @@ router.post('/api/submit', (req, res) => {
 本地跑起来后运行在1337端口：
 
 
-<!-- ![image](./attachments/bafybeiht6fdhtk26rthqlckh5j4qtjpiwodnln526whn54hpxorv5e7ndq.png) -->
+![image](./attachments/bafybeiht6fdhtk26rthqlckh5j4qtjpiwodnln526whn54hpxorv5e7ndq.png)
 
  原型链污染
 
@@ -375,4 +376,4 @@ pug.compile('span Hello {user}, thank you for letting us know!')({ user:'guest' 
 
 
 
-<!-- ![](./attachments/bafybeiengetvjnfvhyeod3du4dryavon4xeuaney32wk56opyh3fpbnhry.jpeg) -->
+![](./attachments/bafybeiengetvjnfvhyeod3du4dryavon4xeuaney32wk56opyh3fpbnhry.jpeg)

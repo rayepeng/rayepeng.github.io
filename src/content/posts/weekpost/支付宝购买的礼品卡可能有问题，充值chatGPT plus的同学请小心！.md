@@ -4,6 +4,7 @@ published: 2023-06-01
 description: ''
 image: ''
 tags: ['ChatGPT', '生活']
+customSlug: 'zhifubao-gift-card-problem'
 category: '周报'
 draft: false
 lang: ''
@@ -27,7 +28,7 @@ TL，DR：首先承认这个有点标题党，不过我也确实被支付宝骗�
 起因是我想消费下从支付宝充值的礼品卡余额，于是接收到了提示，付款不成功，让我联系客服
 
 
-<!-- ![image](./attachments/bafybeih7oyjbpkyytnnv3msiybfbhvwwjdwgpdohn3cg2xd4oey235ogay.png) -->
+![image](./attachments/bafybeih7oyjbpkyytnnv3msiybfbhvwwjdwgpdohn3cg2xd4oey235ogay.png)
 
 
 这时候联系客服，客服说帮你恢复了下，24小时之后尝试
@@ -37,7 +38,7 @@ TL，DR：首先承认这个有点标题党，不过我也确实被支付宝骗�
 后来到下午，我又看了下，发现这时候自己的账号已经被 `disabled`了，
 
 
-<!-- ![image](./attachments/bafybeifeuglidzd6dtpiqgqjpc66hqptwabez3fjy6u25ndlms2hbikmry.png) -->
+![image](./attachments/bafybeifeuglidzd6dtpiqgqjpc66hqptwabez3fjy6u25ndlms2hbikmry.png)
 
 
 再次找客服联系，客服说你的账号已经被封禁了，违反了如下条款，接着就发了我一个Apple的条款链接…
@@ -78,7 +79,7 @@ TL，DR：首先承认这个有点标题党，不过我也确实被支付宝骗�
 这时候我回头看支付宝的礼品卡购买界面时，发现人家早就明牌了，责任撇的一干二净…
 
 
-<!-- ![image](./attachments/bafybeie4pixdg6hn3tjwmg36pcjnu74l5zgxq37cnemz6c2mxk43aw2qv4.png) -->
+![image](./attachments/bafybeie4pixdg6hn3tjwmg36pcjnu74l5zgxq37cnemz6c2mxk43aw2qv4.png)
 
 
 
@@ -134,13 +135,13 @@ AppStore搜索下载 `support` 或者 支持 app（我系统为英文,，所以a
 接下来在app界面中往下翻选择有App Store图标的按钮，直接输入你查询的问题，我一般是直接输入 `I can't pay` 
 
 
-<!-- ![image](./attachments/bafybeigupvav6f2fi26howcxxjf4k2iz2skxg7rr5btnvt25wj5wcktbkm.png) -->
+![image](./attachments/bafybeigupvav6f2fi26howcxxjf4k2iz2skxg7rr5btnvt25wj5wcktbkm.png)
 
 
 这时，就会有一个 `chat`的按钮，点一下就能进入人工客服排队了（Apple的人工客服响应还是很快的）
 
 
-<!-- ![image](./attachments/bafybeiat2ucnk7wl5cqwfihmgwjt5gvy3xgt2tflbl55bqbtz5nbmtgipy.png) -->
+![image](./attachments/bafybeiat2ucnk7wl5cqwfihmgwjt5gvy3xgt2tflbl55bqbtz5nbmtgipy.png)
 
 
 
@@ -164,7 +165,7 @@ AppStore搜索下载 `support` 或者 支持 app（我系统为英文,，所以a
 
 
 
-<!-- ![image](./attachments/bafybeia7lpl4mpkav3irzt5twqbaxxkoznyojvj7hjftsmi225wufhnuou.png) -->
+![image](./attachments/bafybeia7lpl4mpkav3irzt5twqbaxxkoznyojvj7hjftsmi225wufhnuou.png)
 
 
 
@@ -197,4 +198,4 @@ AppStore搜索下载 `support` 或者 支持 app（我系统为英文,，所以a
 
 
 
-<!-- ![](./attachments/bafybeidwooha3lqfprq2g3vv6j36u5buzn35xb7kot4tuep65h6lbvqho4.jpeg) -->
+![](./attachments/bafybeidwooha3lqfprq2g3vv6j36u5buzn35xb7kot4tuep65h6lbvqho4.jpeg)

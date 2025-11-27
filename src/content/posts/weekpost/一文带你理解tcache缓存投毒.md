@@ -3,6 +3,7 @@ title: 一文带你理解tcache缓存投毒
 published: 2023-06-27
 description: ''
 image: ''
+customSlug: 'tcache-cache-poisoning'
 tags: ['tcache', 'pwn']
 category: '安全'
 draft: false
@@ -148,7 +149,7 @@ pwndbg> heapinfo
 
 4. 第二次申请tcache 分配，本来这里是获得之前的a chunk的，但是由于 `tcache` 的指向已经发生了变化，导致我们可以获得一次针对栈上的地址进行读写的机会
 
-<!-- ![DraggedImage](./attachments/bafkreickxjvgbnku26gsl24hecdapvavbumvqmq2uj3kqwb6x7aemvtrdu.png) -->
+![DraggedImage](./attachments/bafkreickxjvgbnku26gsl24hecdapvavbumvqmq2uj3kqwb6x7aemvtrdu.png)
 
 
 若要细究其原理，得从glibc中对应的源码入手：
@@ -470,7 +471,7 @@ unsigned __int64 throw_book()
 3. chunk3 通过next指针获得一段可写的内存
 4. chunk4 用作 0x40 tcache的填充
 
-<!-- ![DraggedImage-1](./attachments/bafkreiaai3ujh3mo5j2zmybz73au7iqxsxobitxpjxrvvyxiboszg7o3qy.png) -->
+![DraggedImage-1](./attachments/bafkreiaai3ujh3mo5j2zmybz73au7iqxsxobitxpjxrvvyxiboszg7o3qy.png)
 
  chunk1 oob to overlap
 
@@ -479,14 +480,14 @@ unsigned __int64 throw_book()
 3. chunk2的大小被修改为0x40，和 chunk3 实现overlap
 4. 修改chunk2的内容，覆盖chunk3 的next指针
 
-<!-- ![DraggedImage-2](./attachments/bafkreibrtv5vcof3hmas2iqtdrzjwhamcpn7ahy3cxpieuc44a54mmg3tm.png) -->
+![DraggedImage-2](./attachments/bafkreibrtv5vcof3hmas2iqtdrzjwhamcpn7ahy3cxpieuc44a54mmg3tm.png)
 
 
  泄漏libc base
 
 books结构体的地址是固定的，地址为 `0x4040e0` ，每个 book 结构体前 0x8 个字节存储这本书的 size ，另外 0x8 字节存储这本书在 chunk 地址
 
-<!-- ![DraggedImage-3](./attachments/bafkreifzpdbbiz3psewd4n3veg6izyf3m3v7tparl7grzoldvcvncz3blq.png) -->
+![DraggedImage-3](./attachments/bafkreifzpdbbiz3psewd4n3veg6izyf3m3v7tparl7grzoldvcvncz3blq.png)
 
 
 当我们获得任意地址写的时候，就可以针对 `0x4040e0` 这个堆块去写入内容，再利用 `rewrite_book` 来实现劫持got表泄露 `libc base addr` 
@@ -542,7 +543,7 @@ pwndbg> x/40gx 0x4040e0
         ]))
 ```
 
-<!-- ![DraggedImage-4](./attachments/bafkreibxtrkjmuscusn7mkglfhyrlui77xiblee5g3ny76qwr3z26bicli.png) -->
+![DraggedImage-4](./attachments/bafkreibxtrkjmuscusn7mkglfhyrlui77xiblee5g3ny76qwr3z26bicli.png)
 
 
  ROP绕过seccomp
@@ -565,7 +566,7 @@ pwndbg> x/40gx 0x4040e0
 
 栈帧地址：也就是调用这个函数返回的ret地址
 
-<!-- ![DraggedImage-5](./attachments/bafkreicnd4w75u3dawjfvec47qjzlyqsw6fvphlvseb2vriawk74jikqzu.png) -->
+![DraggedImage-5](./attachments/bafkreicnd4w75u3dawjfvec47qjzlyqsw6fvphlvseb2vriawk74jikqzu.png)
 
 
 获得栈帧地址后，使用 `pwntools` 自带的 rop 模块来实现
@@ -601,11 +602,11 @@ rop.raw(b"/flag\x00")
 
 Book的结构如下：
 
-<!-- ![DraggedImage-6](./attachments/bafkreicuub72hdfn3ooejj2dhm6qfii4dlwvibdnjcr56ytejt44vvofge.png) -->
+![DraggedImage-6](./attachments/bafkreicuub72hdfn3ooejj2dhm6qfii4dlwvibdnjcr56ytejt44vvofge.png)
 
 4个chunk的布局
 
-<!-- ![DraggedImage-7](./attachments/bafkreie73xpmhg5a3arqnd3nh5u2yzvpqaojbrmk27xvdo5cx3ys445wte.png) -->
+![DraggedImage-7](./attachments/bafkreie73xpmhg5a3arqnd3nh5u2yzvpqaojbrmk27xvdo5cx3ys445wte.png)
 
  oob
 
@@ -616,13 +617,13 @@ Book的结构如下：
 
 此时的chunk2大小已经被修改了
 
-<!-- ![DraggedImage-8](./attachments/bafkreifkddwqzdcdopnqj3aus4ruuaxos3a34euwcq3ogdu465hfcr2dxm.png) -->
+![DraggedImage-8](./attachments/bafkreifkddwqzdcdopnqj3aus4ruuaxos3a34euwcq3ogdu465hfcr2dxm.png)
 
  tcache poisoning
 
 此时 `tcache3` 的 next 指针已经被修改了
 
-<!-- ![DraggedImage-9](./attachments/bafkreic42ynv2fcmi354wyonqyeqm3eg5tpi5bsgjuqnpgu2cp3mikf4ze.png) -->
+![DraggedImage-9](./attachments/bafkreic42ynv2fcmi354wyonqyeqm3eg5tpi5bsgjuqnpgu2cp3mikf4ze.png)
 
 
 
@@ -630,7 +631,7 @@ Book的结构如下：
 
 利用 `tcache poisioning` 修改 books 的结构，布局如下，至此 `tcache poisoning` 的利用就完成了
 
-<!-- ![DraggedImage-10](./attachments/bafkreig6t35ynspvbjyzsg4r7z5zmc5arqa22ybu5zzozpisvmyqne6spy.png) -->
+![DraggedImage-10](./attachments/bafkreig6t35ynspvbjyzsg4r7z5zmc5arqa22ybu5zzozpisvmyqne6spy.png)
 
 
 
@@ -639,4 +640,4 @@ Book的结构如下：
 
 
 
-<!-- ![](./attachments/bafkreid7cs452h45ymng2w7renonn57xgp5zxlpe5kzsqzcqogmdhw5bk4.jpeg) -->
+![](./attachments/bafkreid7cs452h45ymng2w7renonn57xgp5zxlpe5kzsqzcqogmdhw5bk4.jpeg)
