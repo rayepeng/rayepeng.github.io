@@ -13,16 +13,19 @@ customSlug: 'surge-first-step'
 
 
 
-<!-- ![biaoti22](./attachments/QmcTehmgSK2hrVQVU6Kv1dTsHSXWUo6ftDZm6SM5NYjrc9.png) -->
+![biaoti22](./attachments/QmcTehmgSK2hrVQVU6Kv1dTsHSXWUo6ftDZm6SM5NYjrc9.png)
 
  为什么要使用surge呢？
 
 作为surge的三端用户，mac端+手机端+Apple tv端
 
-<img src="./attachments/Qmc3akFJQYeTMKVCDXnkGK1yPeaNtB2bNLo2W2S9w9KzDa.jpeg" width="200" heigh="200"/>
+<!-- <img src="./attachments/Qmc3akFJQYeTMKVCDXnkGK1yPeaNtB2bNLo2W2S9w9KzDa.jpeg" width="200" heigh="200"/>
 <img src="./attachments/QmW4raRbssatRcCYo4vatf9Rcxk14VssTz1r431Jwu665n.png" width="200" heigh="200"/>
-<img src="./attachments/QmdJyLbZpFkFHNs2Sj97xwr4uW6CDgsF8eTGYw7yiuNqW9.png" width="200" heigh="200"/>
+<img src="./attachments/QmdJyLbZpFkFHNs2Sj97xwr4uW6CDgsF8eTGYw7yiuNqW9.png" width="200" heigh="200"/> -->
 
+![](./attachments/Qmc3akFJQYeTMKVCDXnkGK1yPeaNtB2bNLo2W2S9w9KzDa.jpeg)
+![](./attachments/QmW4raRbssatRcCYo4vatf9Rcxk14VssTz1r431Jwu665n.png)
+![](./attachments/QmdJyLbZpFkFHNs2Sj97xwr4uW6CDgsF8eTGYw7yiuNqW9.png)
 不得不说surge的界面确实很美（
 
 - 最主要的用途：流媒体观看 + 国外app使用 + ChatGPT
@@ -49,19 +52,25 @@ customSlug: 'surge-first-step'
 
 好了，下一步就是导入配置，机场提供了自带的配置，开箱可用
 
-<!-- ![Untitled 2](./attachments/QmPHfw28YxpDwDdpge3pHGXQQkGr8JLNCmubAQAoKhfay2.png) -->
+![Untitled 2](./attachments/QmPHfw28YxpDwDdpge3pHGXQQkGr8JLNCmubAQAoKhfay2.png)
 
 导入配置后，最好创建一份当前配置的副本方便我们后续编辑（当前配置无法修改）
 
 surge的基础界面我也介绍下：
 
-<p class="flex justify-between">
+<!-- <p class="flex justify-between">
   <img src="./attachments/QmavtHxMbwK6niTTpVycg9XhmPodiGpxkXF995cuziX5Qg.png" width="200" height="200"/>
   <img src="./attachments/QmVyJqEeGWjgZEnQSYjDvpfTU49vKRc7w6RKAErmDDp7yC.png" width="200" height="200"/>
   <img src="./attachments/QmcA6rs9y4Lppo1sgmbMbx59MM1eBAPvFigVQgzji3eSi3.png" width="200" height="200"/>
   <img src="./attachments/QmTQ8hRh5nbTTiofbgdBtebep32QaSK4uDs39vuFjjAwc7.png" width="200" height="200"/>
   <img src="./attachments/QmdsiTYWTKuJgudRa4w1JD8om7HP9QwDkrzsJzGibc1P4Y.png" width="200" height="200"/>
-</p>
+</p> -->
+
+![](./attachments/QmavtHxMbwK6niTTpVycg9XhmPodiGpxkXF995cuziX5Qg.png)
+![](./attachments/QmVyJqEeGWjgZEnQSYjDvpfTU49vKRc7w6RKAErmDDp7yC.png)
+![](./attachments/QmcA6rs9y4Lppo1sgmbMbx59MM1eBAPvFigVQgzji3eSi3.png)
+![](./attachments/QmTQ8hRh5nbTTiofbgdBtebep32QaSK4uDs39vuFjjAwc7.png)
+![](./attachments/QmdsiTYWTKuJgudRa4w1JD8om7HP9QwDkrzsJzGibc1P4Y.png)
 
 好了，你已经正式入门了，接下来就是见证surge的魔力了
 
@@ -114,7 +123,7 @@ surge的基础界面我也介绍下：
 
 [https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script/rule/Surge/OpenAI/OpenAI.list](https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script/rule/Surge/OpenAI/OpenAI.list)
 
-<!-- ![Untitled 8](./attachments/QmdMaYTgkNqpDQSwTwLrENYuhWK2cwzJzpSH6BFMBnVXNy.png) -->
+![Untitled 8](./attachments/QmdMaYTgkNqpDQSwTwLrENYuhWK2cwzJzpSH6BFMBnVXNy.png)
 
 
 第一步准备好，第二步我们准备美国相关的节点，如果你是通过机场导入的配置，已经自动添加了很多节点，当然也可以手动去添加你的vps节点
@@ -126,16 +135,19 @@ surge的基础界面我也介绍下：
 
 将美国节点都拖进去（其他地区解锁OpenAI稳定性一般，美国节点最稳定）
 
- <img src="./attachments/QmSVAsrB3k3JYC4xu74ceykmfL6QtFEcRLKCHs9gRvpUGo.png" width="200" height="200"/>
+ <!-- <img src="./attachments/QmSVAsrB3k3JYC4xu74ceykmfL6QtFEcRLKCHs9gRvpUGo.png" width="200" height="200"/> -->
+
+ ![](./attachments/QmSVAsrB3k3JYC4xu74ceykmfL6QtFEcRLKCHs9gRvpUGo.png)
 
 第三步，设定分流规则，此时就可以直接添加一条分流到ChatGPT的规则了
 
-<p class="flex justify-between">
+<!-- <p class="flex justify-between">
   <img src="./attachments/QmQKBf3gaN69nbAwk1ohthjs65EyT7uFwLwTsWtiu8MaZG.png" width="200" height="200"/>
   <img src="./attachments/QmNPQkStYcPzm22CGHmJAGZxaoFpgTfykfLD13xcNQfveY.png" width="200" height="200"/>
-</p>
+</p> -->
 
-
+![](./attachments/QmQKBf3gaN69nbAwk1ohthjs65EyT7uFwLwTsWtiu8MaZG.png)
+![](./attachments/QmNPQkStYcPzm22CGHmJAGZxaoFpgTfykfLD13xcNQfveY.png)
 好了，已经成功了，访问ChatGPT试试
 
  补充
@@ -150,10 +162,13 @@ surge的基础界面我也介绍下：
 - URL可用性自动测试：不可用时随机选择一个可用的
 - 负载均衡：每次随机切换
 
-<p class="flex justify-between">
+<!-- <p class="flex justify-between">
   <img src="./attachments/QmSx7KKEJPYj7Y21FTyNPDF6kGZw9wJyH5gBpR1HSHAQ16.png" width="200" height="200"/>
   <img src="./attachments/QmXKUqvMWccjBQLAowHABBfkiqwKAASdoaZV9rM5KRAcgA.png" width="200" height="200"/>
-</p>
+</p> -->
+
+![](./attachments/QmSx7KKEJPYj7Y21FTyNPDF6kGZw9wJyH5gBpR1HSHAQ16.png)
+![](./attachments/QmXKUqvMWccjBQLAowHABBfkiqwKAASdoaZV9rM5KRAcgA.png)
 
  进阶分流规则
 
@@ -174,10 +189,14 @@ surge的基础界面我也介绍下：
 
 可以选择临时规则或者永久规则，这是为了测试考虑
 
-<p class="flex justify-between">
+<!-- <p class="flex justify-between">
   <img src="./attachments/QmWbup8dzzLT7WhwTTjMzgzgJcuBrfFujnPAMVuVZ5ZmPN.jpeg" width="200" height="200"/>
   <img src="./attachments/Qmamxer5shLxDYZAPihFwv62XUFFUFBwUN4n8LUk6YnosM.png" width="200" height="200"/>  <img src="./attachments/QmTYnk331nD3dorwN1V9ndFwG1TPjvPUzcu2C5uuXwKPhr.png" width="200" height="200"/>
-</p>
+</p> -->
+
+![](./attachments/QmWbup8dzzLT7WhwTTjMzgzgJcuBrfFujnPAMVuVZ5ZmPN.jpeg)
+![](./attachments/Qmamxer5shLxDYZAPihFwv62XUFFUFBwUN4n8LUk6YnosM.png)
+![](./attachments/QmTYnk331nD3dorwN1V9ndFwG1TPjvPUzcu2C5uuXwKPhr.png)
 
 
  规则详解
@@ -212,10 +231,13 @@ surge的基础界面我也介绍下：
 - 脚本的配置比较繁琐，需要自行添加MITM的域名
 - 模块相对来说更简单，一键安装即可（但依赖模块作者开发的质量，比如之前有个模块作者直接覆盖掉了我的 `skip-proxy`  配置，我后面找了半天才找到原因）
 
-<p class="flex justify-between">
+<!-- <p class="flex justify-between">
   <img src="./attachments/QmbHDnoKPwEsnbxymDRPrDSisZ5VQ63N7hL3orXLtmcFa4.png" width="200" height="200"/>
   <img src="./attachments/Qmbs8zoe1G95JFfj7k7sdA3MrLHzoCHEsHGwQJNZ36b7pH.jpeg" width="200" height="200"/>
-</p>
+</p> -->
+
+![](./attachments/QmbHDnoKPwEsnbxymDRPrDSisZ5VQ63N7hL3orXLtmcFa4.png)
+![](./attachments/Qmbs8zoe1G95JFfj7k7sdA3MrLHzoCHEsHGwQJNZ36b7pH.jpeg)
 
 
 下面提供了一些开箱即用的模块：
@@ -233,10 +255,13 @@ surge的基础界面我也介绍下：
 
 搭配boxjs可以自由勾选首页展示的内容：
 
-<p class="flex justify-between">
+<!-- <p class="flex justify-between">
   <img src="./attachments/Qmc781PbGmtojMAHxRGi2pFux5jfG8MmbJ1TS16tPb3nch.jpeg" width="200" height="200"/>
   <img src="./attachments/QmXPQL84Pc7YJxNr1bbMH2idZcEzqgsSYEuMZcgNZ1ivLo.png" width="200" height="200"/>
-</p>
+</p> -->
+
+![](./attachments/Qmc781PbGmtojMAHxRGi2pFux5jfG8MmbJ1TS16tPb3nch.jpeg)
+![](./attachments/QmXPQL84Pc7YJxNr1bbMH2idZcEzqgsSYEuMZcgNZ1ivLo.png)
 
 
  后续内容
@@ -249,5 +274,3 @@ surge的基础界面我也介绍下：
 2. [Surge 官方中文指引：理解 Surge 原理 (nssurge.com)](https://manual.nssurge.com/book/understanding-surge/cn/) surge官方的文档，对于深入理解网络协议有很大的帮助
 3. [GetSomeCats/Surge新手从注册Apple ID到退款.md at Surge · getsomecat/GetSomeCats (github.com)](https://github.com/getsomecat/GetSomeCats/blob/Surge/Surge%E6%96%B0%E6%89%8B%E4%BB%8E%E6%B3%A8%E5%86%8CApple%20ID%E5%88%B0%E9%80%80%E6%AC%BE.md) 这个写的很详细了
 4. 推荐最小配置，可以认识配置文件 [中国区用户推荐最小配置 - Surge Tech Community (nssurge.com)](https://community.nssurge.com/d/1214)
-
-[]()
