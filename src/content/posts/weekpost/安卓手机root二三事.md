@@ -3,6 +3,7 @@ title: 安卓手机root二三事
 published: 2023-08-20
 description: ''
 image: ''
+customSlug: 'android-1'
 tags: ['Magisk', '安卓', '编程']
 category: '折腾'
 draft: false
