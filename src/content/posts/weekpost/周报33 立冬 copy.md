@@ -11,7 +11,7 @@ lang: ''
  周报33 立冬
 
 
-<!-- ![zhoubao33](./attachments/bafybeicaextrgdewcir7crl53rsxx54vikyilv5nfvtbcjgidu22midrym.png) -->
+![zhoubao33](./attachments/bafybeicaextrgdewcir7crl53rsxx54vikyilv5nfvtbcjgidu22midrym.png)
 
 https://open.spotify.com/track/0j2l3sf15o9vczIATwA3Xr?si=ZNKbDRK9Td6-MM41yOCJEw&context=spotify%3Aalbum%3A653YWJ1EZLWEvUdE6Kc8WL
 
@@ -56,7 +56,7 @@ ps. 11月7日立冬了，刚好二十多年前一个人出生了
 
 > 抛开大立场，特朗普真是大丈夫当如是，当年白宫晚宴被嘲讽，素人打穿希拉里。4年前光环被斩尽，随后而来的嘲笑、污蔑、栽赃、刺杀，78岁子弹擦伤仍然高呼战斗，美国巅峰时期那代人的精气神真的在他身上体现的淋漓尽致。这老头越是逆境越是顽强，活到这地步人真的无遗憾了。
 
-<!-- ![image](./attachments/bafkreia3szhncnoa76l6vmymhemzjmfmpzsnitznlpz3y32ackvrigu7ua.png) -->
+![image](./attachments/bafkreia3szhncnoa76l6vmymhemzjmfmpzsnitznlpz3y32ackvrigu7ua.png)
 
 美国大选最后投票定格在了312:226，懂王拿下了所有摇摆州，意料之外，情理之中了。
 
@@ -92,7 +92,7 @@ ps. 11月7日立冬了，刚好二十多年前一个人出生了
 
 追不到的晚霞（in 前海石公园）
 
-<!-- ![IMG_0334](./attachments/bafybeigb5qxnua5uveovwu7fqydrqomywdy4wirzv7ugxg4aozdh5sqvtq.jpeg) -->
+![IMG_0334](./attachments/bafybeigb5qxnua5uveovwu7fqydrqomywdy4wirzv7ugxg4aozdh5sqvtq.jpeg)
 
 
 打车的时候偶然发现后排座位也有这样一个后视镜，感觉非常有用，这样每次下车的时候就不用提心吊胆后面有没有车或者人来了，建议普及。

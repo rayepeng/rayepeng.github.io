@@ -11,7 +11,7 @@ lang: ''
  TS挑战记录(一)
 
 
-<!-- ![vipul-jha-a4X1cdC1QAc-unsplash](./attachments/bafybeietch6wboqulomckko6fqwhyi735lbkohkug2brqzxupzmvt4r5t4.jpeg) -->
+![vipul-jha-a4X1cdC1QAc-unsplash](./attachments/bafybeietch6wboqulomckko6fqwhyi735lbkohkug2brqzxupzmvt4r5t4.jpeg)
 
  TS挑战记录(一)
 

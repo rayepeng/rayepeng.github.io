@@ -11,7 +11,7 @@ lang: ''
  学习使用Makefile来管理项目
 
 
-<!-- ![Group 4](./attachments/bafkreielcl72bzqkclihhh4dohq6yrg5cb6l5wekpij5a4jttnqclnxhnq.png) -->
+![Group 4](./attachments/bafkreielcl72bzqkclihhh4dohq6yrg5cb6l5wekpij5a4jttnqclnxhnq.png)
 
 
 一直以为Makefile是独属于C++项目的，看到这个文件就比较头大，因为少不了需要执行一堆make命令来等待编译链接。

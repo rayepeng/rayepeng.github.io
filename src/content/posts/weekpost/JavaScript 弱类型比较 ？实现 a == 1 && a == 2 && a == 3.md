@@ -61,4 +61,4 @@ console.assert(a.anyProperty == 1 && a.anyProperty == 2 && a.anyProperty == 3, t
   - 与 `valueOf` 方法类似，每次属性访问都会返回递增的值。
 
 
-<!-- ![](./attachments/Qmewa4B1mxsJ3ujR3Vk9MckXbQb4W1oGweZ61dbNa3BJtQ.jpeg) -->
+![](./attachments/Qmewa4B1mxsJ3ujR3Vk9MckXbQb4W1oGweZ61dbNa3BJtQ.jpeg)

@@ -13,7 +13,7 @@ lang: ''
 
 
 
-<!-- ![image-20240803175850282](./attachments/QmYppYS1DvzrkQEHaZoPsfKzPkqaZRX4p1aLzuVGXrruUN.png) -->
+![image-20240803175850282](./attachments/QmYppYS1DvzrkQEHaZoPsfKzPkqaZRX4p1aLzuVGXrruUN.png)
 
 
 终日昏昏醉梦间，忽闻春尽强登山。
@@ -44,10 +44,10 @@ lang: ''
 4. 兴趣广而不深，只能说别骂了别骂了
 以及种种种种，只能说太贴合了。。
 
-<!-- ![image-20240803160630049](./attachments/QmTVaQZuhG4cp9rgqWNYZP24kEtASZpfw9Fb4oeiei24zj.png) -->
+![image-20240803160630049](./attachments/QmTVaQZuhG4cp9rgqWNYZP24kEtASZpfw9Fb4oeiei24zj.png)
 
 
-<!-- ![image-20240803160659864](./attachments/QmXQKu1NGtYuxPoQaC2qMWVncsyemxKb2mizmmR4j2ygir.png) -->
+![image-20240803160659864](./attachments/QmXQKu1NGtYuxPoQaC2qMWVncsyemxKb2mizmmR4j2ygir.png)
 
 
 
@@ -68,7 +68,7 @@ lang: ''
 惠州的行程倒是没有出现太多意外，但我竟真的没料到，6月22日当晚的晚霞竟会那么好看~！我们抵达民宿休息短时间后（当然我打开电脑开始加班了因为过两天就要给老板汇报），出门就遇上了大雨，等待雨过天晴之后，登上双月湾观景台，方才明白双月湾名字的来源（拍不好直接用小红书的图吧）
 
 
-<!-- ![image-20240803151105546](./attachments/Qmf3YGgyWepoCsuWyC7QYH1jbvh1wMvW5ZWDoeWyYYpFeg.jpeg) -->
+![image-20240803151105546](./attachments/Qmf3YGgyWepoCsuWyC7QYH1jbvh1wMvW5ZWDoeWyYYpFeg.jpeg)
 
 
 由于刚下过雨，所谓观景台能观的景并不是很美，还贼热。索性直接下山前往情人堤，此时天光稍暗，堤岸边散落着稀稀落落的人，落日竟仿佛如同刚睡醒一样，透过云层懒懒地散出几道光芒，搭配上远处雾霭朦胧下的重叠的山峦，站在沙滩上眺望，会疑心此时的时间是不是错乱了。
@@ -76,7 +76,7 @@ lang: ''
 放上章鱼模特的原图直出照~！
 
 
-<!-- ![image-20240803151721271](./attachments/QmNvWuMP72fiveaMdgpsat7Y4X2atqa6kVYZVM6TorXao4.jpeg) -->
+![image-20240803151721271](./attachments/QmNvWuMP72fiveaMdgpsat7Y4X2atqa6kVYZVM6TorXao4.jpeg)
 
 
 
@@ -92,12 +92,12 @@ lang: ''
 
 
 
-<!-- ![image-20240803152826365](./attachments/QmabSU8CjNsSqZy1euSLWKKDZUN4rtr8tbPYCuz3NUQkcV.jpeg) -->
+![image-20240803152826365](./attachments/QmabSU8CjNsSqZy1euSLWKKDZUN4rtr8tbPYCuz3NUQkcV.jpeg)
 
 
-<!-- ![image-20240803152837936](./attachments/QmaSxKbRckV7PYyT563cra3jBgkU2WHhpGzNUb5LSNCYC4.jpeg) -->
+![image-20240803152837936](./attachments/QmaSxKbRckV7PYyT563cra3jBgkU2WHhpGzNUb5LSNCYC4.jpeg)
 
-<!-- ![image-20240803152848687](./attachments/QmZPPERGRNXmqBWrVP9PGFGJs47poJNJRCnAngREoy3XQq.jpeg) -->
+![image-20240803152848687](./attachments/QmZPPERGRNXmqBWrVP9PGFGJs47poJNJRCnAngREoy3XQq.jpeg)
 
 这中间还发生了一个小插曲，让我这个不太相信玄学的人又一次觉得冥冥之中可能自由天数吧。
 
@@ -108,7 +108,7 @@ lang: ''
 临近晚上9点，海边的烟花声不绝于耳，新手摄影师第一次拍烟花感觉实在是太难了，用川鸽的图吧：
 
 
-<!-- ![image-20240803153016437](./attachments/Qma9MZQNyKsaXoCTdnBy2w5ChbHu9XvcDxknhjFCsWR7QC.jpeg) -->
+![image-20240803153016437](./attachments/Qma9MZQNyKsaXoCTdnBy2w5ChbHu9XvcDxknhjFCsWR7QC.jpeg)
 
 
 烟花往往代表了一瞬间的美好，代表了终将逝去的繁花，每个人都有各自的解读，但如果是燃放一整晚的烟花恐怕就没那么幸运了🤣。当晚就我和满格睡得比较好，由于被子比较短，两个人半夜互扯被子，迷迷糊糊之中我脱口而出，恐怕这就是为什么需要”人类补完计划”吧（EVA乱入）
@@ -116,25 +116,25 @@ lang: ''
 川鸽、章鱼和王律就没那么好运了，整晚的烟花+楼下ktv的声音让他们基本没睡着，当我五点多爬起来准备拍日出的时候，他俩已经拍了好久了，只可惜这次天公不作美，日出被层云遮挡住，无缘美景。
 
 
-<!-- ![image-20240803153418978](./attachments/QmcUu83myu27nA3Lsv7zpEKSsGZMKWn4RUQ7GfRmYBC1h2.jpeg) -->
+![image-20240803153418978](./attachments/QmcUu83myu27nA3Lsv7zpEKSsGZMKWn4RUQ7GfRmYBC1h2.jpeg)
 
-<!-- ![image-20240803153429524](./attachments/QmfLr878KB1Aho3opeWwvTpT5vjPxXFnXcNSp1pKiC3Aii.jpeg) -->
+![image-20240803153429524](./attachments/QmfLr878KB1Aho3opeWwvTpT5vjPxXFnXcNSp1pKiC3Aii.jpeg)
 
 
 收拾启程后，章鱼带我们去吃了一家巨巨巨巨好吃的海鲜店，恐怕能记一辈子了（80岁之后要考的🐶）
 
 
-<!-- ![image-20240803153524256](./attachments/QmaYyMpiR4k3bbZMZ72ZkDJRtXGMxFyzZp9pFs7LF8hYN8.jpeg) -->
+![image-20240803153524256](./attachments/QmaYyMpiR4k3bbZMZ72ZkDJRtXGMxFyzZp9pFs7LF8hYN8.jpeg)
 
 返程途中还有一张绝美的照片：
 
 
-<!-- ![IMG_8967](./attachments/QmaYWCHzjenxkWL78Mv9nwbUyHCrcwtnTrbjMXS6WNDmHX.jpeg) -->
+![IMG_8967](./attachments/QmaYWCHzjenxkWL78Mv9nwbUyHCrcwtnTrbjMXS6WNDmHX.jpeg)
 
 
 返程回科兴后紧接着的是小狐狸《公主之死》的分享会，一群人等着我的电脑投屏呢（对就是我加班用的电脑，callback了）， 原谅我们路上堵车耽误了几分钟🤣
 
-<!-- ![image-20240803153724168](./attachments/QmbHik4M7Yt1BCXeK772DwViyBpQNB132F9hNgkAtLwvi3.jpeg) -->
+![image-20240803153724168](./attachments/QmbHik4M7Yt1BCXeK772DwViyBpQNB132F9hNgkAtLwvi3.jpeg)
 
 
 
@@ -144,12 +144,12 @@ lang: ''
 
 结束之后，木屋烧烤喝酒happy ending~！ 桃李春风一杯酒，江湖夜雨十年灯。（而我，还要回去继续肝汇报的材料）
 
-<!-- ![image-20240803153714860](./attachments/Qmeg5EJ1kU12NvFFVyJ7ijuDP1k3YYBy1o42c2TN81rnPV.jpeg) -->
+![image-20240803153714860](./attachments/Qmeg5EJ1kU12NvFFVyJ7ijuDP1k3YYBy1o42c2TN81rnPV.jpeg)
 
 
 肝完报告，真正的happy ending🤣
 
-<!-- ![image-20240803153907524](./attachments/QmScWS3Gvo8dFUZEELc7k4SjNvjFc9GSmTeXHudGGnASfp.png) -->
+![image-20240803153907524](./attachments/QmScWS3Gvo8dFUZEELc7k4SjNvjFc9GSmTeXHudGGnASfp.png)
 
 
 
@@ -181,7 +181,7 @@ lang: ''
 「革命尚未成功，同志仍需努力」
 
 
-<!-- ![image-20240803175541253](./attachments/QmVkNBQy1sR3R76mGAMMbYDeFKp1Rf2Z5eQxNfK9acm3mG.jpeg) -->
+![image-20240803175541253](./attachments/QmVkNBQy1sR3R76mGAMMbYDeFKp1Rf2Z5eQxNfK9acm3mG.jpeg)
 
 
 

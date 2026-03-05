@@ -11,7 +11,7 @@ lang: ''
  pixi.js开发微信小游戏——一个问题的解决
 
 
-<!-- ![biaoti11](./attachments/QmVL9ynLrcVmJx8AgPLNH4JX4iV6yC37vQmUYtvaYXxxME.png) -->
+![biaoti11](./attachments/QmVL9ynLrcVmJx8AgPLNH4JX4iV6yC37vQmUYtvaYXxxME.png)
 
 
  pixi.js 开发微信小游戏
@@ -31,15 +31,15 @@ loader.add('bg', 'static/textures/bg.png');
 
 但问题就出在 source 已经是一个image对象了，自然没有 **indexOf** 方法，所以就报错了
 
-<!-- ![Untitled](./attachments/QmQ8bxjZNYsPDBu5cLdb74xGxzmZhJZZEgGPzsXpEAe1fT.png) -->
+![Untitled](./attachments/QmQ8bxjZNYsPDBu5cLdb74xGxzmZhJZZEgGPzsXpEAe1fT.png)
 
 那为啥 `instanceof`  判断会失败了，于是在浏览器环境下测试
 
-<!-- ![Untitled 1](./attachments/QmTPaNRUGy8dF2V1zDRFwC8XG4NwV5RTThrJrLBPAexgnd.png) -->
+![Untitled 1](./attachments/QmTPaNRUGy8dF2V1zDRFwC8XG4NwV5RTThrJrLBPAexgnd.png)
 
 控制台输入下，很明显返回是true
 
-<!-- ![Untitled 2](./attachments/QmTZpLAWqn2BCFUdJ71yv3fjpsxyW4McppKbtyoG5W6ZyZ.png) -->
+![Untitled 2](./attachments/QmTZpLAWqn2BCFUdJ71yv3fjpsxyW4McppKbtyoG5W6ZyZ.png)
 
 那为啥小游戏环境下就返回false呢，那就估计是 adapter 的问题了
 
@@ -55,7 +55,7 @@ export class HTMLImageElement extends wx.createImage().constructor {
 
 不熟悉原型链的朋友，可以看下这个图简单理解下（我理解的 instanceof 和 extends 本质就是原型链的查找）
 
-<!-- ![Untitled 3](./attachments/QmXCAMDtuap17gs74GGKBUUqkZBqkMKfquAStbhTXXGfcX.png) -->
+![Untitled 3](./attachments/QmXCAMDtuap17gs74GGKBUUqkZBqkMKfquAStbhTXXGfcX.png)
 
 所以我们直接改成等于就好，不需要 `extends` 
 

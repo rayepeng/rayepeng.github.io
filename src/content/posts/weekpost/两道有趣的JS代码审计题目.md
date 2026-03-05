@@ -12,19 +12,19 @@ lang: ''
 
 
 
-<!-- ![image](./attachments/bafybeib6gtdgp6urih4dt7zt6mfca6ertgpezp4t3s2la64tkgubde43qu.png) -->
+![image](./attachments/bafybeib6gtdgp6urih4dt7zt6mfca6ertgpezp4t3s2la64tkgubde43qu.png)
 
 
  converter
 
 题目是一个网页，如下：
 
-<!-- ![DraggedImage](./attachments/bafkreicxq6a63vkab5pc7j3dfqohlyes54pytwerdfziok4ivddg4tqtye.png) -->
+![DraggedImage](./attachments/bafkreicxq6a63vkab5pc7j3dfqohlyes54pytwerdfziok4ivddg4tqtye.png)
 
 
 POST两个参数， `Input` 即输入的数据， `converter` 代表选择的转换器
 
-<!-- ![DraggedImage-1](./attachments/bafkreia77bzvog2ei6qopoku3sodshr4e6m5nth7e53gmvnhfmtpxd4bha.png) -->
+![DraggedImage-1](./attachments/bafkreia77bzvog2ei6qopoku3sodshr4e6m5nth7e53gmvnhfmtpxd4bha.png)
 
 
 
@@ -76,7 +76,7 @@ POST两个参数， `Input` 即输入的数据， `converter` 代表选择的转
 而我们知道，在JS中，虽然一个对象的属性看上去只有那么点，但是由于JS特有的原型链继承关系，就会导致 `Object` 对象的属性也被继承过来（因此可以逐一去对这些属性做尝试）
 
 
-<!-- ![DraggedImage-2](./attachments/bafkreif5wbhegg25onmmjwsq7qaifyfunmtb3lthkb2benff6hku62nkxe.png) -->
+![DraggedImage-2](./attachments/bafkreif5wbhegg25onmmjwsq7qaifyfunmtb3lthkb2benff6hku62nkxe.png)
 
 
 
@@ -95,7 +95,7 @@ obj.__defineSetter__('a', function(res) {
 
 如果我们定义了 setter ，那么后续赋值的时候， 赋值等式的右边值就会作为 setter 函数的第一个参数传进来
 
-<!-- ![DraggedImage-3](./attachments/bafkreievolezdquoz4oe2tfskwynqusjhjegevsvrpix7ywnuot6rmqunu.png) -->
+![DraggedImage-3](./attachments/bafkreievolezdquoz4oe2tfskwynqusjhjegevsvrpix7ywnuot6rmqunu.png)
 
 
 所以，当我们输入 `input= FLAG_***SESSION*** ` （input并没有不允许输入FLAG字符串），`converter = __defineSetter__ ` 时，代码变为：
@@ -134,7 +134,7 @@ converters[`FLAG_${request.session.sessionId}`] = flagConverter;
 
 回到我们的第一个网页，此时就能看到：
 
-<!-- ![DraggedImage-4](./attachments/bafkreifvhhnyeyudnsmj2orujo7zkcl3qn7hvkfyuudsqq2g5nqpvolroi.png) -->
+![DraggedImage-4](./attachments/bafkreifvhhnyeyudnsmj2orujo7zkcl3qn7hvkfyuudsqq2g5nqpvolroi.png)
 
 
  Kantan Calc
@@ -143,7 +143,7 @@ converters[`FLAG_${request.session.sessionId}`] = flagConverter;
 这道题目也很有意思，是我见过的JS代码审计中比较新颖的，巧妙地用沙箱逃逸来误导你，实际利用的是JS很常见的一个特性
 
 CTF中的经典计算器前端：
-<!-- ![DraggedImage-5](./attachments/bafkreifatxcx4sxx6wowh3ydcpkvwl6fgjorfawfu76mbzdonxsbx2ziha.png) -->
+![DraggedImage-5](./attachments/bafkreifatxcx4sxx6wowh3ydcpkvwl6fgjorfawfu76mbzdonxsbx2ziha.png)
 
 
 

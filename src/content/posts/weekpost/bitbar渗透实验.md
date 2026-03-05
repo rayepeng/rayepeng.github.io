@@ -11,7 +11,7 @@ lang: ''
  bitbar渗透实验
 
 
-<!-- ![lukas-NLSXFjl_nhc-unsplash](./attachments/bafybeianbmupbfbs4haigqrbz2egn4kyv4r2ou2h66a6ecr3ju3lejfd6u.jpeg) -->
+![lukas-NLSXFjl_nhc-unsplash](./attachments/bafybeianbmupbfbs4haigqrbz2egn4kyv4r2ou2h66a6ecr3ju3lejfd6u.jpeg)
 
 本文首发于 https://sec-in.com/article/441
 

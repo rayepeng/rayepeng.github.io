@@ -14,7 +14,7 @@ lang: ''
 
 
 
-<!-- ![Group 1 (1)](./attachments/bafybeiarqugozxrfahcfgwqut56yrh4ycgrjhnkujij2jhw6glptvaj7fm.png) -->
+![Group 1 (1)](./attachments/bafybeiarqugozxrfahcfgwqut56yrh4ycgrjhnkujij2jhw6glptvaj7fm.png)
 
 
  从一个内存规律说起
@@ -23,7 +23,7 @@ lang: ''
 
 比如：[ CE游戏内存修改-爱神花园 ](https://www.nowcoder.com/discuss/352819218934489088)
 
-<!-- ![DraggedImage](./attachments/bafybeiaewaqfm2cnq3oo36svhgz2mx26kxc2jl27s5v3hh7evq7g23hy6a.png) -->
+![DraggedImage](./attachments/bafybeiaewaqfm2cnq3oo36svhgz2mx26kxc2jl27s5v3hh7evq7g23hy6a.png)
 
 这个两倍确实有点令人费解，按照我对编译原理的理解，代码最后变为汇编代码的过程中，虽然会经过常量折叠等操作，但代码中数值是多少，实际内存中的数值也就是那个，比如我们通过CE来修改植物大战僵尸，代码中并未对阳光数值做加密，因此直接搜索数值就可以定位到：
 [ [re入门]ce对植物大战僵尸的修改 ](https://blog.51cto.com/u_15302226/5189504)
@@ -68,7 +68,7 @@ ninja -C out.gn/x64.optdebug
 
 不过v8还做了很多优化，即 `ignition` 与 `turbofan` ，但这些都不在本次讨论范围内
 
-<!-- ![DraggedImage-1](./attachments/bafkreid2uqvx5ii53llefy77rnclbq4khhnlqyb2jeadzgwlbkj6eufmsi.png) -->
+![DraggedImage-1](./attachments/bafkreid2uqvx5ii53llefy77rnclbq4khhnlqyb2jeadzgwlbkj6eufmsi.png)
 
 
 从图中可以看到，最后的结果就是 bytecode，那么这个bytecode长什么样子？
@@ -304,12 +304,12 @@ GPT4也太牛了🥹，完美取代我吧
 
 可以很清晰地定位到，内存数值就是实际运行时数值的两倍（2474 = 1237 \* 2）
 
-<!-- ![DraggedImage-2](./attachments/bafkreidnhzgcxooug3lcnwvmlbqrk6egcqcr35hwacwppnzpjyky5k4woq.png) -->
+![DraggedImage-2](./attachments/bafkreidnhzgcxooug3lcnwvmlbqrk6egcqcr35hwacwppnzpjyky5k4woq.png)
 
 
 修改内存，此时的数值就直接发生变化了
 
-<!-- ![DraggedImage-3](./attachments/bafkreieutfagqsew5zafzr5342fdyudipo3pgy2vt2tc2mtljfj4xqoogq.png) -->
+![DraggedImage-3](./attachments/bafkreieutfagqsew5zafzr5342fdyudipo3pgy2vt2tc2mtljfj4xqoogq.png)
 
 
  对比node.js
@@ -323,9 +323,9 @@ GPT4也太牛了🥹，完美取代我吧
 
 那也不存在什么两倍关系啊？🤔 这不是很正常的，定位到数值后直接修改就好了
 
-<!-- ![DraggedImage-4](./attachments/bafybeieagaloceax56ptto53amql453tq7wur6td2qpsbgxgv7776fomum.png) -->
+![DraggedImage-4](./attachments/bafybeieagaloceax56ptto53amql453tq7wur6td2qpsbgxgv7776fomum.png)
 
-<!-- ![DraggedImage-5](./attachments/bafybeih5ei6q2bh6r3madhytk65u32zlijqbrtpjeuouddl3ugdgkme4nq.png) -->
+![DraggedImage-5](./attachments/bafybeih5ei6q2bh6r3madhytk65u32zlijqbrtpjeuouddl3ugdgkme4nq.png)
 
 
 
@@ -346,12 +346,12 @@ class UserData {
 
 通过CE还是可以定位到：
 
-<!-- ![DraggedImage-6](./attachments/bafkreihw4kycqllv27lg4m35pvvi6vhtltp4niydrnyntz55wh4t5s6fcm.png) -->
+![DraggedImage-6](./attachments/bafkreihw4kycqllv27lg4m35pvvi6vhtltp4niydrnyntz55wh4t5s6fcm.png)
 
 
 并且也能修改：
 
-<!-- ![DraggedImage-7](./attachments/bafkreiaudyut4wv7kl657bahdt5sh5c7fyze2hfzwsx6kqvav7k7z2b5pe.png) -->
+![DraggedImage-7](./attachments/bafkreiaudyut4wv7kl657bahdt5sh5c7fyze2hfzwsx6kqvav7k7z2b5pe.png)
 
 
  对比浏览器
@@ -382,7 +382,7 @@ console.info(_____testArray_____);
 
 拍摄内存快照，点击获取快照即可拍摄下当前的快照
 
-<!-- ![DraggedImage-8](./attachments/bafkreia77nqgdycbax65lm2ui33fbox6opizblkhf7hmn3at3orxrye3om.png) -->
+![DraggedImage-8](./attachments/bafkreia77nqgdycbax65lm2ui33fbox6opizblkhf7hmn3at3orxrye3om.png)
 
 
 在当前页面直接按下 `cmd + F` (对应Windows应该是 `ctfl+ F` ，可以在底部打开搜索窗口
@@ -390,7 +390,7 @@ console.info(_____testArray_____);
 因为我们的代码中出现了 `hello` 字符串，因此直接搜索之，搜到之后，右键在摘要视图中显示，就可以定位到对应的构造函数了
 
 
-<!-- ![DraggedImage-9](./attachments/bafybeiawiyqaqg6zhjj2r3nszkf2guprtqf5qplc5iqhwgjdt3gk5hhv5q.png) -->
+![DraggedImage-9](./attachments/bafybeiawiyqaqg6zhjj2r3nszkf2guprtqf5qplc5iqhwgjdt3gk5hhv5q.png)
 
 
 
@@ -408,7 +408,7 @@ console.info(_____testArray_____);
 
 如果你足够眼尖，应该就能发现，数字9999被标记上了smi number
 
-<!-- ![DraggedImage-10](./attachments/bafkreifrt7vjy4mshwgr36kxw5ufcwqq7yxwfrsgjyuta6ie27xay5lkye.png) -->
+![DraggedImage-10](./attachments/bafkreifrt7vjy4mshwgr36kxw5ufcwqq7yxwfrsgjyuta6ie27xay5lkye.png)
 
 
 
