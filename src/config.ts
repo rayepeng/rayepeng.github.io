@@ -51,6 +51,11 @@ export const navBarConfig: NavBarConfig = {
 			external: true, // Show an external link icon and will open in a new tab
 		},
 		{
+			name: "Running",
+			url: "https://rayepeng.net/workouts_page/", // Internal links should not include the base path, as it is automatically added
+			external: true, // Show an external link icon and will open in a new tab
+		},
+		{
 			name: "GitHub",
 			url: "https://github.com/rayepeng", // Internal links should not include the base path, as it is automatically added
 			external: true, // Show an external link icon and will open in a new tab
