@@ -12,7 +12,7 @@ lang: ''
 
 
 
-<!-- ![unicorn模拟](./attachments/QmSdeMby6JbUMe4GymU6VnJPew4JxUBQTvXaMRCLr3UprN.png) -->
+![unicorn模拟](./attachments/QmSdeMby6JbUMe4GymU6VnJPew4JxUBQTvXaMRCLr3UprN.png)
 
 
  认识模拟执行
@@ -254,13 +254,13 @@ print("最终结果 R3:", mu.reg_read(UC_ARM_REG_R3))
 那肯定是不能直接手动求解啊，于是观察每个迷宫的代码：
 
 
-<!-- ![企业微信截图_4c99ea50-1a32-4a7d-bb22-af38a9bd407c](./attachments/QmeK4eDDFu6AArqF4Cz76epBERwxiajeF56ZqCYdwCoYvP.png) -->
+![企业微信截图_4c99ea50-1a32-4a7d-bb22-af38a9bd407c](./attachments/QmeK4eDDFu6AArqF4Cz76epBERwxiajeF56ZqCYdwCoYvP.png)
 
 
 然后每个函数其实都是读取迷宫数据，再根据你的输入路线判断能否到达终点： 
 
 
-<!-- ![DraggedImage](./attachments/QmaYHzjHwetg3zHBHtWkfuyMwo6TfQQSywaWKtqoaz3C4r.png) -->
+![DraggedImage](./attachments/QmaYHzjHwetg3zHBHtWkfuyMwo6TfQQSywaWKtqoaz3C4r.png)
 
 
 那么就可以编写代码，提取到迷宫数据，然后再通过dfs搜索能否走到迷宫了（其实不用模拟执行也不是不行？毕竟你也可以通过写脚本比如idapython提取迷宫数据，然后再编写代码走迷宫）

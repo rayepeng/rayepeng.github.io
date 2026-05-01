@@ -3,6 +3,7 @@ title: 周报4 泰国、写信、阅读、Midjourney
 published: 2023-05-09
 description: ''
 image: ''
+customSlug: 'weekpost4'
 tags: ['读书', '旅行', 'Review', '周报']
 category: '周报'
 draft: false
@@ -12,7 +13,7 @@ lang: ''
 
 这里记录的是raye在2023年，4.26-5.7这段时间的记录与故事。
 
-<!-- ![Untitled](./attachments/bafybeigxeskwfhbe7bf77jveb7k6rxt6gv33d2v5h7l7yxkeyswx6l33ai.png.png) -->
+![Untitled](./attachments/bafybeigxeskwfhbe7bf77jveb7k6rxt6gv33d2v5h7l7yxkeyswx6l33ai.png)
 
 
 封面图 via Midjourney
@@ -26,19 +27,19 @@ lang: ''
 4.29日在曼谷飞往普吉的飞机上，无意中瞥到自己在地图上的定位，一是感慨自己在地球上的位置终于有了变化，二来会感觉到自己真的好渺小。“寄蜉蝣于天地，渺沧海之一粟”
 
 
-<!-- ![Untitled 1](./attachments/bafybeiawvsnjdn6hwhigososnlp244nf7yy7pnzqumz74agwxw4ocdbjfe.png) -->
+![Untitled 1](./attachments/bafybeiawvsnjdn6hwhigososnlp244nf7yy7pnzqumz74agwxw4ocdbjfe.png)
 
 
 去泰国的起因在之前的文章中有提到，当我在返程的飞机上重温《斑马》时，才知读万卷书，行万里路的这句话背后的分量：
 
 
-<!-- ![Untitled 1](./attachments/bafkreie7lwlgtj2u6kjbg6pdt3azukpqfsc223jjgdxpycrbmy5brnr6y4.jpeg) -->
+![Untitled 1](./attachments/bafkreie7lwlgtj2u6kjbg6pdt3azukpqfsc223jjgdxpycrbmy5brnr6y4.jpeg)
 
-<!-- ![Untitled 2](./attachments/bafkreif4ofh6gppjk66dwwi5kn2qaece6q5xfbx4fo2dwgov4af5hdkwgm.jpeg) -->
+![Untitled 2](./attachments/bafkreif4ofh6gppjk66dwwi5kn2qaece6q5xfbx4fo2dwgov4af5hdkwgm.jpeg)
 
-<!-- ![Untitled 3](./attachments/bafkreie2d2fcj2i2vspc2v2cfnoe5uesf6kt4mfxqichwufpfqnyxyt3nu.jpeg) -->
+![Untitled 3](./attachments/bafkreie2d2fcj2i2vspc2v2cfnoe5uesf6kt4mfxqichwufpfqnyxyt3nu.jpeg)
 
-<!-- ![Untitled](./attachments/bafkreifoxp5fc7cyzbizt5b2kohtdx5fv2niiwtzdnjlxbpxblbszoiwey.jpeg) -->
+![Untitled](./attachments/bafkreifoxp5fc7cyzbizt5b2kohtdx5fv2niiwtzdnjlxbpxblbszoiwey.jpeg)
 
 摩的、tutu车、芒果、辣椒、椰奶、热气，按摩店，傅真笔下的曼谷，若只停留在纸面的理解上，是无法真正读懂这些文字的。中学时代，常常有各种各样的阅读理解题，让我们体会作者的心境，亦或是联系实际作答。那个时候碍于生活阅历和情商，我无法理解老师或者标准层答案中那些模糊概念，依我看，语文课的教学，如果只限于课堂上老师口干舌燥，连篇累牍的讲解，那真无异于填鸭式教学。只有真正走进作者笔下的那个世界，才能体会其中所蕴含的感情。
 
@@ -59,9 +60,9 @@ lang: ''
 不过斯米兰群岛的景色着实让我惊讶，太美了！
 
 
-<!-- ![Untitled 4](./attachments/bafkreigjc7ryg6dipuzjhrgue6gbwqg4qdugqkcgqbwcfgvxroxrglx4ga.jpeg) -->
+![Untitled 4](./attachments/bafkreigjc7ryg6dipuzjhrgue6gbwqg4qdugqkcgqbwcfgvxroxrglx4ga.jpeg)
 
-<!-- ![Untitled 5](./attachments/bafkreicp4fivsmrz6w3hxkwnc5ghngiimumetblfg3hqg5ho32dc2oucxy.jpeg) -->
+![Untitled 5](./attachments/bafkreicp4fivsmrz6w3hxkwnc5ghngiimumetblfg3hqg5ho32dc2oucxy.jpeg)
 
  写信
 
@@ -83,11 +84,11 @@ lang: ''
 
 先放几个自认为觉得还不错的AI作品：(虽然我并非肥宅，但是二次元的女性都好好看啊）
 
-<!-- ![Untitled 4](./attachments/bafybeigxeskwfhbe7bf77jveb7k6rxt6gv33d2v5h7l7yxkeyswx6l33ai.png.png) -->
+![Untitled 4](./attachments/bafybeigxeskwfhbe7bf77jveb7k6rxt6gv33d2v5h7l7yxkeyswx6l33ai.png)
 
-<!-- ![Untitled 2](./attachments/bafybeiach3fm6n4sr42viucv4vjtcg7dycslablqschenpxsadeu3eboni.png) -->
+![Untitled 2](./attachments/bafybeiach3fm6n4sr42viucv4vjtcg7dycslablqschenpxsadeu3eboni.png)
 
-<!-- ![Untitled 3](./attachments/bafybeicxo5kkxdlux5yydg6fvofofdl7xhyktjgjs4gydu735wqcfk75da.png) -->
+![Untitled 3](./attachments/bafybeicxo5kkxdlux5yydg6fvofofdl7xhyktjgjs4gydu735wqcfk75da.png)
 
 
 一些目前总结到的要点如下：
@@ -130,7 +131,7 @@ https://t.me/+4G9ohagz0iE1N2Q1
 类似这样的风格
 
 
-<!-- ![telegram-cloud-photo-size-5-6246581310269273534-y](./attachments/bafkreidkx5rhz35ekbdxu3kgnds36fcqygnae56bqtk2qptfstcqikumia.jpeg) -->
+![telegram-cloud-photo-size-5-6246581310269273534-y](./attachments/bafkreidkx5rhz35ekbdxu3kgnds36fcqygnae56bqtk2qptfstcqikumia.jpeg)
 
 
 []()

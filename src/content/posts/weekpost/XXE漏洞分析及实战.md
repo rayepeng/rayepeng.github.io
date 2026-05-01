@@ -11,7 +11,7 @@ lang: ''
  XXE漏洞分析及实战
 
 
-<!-- ![XXE](./attachments/bafkreibpyhsxugvx3jngnspcbweekp5asywvwpv72nybem7naignkt5mz4.png) -->
+![XXE](./attachments/bafkreibpyhsxugvx3jngnspcbweekp5asywvwpv72nybem7naignkt5mz4.png)
 
  常用payload分析
 
@@ -50,7 +50,7 @@ var_dump($creds);
 <root></root>
 ```
 
-<!-- ![DraggedImage](./attachments/bafkreiarflv5okukw4dy22eev3qlaad7kzwx25ueejx3kl7narps3walkm.png) -->
+![DraggedImage](./attachments/bafkreiarflv5okukw4dy22eev3qlaad7kzwx25ueejx3kl7narps3walkm.png)
 
 嵌套也是不行的
 
@@ -70,7 +70,7 @@ var_dump($creds);
 
 本地的8001端口开一个web服务，
 
-<!-- ![DraggedImage-1](./attachments/bafkreihrsrf3xj4fkewy5slilakd63vxusorh2dr2tmwyk6cs7nmaozfyq.png) -->
+![DraggedImage-1](./attachments/bafkreihrsrf3xj4fkewy5slilakd63vxusorh2dr2tmwyk6cs7nmaozfyq.png)
 
 
 `local.xml` 文件内容：
@@ -95,7 +95,7 @@ var_dump($creds);
 
 然后就可以在8887端口接收到数据了
 
-<!-- ![DraggedImage-2](./attachments/bafkreihkp5pbygyf7nk6yss2v25srqsvztx5343zfkiuxjce2o2it3p7yu.png) -->
+![DraggedImage-2](./attachments/bafkreihkp5pbygyf7nk6yss2v25srqsvztx5343zfkiuxjce2o2it3p7yu.png)
 
 
 换一种 `payload` 也行
@@ -136,7 +136,7 @@ DTD文件
 ```
 
 
-<!-- ![image](./attachments/bafkreidydytastdjupui3uto5mhvuhibr5kykafhiajnf5wxoboot7hn2a.png) -->
+![image](./attachments/bafkreidydytastdjupui3uto5mhvuhibr5kykafhiajnf5wxoboot7hn2a.png)
 
 
  XXE探测内网
@@ -243,7 +243,7 @@ pom.xml
 
 
 
-<!-- ![image](./attachments/bafkreige33gaqt6gt3xpt4qvbkrsrr7pfts7jnckiaxtbwmotgr3kc5dda.png) -->
+![image](./attachments/bafkreige33gaqt6gt3xpt4qvbkrsrr7pfts7jnckiaxtbwmotgr3kc5dda.png)
 
 准备DTD文件
 
@@ -255,13 +255,13 @@ pom.xml
 会读取文件，然后将其发送到8887端口上
 
 
-<!-- ![image](./attachments/bafkreiagmltdrids3l6nczwwokd3inj5tjnp7fhqjdmjizdy6dp4kums5y.png) -->
+![image](./attachments/bafkreiagmltdrids3l6nczwwokd3inj5tjnp7fhqjdmjizdy6dp4kums5y.png)
 
 
 监听得到的flag
 
 
-<!-- ![image](./attachments/bafkreie6sk6ylq4lvc7bnyvhikae2y2tgl5n6llh5wuc5w6ujv6hvwgm4i.png) -->
+![image](./attachments/bafkreie6sk6ylq4lvc7bnyvhikae2y2tgl5n6llh5wuc5w6ujv6hvwgm4i.png)
 
 
  参考

@@ -13,7 +13,7 @@ lang: ''
 
 先放一张原型链的图压压惊
 
-<!-- ![image](./attachments/bafkreicd7nqigjq6obpj7ex73p2z4nkybzwcv4ugqutoobwjphyy5jj4ve.png) -->
+![image](./attachments/bafkreicd7nqigjq6obpj7ex73p2z4nkybzwcv4ugqutoobwjphyy5jj4ve.png)
 
 
  redpwnctf 2019 blueprint
@@ -536,4 +536,4 @@ require('flat').unflatten({'__proto__.path'})
 
 
 
-<!-- ![](./attachments/bafybeifualutwd32jzcxgzhzwp6etzy3hmtjmi2ke3bh7fkgmop5tiegwe.png) -->
+![](./attachments/bafybeifualutwd32jzcxgzhzwp6etzy3hmtjmi2ke3bh7fkgmop5tiegwe.png)

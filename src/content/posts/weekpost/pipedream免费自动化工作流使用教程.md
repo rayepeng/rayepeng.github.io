@@ -12,12 +12,12 @@ lang: ''
 
 
 
-<!-- ![biaoti12](./attachments/QmaonsSA7u6Lh1znWVXp9N21h7Pyfn8hUhXkZ4ceL9Nrkm.png) -->
+![biaoti12](./attachments/QmaonsSA7u6Lh1znWVXp9N21h7Pyfn8hUhXkZ4ceL9Nrkm.png)
 
 
 日常的n8n其实经常要崩，看通知我都看烦了（
 
-<!-- ![Untitled](./attachments/QmfGmgGg8zn9rcnC4RGufH5DoKWYnDHpGpLgai1mWFSB8S.png) -->
+![Untitled](./attachments/QmfGmgGg8zn9rcnC4RGufH5DoKWYnDHpGpLgai1mWFSB8S.png)
 
 
 IFTTT虽然好用，但还是稍显简陋，免费版最多支持两个，于是搜索了下还有一个免费的平台叫 pipedream（貌似可以同时运行5个工作流，只是限制了每天调用100次数，不过这也够了）
@@ -34,30 +34,30 @@ IFTTT虽然好用，但还是稍显简陋，免费版最多支持两个，于是
 
 1. rss的节点，只需要提供一个url，自动解析其中的数据
 
-<!-- ![Untitled 1](./attachments/QmWMaEWPVDrfPbmoXkQ14ikyhPb5o86mqEa61iu4L9Vm5p.png) -->
+![Untitled 1](./attachments/QmWMaEWPVDrfPbmoXkQ14ikyhPb5o86mqEa61iu4L9Vm5p.png)
 
 1. 对数据去重，这里需要写点代码，比较繁琐，放到后面专门讲
 
-<!-- ![Untitled 2](./attachments/QmauUYriEpUpdnqJ4TML1jTR4hLfPRfLnPi6pn5ersnpoS.png) -->
+![Untitled 2](./attachments/QmauUYriEpUpdnqJ4TML1jTR4hLfPRfLnPi6pn5ersnpoS.png)
 
 
 1. 条件判断，针对去重后的数据判断是否有值，如果没有直接返回
 
-<!-- ![Untitled 3](./attachments/QmVjrkDQPkPHC3JKgXwMCh2kFnuzsDvbksbwRz93ixjjco.png) -->
+![Untitled 3](./attachments/QmVjrkDQPkPHC3JKgXwMCh2kFnuzsDvbksbwRz93ixjjco.png)
 
 
 1. 发送tg消息
 
-<!-- ![Untitled 4](./attachments/Qmb3sF5hobe9aHki7WfLxK2AoJzpz23WymaHK8vcSQSis7.png) -->
+![Untitled 4](./attachments/Qmb3sF5hobe9aHki7WfLxK2AoJzpz23WymaHK8vcSQSis7.png)
 
 
  数据存储及去重
 
 pipedream提供了一个专门用于存储数据的页面，可以可视化地查看存储的数据，这一点比n8n要好
 
-<!-- ![Untitled 5](./attachments/Qmeuo1UDYtvfiUUmLMvWgYRwTAfiJYDYihepDkV1MmWr6p.png) -->
+![Untitled 5](./attachments/Qmeuo1UDYtvfiUUmLMvWgYRwTAfiJYDYihepDkV1MmWr6p.png)
 
-<!-- ![Untitled 6](./attachments/QmUvuT6B51ENc4Ma9QKRTQWWhCSGhBh9KXhpTP2Sf1n6rw.png) -->
+![Untitled 6](./attachments/QmUvuT6B51ENc4Ma9QKRTQWWhCSGhBh9KXhpTP2Sf1n6rw.png)
 
 
 推荐每个工作流都有一个数据存储位置，你可以将其理解为一个简单的kv缓存
@@ -272,10 +272,10 @@ export default defineComponent({
 
 点一下刷新field
 
-<!-- ![Untitled 7](./attachments/QmNyuGTzdyma88iGrt538WLbdcgq4pthWwuDQXnfToQqXt.png) -->
+![Untitled 7](./attachments/QmNyuGTzdyma88iGrt538WLbdcgq4pthWwuDQXnfToQqXt.png)
 
 然后上方就出现了这些框框，自行编辑
-<!-- ![Untitled 8](./attachments/Qmbbve8Cef1oXMK9pdhgkPiMQMzDuAX5BRry2jLPTeEBQk.png) -->
+![Untitled 8](./attachments/Qmbbve8Cef1oXMK9pdhgkPiMQMzDuAX5BRry2jLPTeEBQk.png)
 
 
 1. 第一次启动工作流
@@ -284,12 +284,12 @@ export default defineComponent({
 
 于是，建议这样
 
-<!-- ![Untitled 9](./attachments/QmTbghJw4sk347TnEscwe2vwP7iDFcioJXEGMEAZrupAHE.png) -->
+![Untitled 9](./attachments/QmTbghJw4sk347TnEscwe2vwP7iDFcioJXEGMEAZrupAHE.png)
 
 
 在db中，手动粘贴下这个值（因为批量发送的时候会对比，如果和db里的一样就不会再发送了）
 
-<!-- ![Untitled 10](./attachments/QmUvQ3fnJLVrHCo2RnRdaXZPES4kCDdeMFXk7d4koCNm2B.png) -->
+![Untitled 10](./attachments/QmUvQ3fnJLVrHCo2RnRdaXZPES4kCDdeMFXk7d4koCNm2B.png)
 
 
 好了，现在就大功告成了，不得不说运行速度还是比n8n要快多了（

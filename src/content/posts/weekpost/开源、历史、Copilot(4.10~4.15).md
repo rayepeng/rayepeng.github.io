@@ -11,7 +11,7 @@ lang: ''
  开源、历史、Copilot(4.10~4.15)
 
 
-<!-- ![220541](./attachments/bafybeibxdsx4ko2ined5stcjoepinehviati6xmkx5u4hpwgknufj2dqgy.png) -->
+![220541](./attachments/bafybeibxdsx4ko2ined5stcjoepinehviati6xmkx5u4hpwgknufj2dqgy.png)
 
 封面图 via AI
 

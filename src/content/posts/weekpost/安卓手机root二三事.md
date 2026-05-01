@@ -3,6 +3,7 @@ title: 安卓手机root二三事
 published: 2023-08-20
 description: ''
 image: ''
+customSlug: 'android-1'
 tags: ['Magisk', '安卓', '编程']
 category: '折腾'
 draft: false
@@ -11,7 +12,7 @@ lang: ''
  安卓手机root二三事
 
 
-<!-- ![image](./attachments/bafybeifgjefxe3lg7etu224zc6w7gc7h7bh2mustbk6ixf6i4q5kdn24ue.png) -->
+![image](./attachments/bafybeifgjefxe3lg7etu224zc6w7gc7h7bh2mustbk6ixf6i4q5kdn24ue.png)
 
 
 起因是这样的，很久之前（大概1年前吧），有一部Google Pixel5手机，是拿来做测试的。自然是少不了折腾，magisk、太极等都安排上。结果在一次操作失误后，把手机重置了。于是又只能重来一遍，结果在刷入Magisk的时候失败了，导致手机无限重启，当时还挺后悔，想着用不了了，后来就晾在一边没管了。
@@ -37,7 +38,7 @@ https://twitter.com/rayepeng_/status/1691006785803673600?s=20
 
 
 
-<!-- ![DraggedImage](./attachments/bafkreigq56epxxsxn63hhu3mq63u5mdzfnr66lolgif7zeay5kvie7gmr4.png) -->
+![DraggedImage](./attachments/bafkreigq56epxxsxn63hhu3mq63u5mdzfnr66lolgif7zeay5kvie7gmr4.png)
 
 
 既然跟分区相关，那就得了解下分区是什么
@@ -123,7 +124,7 @@ fastboot flash recovery recovery.img
 只需要确定好手机版本号即可（不像小米，还需要有积分才能申请到开发版）
 
 
-<!-- ![DraggedImage-1](./attachments/bafkreifccn2x5h2hskodtyqih43crgdukjpebb5camebawsgqzny4ef6za.png) -->
+![DraggedImage-1](./attachments/bafkreifccn2x5h2hskodtyqih43crgdukjpebb5camebawsgqzny4ef6za.png)
 
 
 下载好，解压找到 `boot.img` ，传入手机，通过 Magisk Manage 打patch，导出。

@@ -11,7 +11,7 @@ lang: ''
  我不太想看B站了
 
 
-<!-- ![bilibili](./attachments/QmZTyw3JZVphw5yKTHk1R8en7WvsdB9cW3ywQuZ343Ub6p.png) -->
+![bilibili](./attachments/QmZTyw3JZVphw5yKTHk1R8en7WvsdB9cW3ywQuZ343Ub6p.png)
 
 
 本篇为日常记录的一些丧话，只代表那一刻我的观点，与现在的我无关🐶

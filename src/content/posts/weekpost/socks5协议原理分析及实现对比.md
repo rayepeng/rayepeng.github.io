@@ -3,6 +3,7 @@ title: socks5协议原理分析及实现对比
 published: 2023-04-10
 description: ''
 image: ''
+customSlug: 'socks5'
 tags: []
 category: '编程'
 draft: false
@@ -11,7 +12,7 @@ lang: ''
  socks5协议原理分析及实现对比
 
 
-<!-- ![scoks5xieyi](./attachments/QmQYVJ5LrzJoGnb91Ch5vV5PWCWcFDiWP4nAFjB2HfPXUu.png) -->
+![scoks5xieyi](./attachments/QmQYVJ5LrzJoGnb91Ch5vV5PWCWcFDiWP4nAFjB2HfPXUu.png)
 
 
  socks5隧道原理
@@ -38,7 +39,7 @@ lang: ''
 
 类似的在安全渗透中还有一种HTTP隧道，即将利用HTTP协议的某些特性（如chunked），建立一条HTTP隧道，传输HTTP通信数据（禁止套娃/doge) ，不过这是后话了，本文只研究socks网络隧道
 
-<!-- ![Untitled](./attachments/bafkreidhmwcilj65gxilxqcpyfr6hbswcguykr6vqpqypzx563y2jixmpi.png) -->
+![Untitled](./attachments/bafkreidhmwcilj65gxilxqcpyfr6hbswcguykr6vqpqypzx563y2jixmpi.png)
 
 从上述的类比中可以看到，**socks网络隧道建立的条件如下：**
 
@@ -74,7 +75,7 @@ SOCKS5 隧道的主要优点是提供了一种通用的网络代理解决方案�
 在`golang`中，实现一个代理服务器很简单，只需要 `net.Listen` 即可开启一个端口，开启端口后的server只需要不断地 `Accept` ，每来一个就开一个 `goroutine`
 
 
-<!-- ![Untitled 1](./attachments/bafkreiebmqlggjfcuvbsyjhprnww5vfrk2d4nsizswd4l4643xvff7yd2e.png) -->
+![Untitled 1](./attachments/bafkreiebmqlggjfcuvbsyjhprnww5vfrk2d4nsizswd4l4643xvff7yd2e.png)
 
 ```go
 func main() {
@@ -124,9 +125,9 @@ socks5协议本质上还是个应用层协议，数据会被打包到TCP 数据�
 
 
 
-<!-- ![Untitled 2](./attachments/bafkreidb75fc2zvvjlmyaxyohnx66d5czvr2kiq4yvhj4lt3d5kdgohbaq.png) -->
+![Untitled 2](./attachments/bafkreidb75fc2zvvjlmyaxyohnx66d5czvr2kiq4yvhj4lt3d5kdgohbaq.png)
 
-<!-- ![Untitled 5](./attachments/bafybeibh4ylvhtjv6hiyebsrgnp7znutab37b3yxwwmr5ua3opwre6wu4m.png.png) -->
+![Untitled 5](./attachments/bafybeibh4ylvhtjv6hiyebsrgnp7znutab37b3yxwwmr5ua3opwre6wu4m.png)
 
 
  socks5auth 先找到施工队
@@ -206,7 +207,7 @@ async fn socks5_auth(client: &mut TcpStream) -> Result<(), Box<dyn std::error::E
  socks5connect 开始挖隧道
 
 
-<!-- ![Untitled 3](./attachments/bafkreidh5dssndg7cgvluivaueijl42ou7ghe43zl5av7tw23eawcnp27i.png) -->
+![Untitled 3](./attachments/bafkreidh5dssndg7cgvluivaueijl42ou7ghe43zl5av7tw23eawcnp27i.png)
 
 
 协议细节如下（数字表示字节长度）：
@@ -339,7 +340,7 @@ async fn socks5_connect(client: &mut TcpStream) -> Result<TcpStream, Box<dyn std
  socks5forward 隧道通车啦
 
 
-<!-- ![Untitled 4](./attachments/bafkreiacakhhpanw6hridhbcxz5hig3pjn7qlivxkrzyu2tszqkms3wmwe.png) -->
+![Untitled 4](./attachments/bafkreiacakhhpanw6hridhbcxz5hig3pjn7qlivxkrzyu2tszqkms3wmwe.png)
 
 此时我们就要让客户端的client和远端的target建立连接，等于是把这个隧道拼接起来，怎么说有点类似于詹天佑当年开凿京张铁路隧道时所用的两端并进的策略
 
@@ -392,7 +393,7 @@ let (mut cr, mut cw) = client.split();
 
 
 
-<!-- ![Untitled 5](./attachments/bafybeibh4ylvhtjv6hiyebsrgnp7znutab37b3yxwwmr5ua3opwre6wu4m.png.png) -->
+![Untitled 5](./attachments/bafybeibh4ylvhtjv6hiyebsrgnp7znutab37b3yxwwmr5ua3opwre6wu4m.png)
 
 
 
@@ -509,7 +510,7 @@ Percentage of the requests served within a certain time (ms)
 ```
 
 看来 goroutine 选手终是更胜一筹 
-<!-- ![Untitled 6](./attachments/bafkreidfbniyu2gtx54bvrbm574h6c4mj2pmq3jnlrjs6xyyu2bfv742bq.png) -->
+![Untitled 6](./attachments/bafkreidfbniyu2gtx54bvrbm574h6c4mj2pmq3jnlrjs6xyyu2bfv742bq.png)
 
 
 参考：
@@ -519,5 +520,3 @@ Percentage of the requests served within a certain time (ms)
 [http://www.moye.me/2017/08/03/analyze-socks5-protocol/](http://www.moye.me/2017/08/03/analyze-socks5-protocol/)
 
 [https://zgao.top/奇安信实习五-socks5协议抓包分析/](https://zgao.top/%E5%A5%87%E5%AE%89%E4%BF%A1%E5%AE%9E%E4%B9%A0%E4%BA%94-socks5%E5%8D%8F%E8%AE%AE%E6%8A%93%E5%8C%85%E5%88%86%E6%9E%90/)
-
-[]()
