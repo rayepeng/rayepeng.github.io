@@ -49,6 +49,7 @@
     "vue": "^3.5.12"
   },
   "devDependencies": {
+    "@astrojs/mdx": "^3.1.9",
     "@iconify/json": "^2.2.273",
     "@types/d3-hierarchy": "^3.1.7",
     "@types/d3-shape": "^3.1.6",

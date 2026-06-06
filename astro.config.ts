@@ -1,11 +1,13 @@
 import { defineConfig } from 'astro/config'
 import vue from '@astrojs/vue'
+import mdx from '@astrojs/mdx'
 import UnoCSS from '@unocss/astro'
 
 import rehypeSlug from 'rehype-slug'
 import rehypeAutolinkHeadings from 'rehype-autolink-headings'
 import rehypeExternalLinks from 'rehype-external-links'
 import remarkGithubAlerts from 'remark-github-alerts'
+import rehypeShikiClass from './src/plugins/rehype-shiki-class.mjs'
 
 import {
   transformerNotationDiff,
@@ -20,7 +22,7 @@ export default defineConfig({
   integrations: [
     UnoCSS({ injectReset: true }),
     vue({ appEntrypoint: '/src/vue-app-entrypoint.ts' }),
-    // sitemap() — re-enable in P9 once we have real pages
+    mdx(),
   ],
   markdown: {
     syntaxHighlight: 'shiki',
@@ -41,12 +43,16 @@ export default defineConfig({
       remarkGithubAlerts,
     ],
     rehypePlugins: [
+      // Rename Astro's `astro-code` to `.shiki` so antfu.me's markdown.css applies.
+      rehypeShikiClass,
       rehypeSlug,
       [
         rehypeAutolinkHeadings,
         {
-          behavior: 'wrap',
-          properties: { className: ['anchor'], ariaHidden: 'true' },
+          // Append a discreet `#` after each heading, matching antfu.me.
+          behavior: 'append',
+          properties: { className: ['header-anchor'], ariaHidden: 'true', tabIndex: -1 },
+          content: { type: 'text', value: '#' },
         },
       ],
       [

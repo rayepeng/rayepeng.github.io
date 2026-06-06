@@ -1,0 +1,50 @@
+---
+title: P3 — MDX Pipeline Demo
+date: 2026-06-06
+description: Demonstrating MDX with Vue components, headings, magic links, and code blocks.
+lang: en
+---
+import MagicLink from '~/components/MagicLink.vue'
+
+This page exists to **verify P3** of the astrofu migration plan:
+the Markdown pipeline has been upgraded to MDX, headings get clickable `#`
+anchors via `rehype-autolink-headings` (`behavior: 'append'`), code blocks
+carry the `.shiki` class so the antfu.me `markdown.css` rules light up,
+and MDX components hydrate as Vue islands.
+
+## Magic links
+
+Inline tech name with a logo: <MagicLink to="Vue" client:visible />,
+<MagicLink to="Vite" client:visible />, <MagicLink to="Astro" client:visible />,
+<MagicLink to="UnoCSS" client:visible />.
+
+## Code with notation transformers
+
+```ts
+function greet(name: string) {
+  console.log('hello', name) // [!code highlight]
+  return `hi, ${name}`
+}
+
+greet('astrofu')
+```
+
+```diff
+- const old = 'antfu.me on Vite-SSG'
++ const next = 'astrofu on Astro'
+```
+
+## GitHub-style alert
+
+> [!NOTE]
+> If you can read this in a tinted box with an `i` icon and a colored left
+> border, then `remark-github-alerts` is wired up correctly.
+
+> [!TIP]
+> The `## Magic links` heading above should have a small `#` to its right
+> on hover — that is `rehype-autolink-headings` in `append` mode.
+
+## Inline `code` and a link
+
+This paragraph contains `inline code` and an external link to
+[the Astro docs](https://docs.astro.build) — which should open in a new tab.

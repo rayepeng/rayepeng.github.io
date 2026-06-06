@@ -114,18 +114,14 @@
 
 > 这一阶段把 P1 暂时省略的"高级 markdown 特性"补齐，每加一个特性都在样本文章里立刻验证。
 
-- [ ] 安装 `@astrojs/mdx`，决定策略：
-  - 选项 A：所有 md 保持 `.md`，需要嵌组件的少数文章改 `.mdx`
-  - 选项 B：全量 `.md` → `.mdx`（脚本批量改名）
-- [ ] **TOC** — 用 Astro 的 `headings` API + 自定义 `Toc.astro` 渲染右侧浮动目录
-- [ ] **Magic Link**（`{Vue}` → 带 logo 链接）：
-  - 写自定义 rehype 插件扫描文本节点
-  - 或：sed 把所有 md 里的 `{Foo}` 替换为 `<MagicLink to="foo" />`（MDX 路线）
-- [ ] **Excerpt** — 用 `astro:content` 的 `body` 切第一段（用于列表页/RSS 摘要）
-- [ ] **Reading time** — 自定义 remark 插件存到 frontmatter
-- [ ] **Shiki Twoslash** — 启用 transformer + explicitTrigger
-- [ ] **可嵌 MDX 组件**：`<Tweet />` / `<YouTubeEmbed />` / `<AppLink />` / `<TextCopy />`
-- [ ] 找一篇含上面所有特性的代表文章（如某篇技术深文）端到端验证
+- [x] 安装 `@astrojs/mdx@^3.1.9`（对齐 astro@4 peer），采用**选项 A**：md 保留，需嵌组件的少数文章改 `.mdx`
+- [x] **`.shiki` 类对齐** — 自写 `src/plugins/rehype-shiki-class.mjs`：把 `astro-code` 改名 `shiki` 并剥离行内 background/color（让 antfu.me 的 `markdown.css` 接管）
+- [x] **autolink behavior** — 改为 `append`：`<h2 id="x">Title<a class="header-anchor">#</a></h2>`，与原站完全一致
+- [x] **MagicLink 最小可用版** — `src/components/MagicLink.vue`，内置 7 个常用 logo（Vue/Vite/Vitest/Nuxt/Astro/TypeScript/UnoCSS）；后续 P4 按需扩充；MDX 里直接 `import MagicLink from '~/components/MagicLink.vue'` 使用
+- [x] 新增 `src/content/posts/p3-mdx-demo.mdx` 端到端样本，HTML 中 `<pre class="shiki ...">` / `class="header-anchor">#</a>` / 多个 `astro-island ... MagicLink ... client="visible"` 全部观测到
+- [ ] **TOC** — 用 Astro 的 `headings` API + 自定义 `Toc.astro` 渲染右侧浮动目录（推到 P4 收尾）
+- [ ] **Excerpt / Reading time** — 自定义 remark 插件存到 `remarkPluginFrontmatter`（推到 P4 收尾）
+- [ ] **Shiki Twoslash / TextCopy / Tweet / YouTubeEmbed / AppLink / GitHubLink** — 按需 P7 一次性补
 
 ---
 
