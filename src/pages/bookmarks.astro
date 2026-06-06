@@ -1,12 +1,69 @@
 ---
 import Default from '~/layouts/Default.astro'
+
+const items = [
+  { category: 'Design', links: [
+    { name: 'Font Playground', url: 'https://play.typedetail.com/' },
+  ]},
+  { category: 'Color', links: [
+    { name: 'Scale', url: 'https://hihayk.github.io/scale/' },
+    { name: 'Wheel', url: 'https://hihayk.github.io/wheel/' },
+    { name: 'Adobe Color', url: 'https://color.adobe.com/' },
+    { name: 'NIPPON COLORS - 日本の伝統色', url: 'https://nipponcolors.com/' },
+    { name: 'terminal.sexy', url: 'https://terminal.sexy/' },
+  ]},
+  { category: 'Dev', links: [
+    { name: "Rico's cheatsheets", url: 'https://devhints.io/' },
+    { name: 'Perflink', url: 'https://perf.link/', desc: 'JS Benchmarks' },
+    { name: 'Regex 101', url: 'https://regex101.com/' },
+    { name: 'RegExper', url: 'https://regexper.com/', desc: 'Regex Visualizer' },
+    { name: 'Bundle Phobia', url: 'https://bundlephobia.com/', desc: 'Check your npm package size' },
+    { name: 'transform', url: 'https://transform.tools/', desc: 'Collection of code transformers' },
+  ]},
+  { category: 'CSS', links: [
+    { name: 'Magic of CSS', url: 'https://adamschwartz.co/magic-of-css/' },
+    { name: 'CSS Vocabulary', url: 'http://apps.workflower.fi/vocabs/css/en' },
+    { name: '1-Line Layouts', url: 'http://1linelayouts.glitch.me/' },
+    { name: 'Easing functions', url: 'https://easings.net/' },
+  ]},
+  { category: 'Resources', links: [
+    { name: 'World Vector Logo', url: 'https://worldvectorlogo.com/' },
+    { name: 'Icônes', url: 'http://icones.js.org/' },
+  ]},
+  { category: 'Naming', links: [
+    { name: 'npm name check', url: 'https://remarkablemark.org/npm-package-name-checker/' },
+    { name: 'translate to multiple languages', url: 'https://smodin.me/translate-one-text-into-multiple-languages' },
+  ]},
+  { category: 'Misc Tools', links: [
+    { name: 'Tailwind Gradient Designer', url: 'https://tailwind-gradient-designer.csspost.com/' },
+    { name: 'Open UI', url: 'https://open-ui.org/', desc: 'Comparison between different component frameworks' },
+    { name: 'Isoflow', url: 'https://isoflow.io/' },
+    { name: 'Hemingway', url: 'http://www.hemingwayapp.com/', desc: 'Text Editor' },
+    { name: 'Reactive Resume', url: 'https://rxresu.me/' },
+    { name: 'Timebuddy', url: 'https://www.worldtimebuddy.com/' },
+  ]},
+  { category: 'Awesome Websites', links: [
+    { name: 'Immersive Garden', url: 'https://immersive-g.com/' },
+    { name: 'The Polygon Shredder', url: 'https://www.clicktorelease.com/code/polygon-shredder/' },
+    { name: 'The 8s', url: 'https://www.the8s.com.au/' },
+  ]},
+]
 ---
 
 <Default title="Bookmarks - Anthony Fu" description="Anthony Fu's bookmarks">
-  <div class="prose m-auto slide-enter-content">
+  <div class="prose m-auto slide-enter-content" style="--enter-stage: 0; --enter-step: 0;">
     <h1>Bookmarks</h1>
-    <p class="op50 text-sm">
-      <em>{'⏳ Bookmarks page scaffold — content migration pending.'}</em>
-    </p>
+    <p class="op-50 text-lg">Some of my favorite websites/tools with excellent design and UX that I highly recommend</p>
+
+    {items.map(group => (
+      <div>
+        <h3>{group.category}</h3>
+        <ul>
+          {group.links.map(link => (
+            <li><a href={link.url} target="_blank" rel="noopener noreferrer">{link.name}</a>{link.desc ? ` — ${link.desc}` : ''}</li>
+          ))}
+        </ul>
+      </div>
+    ))}
   </div>
 </Default>

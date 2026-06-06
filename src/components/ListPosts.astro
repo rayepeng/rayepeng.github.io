@@ -9,7 +9,8 @@ import { formatDate } from '~/logics'
  */
 
 interface PostItem {
-  slug: string
+  slug?: string
+  path?: string
   title: string
   date: string
   lang?: string
@@ -50,8 +51,8 @@ function getGroupName(p: PostItem) {
   )}
   {sorted.map((post, idx) => {
     const prev = idx > 0 ? sorted[idx - 1] : undefined
-    const isExt = post.redirect || post.slug.startsWith('http')
-    const href = post.redirect || `/posts/${post.slug}`
+    const isExt = post.redirect || (post.slug || post.path || '').startsWith('http')
+    const href = post.redirect || post.path || `/posts/${post.slug}`
     return (
       <>
         {!isSameGroup(post, prev) && (

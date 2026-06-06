@@ -228,38 +228,39 @@
 - [ ] 验证暗色模式下图片预览（ImageZoom）功能正常
 - [ ] git commit 本阶段
 
-#### 待阶段 2 执行
+#### 待阶段 2 执行 → ✅ 阶段 2 已完成（2026-06-06）
 
-- [ ] 将各 md 页面的真实内容从 antfu.me 复制到 astrofu 对应 `.astro` 页面
-- [ ] 迁移 `data/talks.ts`、`data/media.ts`、`demo/data.ts` 到 `src/data/`
-- [ ] 让 `/talks`、`/podcasts`、`/media`、`/projects` 页面读取上述数据并渲染列表
-- [ ] `/notes`、`/streams` 接入 `ListPosts.astro` 并按 type 过滤
-- [ ] 与原站逐页视觉对比验收
+- [x] 将各 md 页面的真实内容从 antfu.me 复制到 astrofu 对应 `.astro` 页面
+- [x] 迁移 `data/talks.ts`、`data/media.ts` 到 `src/data/`
+- [x] 让 `/talks`、`/podcasts`、`/media`、`/projects` 页面读取上述数据并渲染列表
+- [x] `/notes` 接入 `ListPosts.astro` 按 type=note 过滤
+- [x] `/streams` 接入 `ListPosts.astro` 渲染流数据
+- [ ] 与原站逐页视觉对比验收（需用户浏览器确认）
 
 ---
 
-### 5.1 简单 Markdown 单页（阶段 2 执行）
+### 5.1 简单 Markdown 单页（阶段 2 已完成）
 
-- [x] `/notes` — 骨架已建（`src/pages/notes.astro`），内容待迁移
-- [x] `/bookmarks` — 骨架已建（`src/pages/bookmarks.astro`），内容待迁移
-- [x] `/use` — 骨架已建（`src/pages/use.astro`），内容待迁移
-- [x] `/chat` — 骨架已建（`src/pages/chat.astro`），内容待迁移
-- [x] `/chat-zh` — 骨架已建（`src/pages/chat-zh.astro`），内容待迁移
-- [x] `/bar` — 骨架已建（`src/pages/bar.astro`），内容待迁移
-- [x] `/giving-talks` — 骨架已建（`src/pages/giving-talks.astro`），内容待迁移
-- [x] `/streams` — 骨架已建（`src/pages/streams.astro`），内容待迁移
-- [x] `/collective-sponsor-onetime` — 骨架已建，内容待迁移
+- [x] `/notes` — 已接入 ListPosts + SubNav，type=note 过滤
+- [x] `/bookmarks` — 完整内容已迁移
+- [x] `/use` — 完整内容已迁移
+- [x] `/chat` — 完整内容已迁移（CalCom占位→P7）
+- [x] `/chat-zh` — 完整内容已迁移（CalCom占位→P7）
+- [x] `/bar` — 完整内容已迁移（full-width grid菜单）
+- [x] `/giving-talks` — 完整内容已迁移
+- [x] `/streams` — 完整内容已迁移（ListPosts + SubNav）
+- [x] `/collective-sponsor-onetime` — 静态内容已迁移（交互→P7）
 - [x] `/[...404]` — 已用 Astro 原生 `src/pages/404.astro`
 
-### 5.2 列表型页面（阶段 2 执行）
+### 5.2 列表型页面（阶段 2 已完成）
 
-- [ ] `/posts/index.astro` 升级 — 按年份分组 + `slide-enter` 阶梯入场 + `englishOnly` 过滤（对应原 `ListPosts.vue`）
-- [ ] `/projects` ← [pages/projects.md](file:///Users/raye/code/antfu.me/pages/projects.md) + `ListProjects.vue`
-- [ ] `/talks` ← [pages/talks.md](file:///Users/raye/code/antfu.me/pages/talks.md) + [data/talks.ts](file:///Users/raye/code/antfu.me/data/talks.ts) + `ListTalks.vue` + `TalkDate.vue`
-- [ ] `/podcasts` ← [pages/podcasts.md](file:///Users/raye/code/antfu.me/pages/podcasts.md)
-- [ ] `/media` ← [pages/media.md](file:///Users/raye/code/antfu.me/pages/media.md) + [data/media.ts](file:///Users/raye/code/antfu.me/data/media.ts) + `MediaConsumption.vue`
-- [ ] `/sponsors-list` ← [pages/sponsors-list.md](file:///Users/raye/code/antfu.me/pages/sponsors-list.md) + `SponsorsView.vue` / `SponsorsCircles.vue`
-- [ ] `/demos` ← [pages/demos.md](file:///Users/raye/code/antfu.me/pages/demos.md) + [demo/data.ts](file:///Users/raye/code/antfu.me/demo/data.ts) + `ListDemos.vue` + `WrapperDemo`
+- [ ] `/posts/index.astro` 升级 — 按年份分组 + `slide-enter` 阶梯入场 + `englishOnly` 过滤（对应原 `ListPosts.vue`）→ 待 P4 文章迁移后实现
+- [x] `/projects` — 完整项目数据 + ListProjects 组件
+- [x] `/talks` — talks 数据 + ListPosts 组件 + SubNav
+- [x] `/podcasts` — podcasts 数据 + ListPosts 组件 + SubNav
+- [x] `/media` — media 数据完整渲染（anime/book/movie/drama/game/song）
+- [x] `/sponsors-list` — SponsorButtons + 静态占位（SVG→P7）
+- [ ] `/demos` → P6（重资源）
 
 ### 5.3 数据源映射表
 

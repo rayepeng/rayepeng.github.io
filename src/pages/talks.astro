@@ -1,19 +1,34 @@
 ---
 import Default from '~/layouts/Default.astro'
 import SubNav from '~/components/SubNav.astro'
+import ListPosts from '~/components/ListPosts.astro'
+import { talks } from '~/data/talks'
+
+// Flatten talks into ListPosts-compatible format
+const talkItems = talks.flatMap((talk) =>
+  talk.presentations.map((p) => ({
+    title: talk.presentations.length > 1
+      ? `${talk.title} — ${p.conference}`
+      : talk.title,
+    date: p.date,
+    path: p.recording || p.pdf || p.spa || '#',
+    lang: p.lang || talk.lang,
+    recording: p.recording,
+    inperson: !!p.location,
+    place: p.location,
+  }))
+)
 ---
 
 <Default title="Talks - Anthony Fu" description="Anthony Fu's talks">
   <SubNav active="/talks" />
 
   <div class="prose m-auto slide-enter-content">
-    <div class="slide-enter">
+    <div class="slide-enter" style="--enter-stage: 0;">
       <span class="i-ri:presentation-line mr-1" />
       <a href="/giving-talks" class="op50">Speaker Info</a>
     </div>
 
-    <p class="op50 text-sm mt-8">
-      <em>{'⏳ Talks page scaffold — content migration pending (see docs/PLAN.md P5 phase 2).'}</em>
-    </p>
+    <ListPosts posts={talkItems} />
   </div>
 </Default>

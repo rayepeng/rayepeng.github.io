@@ -2,11 +2,45 @@
 import Default from '~/layouts/Default.astro'
 ---
 
-<Default title="One-time Collective Sponsor - Anthony Fu" description="">
+<Default title="Collective Sponsorship" description="">
   <div class="prose m-auto slide-enter-content">
-    <h1>One-time Collective Sponsor</h1>
-    <p class="op50 text-sm">
-      <em>{'⏳ /collective-sponsor-onetime page scaffold — content migration pending.'}</em>
-    </p>
+
+This page requires query parameters (`name`, `github`, `amount`, `month`, `year`) to render personalized content.
+Since Astro generates static pages at build time, dynamic query-param logic needs a client-side island.
+
+For now, the static explanatory text is preserved below. The interactive portion will be re-implemented as a Vue island in P7.
+
+---
+
+As our funds are in Open Collective, it would require a bit manual work on your side to claim the sponsorship (sorry for the inconvenience, we are consistently evaluating the approaches and trying find a better way).
+
+There are two ways you can do that:
+
+## A. Submit expense on Open Collective
+
+Create an expense on our Open Collective, it usually take a few seconds to fill the form. You will receive the payment directly to your bank account or PayPal within a few days after approval.
+
+1. Go to https://opencollective.com/antfu/expenses/new, select "Invoice"
+2. Fill in your payment information
+3. For expense title, put **"One-time Sponsorship, [Month] [Year]"**
+4. For the description field, put **"One-time sponsorship"** with **a link to your recent work** in the description, and fill in the amount **$[Amount] USD**.
+5. Click "Next" and then "Submit Expense"
+
+That's it! Feel free to reach out to me if you have any questions.
+
+## B. Create your own Collective
+
+An alternate solution is to create your own Collective on Open Collective so we could directly sponsor you to your collective without the need of submitting an expense on your side. This way you also can manage your own funds and expenses as wish.
+
+You fiscal host has to be in [Open Source Collective](https://opencollective.com/opensource) for us to forward the sponsorship.
+
+Also note that if you are trying to apply for one, it usually requires to link to an open source projects that are under an GitHub organization but not the personal namespace. Send me your open collective link once you have it and we will do the sponsorship.
+
+---
+
+We will do this sponsorship on a monthly basis, with a post each month to announce the sponsorships and introducing the contributors and their work. If you have anything you'd like us to mention in the post, feel free to let us know!
+
+Thank you again for your amazing work and contributions to open source!
+
   </div>
 </Default>

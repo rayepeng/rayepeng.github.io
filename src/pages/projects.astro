@@ -1,18 +1,64 @@
 ---
 import Default from '~/layouts/Default.astro'
+import ListProjects from '~/components/ListProjects.astro'
 
-/**
- * Projects index. Once `src/content/projects/main.yaml` is populated, this
- * page will iterate the groups dict and render via <ListProjects />.
- */
+// Migrated from antfu.me/pages/projects.md frontmatter
+const projects = {
+  'Current Focus': [
+    { name: 'Vite DevTools', link: 'https://github.com/vitejs/devtools', desc: 'Inspect the intermediate state of Vite bundle and pipeline', icon: 'i-simple-icons-vite' },
+    { name: 'Nuxt DevTools', link: 'https://github.com/nuxt/devtools', desc: 'Unleash Nuxt Developer Experience', icon: 'i-logos-nuxt-icon saturate-0' },
+    { name: 'Nuxt Playground', link: 'https://github.com/nuxt/learn.nuxt.com', desc: 'Interactive Playground for learning Nuxt', icon: 'i-logos-nuxt-icon saturate-0' },
+  ],
+  'Nuxt Ecosystem': [
+    { name: 'Nuxt', link: 'https://github.com/nuxt/nuxt', desc: 'The intuitive Vue Framework. (Team member)', icon: 'i-logos-nuxt-icon saturate-0' },
+    { name: 'Nuxt ESLint', link: 'https://github.com/nuxt/eslint', desc: 'All-in-one ESLint module for Nuxt', icon: 'i-simple-icons-eslint' },
+    { name: 'Nuxt Icon', link: 'https://github.com/nuxt/icon', desc: 'Use thousands of icons in Nuxt', icon: 'i-logos-nuxt-icon saturate-0' },
+  ],
+  'Vite Ecosystem': [
+    { name: 'Vite', link: 'https://github.com/vitejs/vite', desc: 'Native-ESM powered web dev build tool', icon: 'i-simple-icons-vite' },
+    { name: 'Vitest', link: 'https://vitest.dev', desc: 'A blazing fast unit-test framework powered by Vite', icon: 'vitest' },
+    { name: 'vite-plugin-inspect', link: 'https://github.com/antfu/vite-plugin-inspect', desc: 'Inspect the intermediate state of Vite plugins', icon: 'i-carbon-search-locate' },
+  ],
+  'Vue Ecosystem': [
+    { name: 'VueUse', link: 'https://github.com/vueuse/vueuse', desc: 'Collection of Composition API utils for Vue 2 and 3', icon: 'vueuse' },
+    { name: 'Vue Starport', link: 'https://github.com/antfu/vue-starport', desc: 'Shared component across routes with animations.', icon: 'i-carbon-plane-sea' },
+  ],
+  'ESLint Ecosystem': [
+    { name: 'eslint-config', link: 'https://github.com/antfu/eslint-config', desc: 'My ESLint config presets', icon: 'af' },
+    { name: 'ESLint Stylistic', link: 'https://github.com/eslint-stylistic/eslint-stylistic', desc: 'Collection of stylistic/formatting ESLint rules', icon: 'i-simple-icons:eslint' },
+    { name: 'ESLint Config Inspector', link: 'https://github.com/eslint/config-inspector', desc: 'A visual tool for inspecting ESLint flat configs', icon: 'i-carbon-search-locate-mirror' },
+  ],
+  'CSS': [
+    { name: 'UnoCSS', link: 'https://github.com/unocss/unocss', desc: 'The instant on-demand atomic CSS engine', icon: 'unocss' },
+  ],
+  'Productivity': [
+    { name: 'Slidev', link: 'https://github.com/slidevjs/slidev', desc: 'Presentation slides for developers', icon: 'slidev' },
+  ],
+  'CLI': [
+    { name: 'ni', desc: 'Use the right package manager', link: 'https://github.com/antfu/ni', icon: 'i-codicon-package' },
+    { name: 'taze', link: 'https://github.com/antfu/taze', desc: 'A modern CLI tool that keeps your deps fresh', icon: 'i-carbon-spine-label' },
+  ],
+  'Starter Templates': [
+    { name: 'Vitesse', link: 'https://github.com/antfu/vitesse', desc: 'Opinionated Vite Starter Template', icon: 'i-carbon-campsite' },
+    { name: 'Vitesse Nuxt 3', link: 'https://github.com/antfu/vitesse-nuxt3', desc: 'Vitesse for Nuxt 3', icon: 'i-logos-nuxt-icon saturate-0' },
+    { name: 'Starter TypeScript', link: 'https://github.com/antfu/starter-ts', desc: 'My TypeScript Library Starter', icon: 'i-carbon-code' },
+  ],
+  'VS Code': [
+    { name: 'Iconify IntelliSense', link: 'https://github.com/antfu/vscode-iconify', desc: 'Iconify IntelliSense for VS Code', icon: 'i-carbon-face-wink' },
+    { name: 'Vitesse Theme', link: 'https://github.com/antfu/vscode-theme-vitesse', desc: 'Vitesse Theme for VS Code', icon: 'i-carbon-campsite' },
+    { name: 'i18n Ally', link: 'https://github.com/antfu/i18n-ally', desc: 'All in one i18n extension for VS Code', icon: 'i-carbon-earth' },
+  ],
+  'Utilities': [
+    { name: 'Shiki', link: 'https://github.com/shikijs/shiki', desc: 'A beautiful syntax highlighter', icon: 'i-carbon:code' },
+    { name: 'Twoslash', link: 'https://github.com/twoslashes/twoslash', desc: 'Markup for generating rich type information ahead of time', icon: 'i-simple-icons:typescript' },
+  ],
+}
 ---
 
-<Default title="Projects - Anthony Fu" description="List of projects that I am proud of">
-  <div class="prose m-auto slide-enter-content text-center">
-    <h1>Projects</h1>
-    <p class="op-50 text-sm"><em>List of projects that I am proud of</em></p>
-    <p class="op50 text-sm mt-8 text-left">
-      <em>{'⏳ Projects page scaffold — content migration pending. Schema is ready at src/content/config.ts → projectsCollection.'}</em>
-    </p>
+<Default title="Projects - Anthony Fu" description="List of projects that I am proud of" hideProse>
+  <div class="max-w-300 m-auto mt-4 slide-enter-content text-center">
+    <h1 class="text-4xl font-bold op-80">Projects</h1>
+    <p class="op-50 text-lg mt-2">List of projects that I am proud of</p>
   </div>
+  <ListProjects projects={projects} />
 </Default>

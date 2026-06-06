@@ -1,14 +1,27 @@
 ---
 import Default from '~/layouts/Default.astro'
 import SubNav from '~/components/SubNav.astro'
+import ListPosts from '~/components/ListPosts.astro'
+import { getCollection } from 'astro:content'
+
+// Currently no posts have type=note in our sample content.
+// When real posts are migrated, this will filter properly.
+const allPosts = await getCollection('posts', ({ data }) => !data.draft)
+const notePosts = allPosts.filter((p) => p.data.type === 'note')
+
+const noteItems = notePosts.map((p) => ({
+  slug: p.slug,
+  title: p.data.title,
+  date: p.data.date,
+  lang: p.data.lang,
+  redirect: p.data.redirect,
+}))
 ---
 
 <Default title="Notes - Anthony Fu" description="Anthony Fu's quick notes">
   <SubNav active="/notes" />
 
   <div class="prose m-auto slide-enter-content">
-    <p class="op50 text-sm">
-      <em>{'⏳ Notes page scaffold — content migration pending.'}</em>
-    </p>
+    <ListPosts posts={noteItems} />
   </div>
 </Default>

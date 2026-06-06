@@ -1,14 +1,33 @@
 ---
 import Default from '~/layouts/Default.astro'
 import SubNav from '~/components/SubNav.astro'
+import ListPosts from '~/components/ListPosts.astro'
+
+const podcastItems = [
+  { title: 'Changelog: The cost of shipping with Anthony Fu', date: '2025-01-22', path: 'https://changelog.com/podcast/600', platform: 'Changelog', lang: 'en' },
+  { title: 'Web Rush: Episode 272 - ESLint One for All', date: '2024-01-10', path: 'https://webrush.io/episodes/episode-272-eslint-one-for-all', platform: 'Web Rush', lang: 'en' },
+  { title: ' Enjoy the Vue: Episode 87 - Open Source Strategy with Anthony Fu', date: '2022-07-14', path: 'https://enjoythevue.io/episodes/87', platform: 'Enjoy the Vue', lang: 'en' },
+  { title: 'Syntax.fm: Ep. Hoisting', date: '2022-06-27', path: 'https://syntax.fm/show/517/hoisting', platform: 'Syntax', lang: 'en', radio: true },
+  { title: 'Devcraft: Ep39: Anthony Fu - We Are Here to Make Tools', date: '2022-06-13', path: 'https://devcraft.tv/episodes/anthony-fu', platform: 'Devcraft', lang: 'en' },
+  { title: 'Vuemastery: Nuxt 3 What\'s New', date: '2022-05-02', path: 'https://www.vuemastery.com/podcasts/vue-if-vue-mastery-podcast/nuxt-3-whats-new', platform: 'Vue Mastery', lang: 'en' },
+  { title: 'Web Rush: Episode 162 - Tools with Anthony Fu', date: '2022-03-10', path: 'https://webrush.io/episodes/episode-162-tools-with-anthony-fu', platform: 'Web Rush', lang: 'en' },
+  { title: '~း zhm: Ep35: Anthony Fu', date: '2022-02-17', path: 'https://zhm.link/35', platform: 'zhm', lang: 'zh' },
+  { title: 'Changelog: JS everywhere - Vite, Vitest, VueUse', date: '2022-01-28', path: 'https://changelog.com/jsparty/202', platform: 'Changelog', lang: 'en' },
+  { title: 'Changelog: Your Vite is served', date: '2021-04-14', path: 'https://changelog.com/podcast/458', platform: 'Changelog', lang: 'en' },
+  { title: '君君和辅辅: 开源、Vue、滑滑梯', date: '2021-04-02', path: 'https://theyurigarden.com/episodes/4', platform: '百合花园', lang: 'zh' },
+  { title: '千里走单骑: 第15期', date: '2021-03-07', path: 'https://www.xiaoyuzhoufm.com/episode/6045830b07a3f74b7f1da656', platform: '小宇宙', lang: 'zh' },
+  { title: '前端早读课: 第22期', date: '2021-01-11', path: 'https://www.xiaoyuzhoufm.com/episode/5ffbbb4b07a3f74b7f00c504', platform: '小宇宙', lang: 'zh' },
+  { title: 'Changelog: Vite is the new black', date: '2020-12-18', path: 'https://changelog.com/podcast/402', platform: 'Changelog', lang: 'en' },
+  { title: '羊皮卷: Ep10 - Anthony Fu', date: '2020-09-16', path: 'https://www.xiaoyuzhoufm.com/episode/5f61c10d07a3f74b7fbcff44', platform: '小宇宙', lang: 'zh', radio: true },
+  { title: 'Enjoy the Vue: Episode 18 - Icons Part 2', date: '2020-07-22', path: 'https://enjoythevue.io/episodes/18', platform: 'Enjoy the Vue', lang: 'en' },
+  { title: 'Enjoy the Vue: Episode 12 - VueUse', date: '2020-06-11', path: 'https://enjoythevue.io/episodes/12', platform: 'Enjoy the Vue', lang: 'en' },
+]
 ---
 
 <Default title="Podcasts - Anthony Fu" description="Podcasts featuring Anthony Fu">
   <SubNav active="/podcasts" />
 
   <div class="prose m-auto slide-enter-content">
-    <p class="op50 text-sm">
-      <em>{'⏳ Podcasts page scaffold — content migration pending.'}</em>
-    </p>
+    <ListPosts posts={podcastItems} />
   </div>
 </Default>
