@@ -1,0 +1,14 @@
+---
+// Display a talk date with locale formatting
+interface Props {
+  date: string
+  lang?: string
+}
+const { date, lang = 'en' } = Astro.props
+const formatted = new Date(date).toLocaleDateString(lang === 'zh' ? 'zh-CN' : lang === 'ja' ? 'ja-JP' : 'en-US', {
+  year: 'numeric',
+  month: 'short',
+  day: 'numeric',
+})
+---
+<time datetime={date} class="op-50 text-sm">{formatted}</time>

@@ -1,0 +1,19 @@
+---
+// Detects external links and adds an icon
+interface Props {
+  href: string
+  text?: string
+}
+const { href, text } = Astro.props
+const isExternal = href.startsWith('http')
+---
+
+<a
+  href={href}
+  class:list={['inline-flex items-center gap-1', isExternal && 'op-80 hover:op-100 transition']}
+  target={isExternal ? '_blank' : undefined}
+  rel={isExternal ? 'noopener noreferrer' : undefined}
+>
+  {text || href}
+  {isExternal && <span class="i-carbon-launch text-xs op-50" />}
+</a>

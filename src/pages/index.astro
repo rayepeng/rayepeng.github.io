@@ -1,5 +1,6 @@
 ---
 import Default from '~/layouts/Default.astro'
+import ArtPlum from '~/components/ArtPlum.vue'
 
 /**
  * Mirrors antfu.me/pages/index.md 1:1. We render statically (no Vue island)
@@ -54,6 +55,7 @@ const socials = [
   description="Anthony Fu's Portfolio"
   image="https://antfu.me/og.png"
 >
+  <ArtPlum client:idle />
   <div class="prose m-auto slide-enter-content">
     <h1>Hi, I'm Anthony Fu <span class="vp-wisper">_fu7_</span></h1>
 
