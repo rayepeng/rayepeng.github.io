@@ -97,14 +97,16 @@
 
 > 在 P1 单篇打通的基础上，把"导航 / 暗色切换 / Logo / 图片预览蒙层"全部加上，让整站有完整的"壳子"。
 
-- [ ] `ToggleTheme.vue` — 复制原文件，`client:load` island，含鼠标位置径向 clip-path 动画
-- [ ] `Logo.vue` / `LogoStroke.vue` — SVG hover 动画 island
-- [ ] `NavBar.astro` 升级 — 加 Logo、Toggle、移动端汉堡菜单
-- [ ] `Footer.astro` 升级 — 与原站一致
-- [ ] `BackToTop.vue` 小 island
-- [ ] `ImageZoom.vue` — 图片预览蒙层（原 `App.vue` 里的 imageModel 逻辑），`client:idle`
-- [ ] `src/logics/index.ts` — `englishOnly` / `galleryView` / `isDark` 三个 `useLocalStorage` state 共享
-- [ ] 复用 P1 的两篇文章再次验收：暗色切换不闪、图片可点开
+- [x] `ToggleTheme.vue` — 复制原文件，`client:load` island，含鼠标位置径向 clip-path 动画
+- [x] `Logo.vue` / `LogoStroke.vue` — SVG hover 动画 island（1:1 从 antfu.me 复制）
+- [x] `NavBar.astro` 升级 — 加 Logo + Blog + RSS + ToggleTheme；移动端汉堡留 P5 完整导航时再做
+- [x] `Footer.astro` 升级 — CC BY-NC-SA 4.0 与原站一致
+- [x] `BackToTop.vue` 小 island（独立组件，原放在 NavBar.vue 内）— `client:idle`
+- [x] `ImageZoom.vue` — 图片预览蒙层（原 `App.vue` 里的 imageModel 逻辑），`client:idle`
+- [x] `src/logics/index.ts` — `englishOnly` / `galleryView` / `isDark` / `toggleDark` / `formatDate`，全部 `useLocalStorage` 共享
+- [x] Default.astro 集成 NavBar + Footer + ImageZoom，新增 `hideNav` / `hideFooter` props
+- [x] PostLayout 移除独立 NavBar/Footer（避免与 Default 重复），只保留正文 + `cd ..` 链接
+- [x] 复用 P1 的两篇文章再次验收：build 全绿；4 个 URL 200；HTML 中可见所有 island 已注入
 
 ---
 

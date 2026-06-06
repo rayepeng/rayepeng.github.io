@@ -6,16 +6,26 @@ import 'markdown-it-github-alerts/styles/github-colors-light.css'
 import 'markdown-it-github-alerts/styles/github-colors-dark-class.css'
 import 'markdown-it-github-alerts/styles/github-base.css'
 
+import NavBar from '~/components/NavBar.astro'
+import Footer from '~/components/Footer.astro'
+import ImageZoom from '~/components/ImageZoom.vue'
+
 interface Props {
   title?: string
   description?: string
   image?: string
+  /** Hide the global NavBar (e.g. for landing/full-bleed pages). */
+  hideNav?: boolean
+  /** Hide the global Footer. */
+  hideFooter?: boolean
 }
 
 const {
   title = 'Anthony Fu',
   description = "Anthony Fu's Portfolio",
   image = 'https://antfu.me/og.png',
+  hideNav = false,
+  hideFooter = false,
 } = Astro.props
 
 const canonical = new URL(Astro.url.pathname, Astro.site).toString()
@@ -58,10 +68,11 @@ const canonical = new URL(Astro.url.pathname, Astro.site).toString()
     </script>
   </head>
   <body>
-    <slot name="header" />
+    {!hideNav && <NavBar />}
     <main class="px-7 py-10 of-x-hidden">
       <slot />
     </main>
-    <slot name="footer" />
+    {!hideFooter && <Footer />}
+    <ImageZoom client:idle />
   </body>
 </html>

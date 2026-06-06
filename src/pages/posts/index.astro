@@ -1,18 +1,10 @@
 ---
 import { getCollection } from 'astro:content'
 import Default from '~/layouts/Default.astro'
+import { formatDate } from '~/logics'
 
 const posts = (await getCollection('posts', ({ data }) => !data.draft))
   .sort((a, b) => +new Date(b.data.date) - +new Date(a.data.date))
-
-function formatDate(d: string) {
-  const date = new Date(d)
-  const now = new Date()
-  const opts: Intl.DateTimeFormatOptions = date.getFullYear() === now.getFullYear()
-    ? { month: 'short', day: 'numeric' }
-    : { month: 'short', day: 'numeric', year: 'numeric' }
-  return date.toLocaleDateString('en-US', opts)
-}
 ---
 
 <Default title="Blog — Anthony Fu" description="Anthony Fu's Blog">

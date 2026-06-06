@@ -2,8 +2,21 @@
 const year = new Date().getFullYear()
 ---
 
-<footer class="m-auto mt-12 mb-10 text-center op-50 text-sm prose">
-  <p>
-    <span op-75>CC BY-NC-SA 4.0</span> {year} © Anthony Fu — astrofu port
-  </p>
-</footer>
+<div class="mt-10 mb-6 prose m-auto flex slide-enter animate-delay-1200 copyright">
+  <span class="text-sm op50">
+    <a
+      target="_blank"
+      href="https://creativecommons.org/licenses/by-nc-sa/4.0/"
+      style="color:inherit"
+      rel="noopener noreferrer"
+    >CC BY-NC-SA 4.0</a>
+    2021-{year} © Anthony Fu — astrofu port
+  </span>
+  <div class="flex-auto" />
+</div>
+
+<style>
+  .no-copyright ~ .copyright {
+    display: none;
+  }
+</style>

@@ -1,22 +1,39 @@
 ---
-const navItems = [
-  { label: 'Home', href: '/' },
-  { label: 'Blog', href: '/posts' },
-]
+import Logo from '~/components/Logo.vue'
+import ToggleTheme from '~/components/ToggleTheme.vue'
+import BackToTop from '~/components/BackToTop.vue'
 ---
 
 <header class="header z-40">
+  <a
+    href="/"
+    class="w-12 h-12 absolute xl:fixed m-5 select-none outline-none block"
+    aria-label="Home"
+  >
+    <Logo client:load />
+  </a>
+
+  <BackToTop client:idle />
+
   <nav class="nav">
     <div class="spacer" />
     <div class="right" print:op0>
-      {navItems.map((item) => (
-        <a href={item.href}>{item.label}</a>
-      ))}
+      <a href="/posts" title="Blog">
+        <span class="lt-md:hidden">Blog</span>
+        <div i-ri-article-line class="md:hidden" />
+      </a>
+      <a href="/feed.xml" target="_blank" title="RSS" class="lt-md:hidden">
+        <div i-la-rss-square style="font-size:1.25rem; margin: 0 -0.125rem;" />
+      </a>
+      <ToggleTheme client:load />
     </div>
   </nav>
 </header>
 
 <style>
+  .header h1 {
+    margin-bottom: 0;
+  }
   .nav {
     padding: 2rem;
     width: 100%;

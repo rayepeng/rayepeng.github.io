@@ -1,6 +1,5 @@
 ---
-import NavBar from '~/components/NavBar.astro'
-import Footer from '~/components/Footer.astro'
+import { formatDate } from '~/logics'
 
 interface Props {
   title: string
@@ -9,37 +8,24 @@ interface Props {
 }
 
 const { title, date } = Astro.props
-
-function formatDate(d: string) {
-  const date = new Date(d)
-  const now = new Date()
-  const opts: Intl.DateTimeFormatOptions = date.getFullYear() === now.getFullYear()
-    ? { month: 'short', day: 'numeric' }
-    : { month: 'short', day: 'numeric', year: 'numeric' }
-  return date.toLocaleDateString('en-US', opts)
-}
 ---
-
-<NavBar />
 
 <article class="prose m-auto mb-8 slide-enter-content">
   <h1>{title}</h1>
-  <p class="post-date opacity-50 !-mt-6 mb-8">
-    <time datetime={date}>{formatDate(date)}</time>
+  <p class="post-date">
+    <time datetime={date}>{formatDate(date, false)}</time>
   </p>
   <slot />
 </article>
 
 <div class="prose m-auto mt-8 mb-8 slide-enter animate-delay-500">
   <br>
-  <span font-mono op50>&gt; </span>
+  <span class="font-mono op50">&gt;&nbsp;</span>
   <a
     href="/posts"
     class="font-mono no-underline op50 hover:op75"
   >cd ..</a>
 </div>
-
-<Footer />
 
 <style>
   .post-date {
