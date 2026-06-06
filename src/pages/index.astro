@@ -1,27 +1,168 @@
 ---
 import Default from '~/layouts/Default.astro'
+
+/**
+ * Mirrors antfu.me/pages/index.md 1:1. We render statically (no Vue island)
+ * because every link here is a simple <a> with an iconify class; UnoCSS will
+ * inline the SVG at build time, keeping the home page zero-JS.
+ *
+ * If you tweak this list, also update src/components/MagicLink.vue's icon map
+ * so MDX content authors get the same icons via <MagicLink>.
+ */
+
+interface Tech {
+  name: string
+  href: string
+  icon: string
+}
+
+const working: Tech[] = [
+  { name: 'Vercel', href: 'https://vercel.com', icon: 'i-logos-vercel-icon' },
+  { name: 'Nuxt', href: 'https://nuxt.com', icon: 'i-logos-nuxt-icon' },
+]
+const created: Tech[] = [
+  { name: 'Vitest', href: 'https://vitest.dev', icon: 'i-logos-vitest' },
+  { name: 'Slidev', href: 'https://sli.dev', icon: 'i-logos-slidev' },
+  { name: 'VueUse', href: 'https://vueuse.org', icon: 'i-logos-vueuse' },
+  { name: 'UnoCSS', href: 'https://unocss.dev', icon: 'i-logos-unocss' },
+  { name: 'Elk', href: 'https://elk.zone', icon: 'i-logos-elk' },
+  { name: 'Type Challenges', href: 'https://tsch.js.org', icon: 'i-logos-type-challenges' },
+]
+const coreTeam: Tech[] = [
+  { name: 'Vue', href: 'https://vuejs.org', icon: 'i-logos-vue' },
+  { name: 'Nuxt', href: 'https://nuxt.com', icon: 'i-logos-nuxt-icon' },
+  { name: 'Vite', href: 'https://vitejs.dev', icon: 'i-logos-vitejs' },
+]
+const maintain: Tech[] = [
+  { name: 'Shiki', href: 'https://shiki.style', icon: 'i-logos-shiki' },
+  { name: 'Twoslash', href: 'https://twoslash.netlify.app', icon: 'i-logos-twoslash' },
+  { name: 'ESLint Stylistic', href: 'https://eslint.style', icon: 'i-logos-eslint' },
+]
+
+const socials = [
+  { name: 'GitHub', href: 'https://github.com/antfu', icon: 'i-simple-icons-github' },
+  { name: 'Bluesky', href: 'https://bsky.app/profile/antfu.me', icon: 'i-ri-bluesky-fill' },
+  { name: 'Discord Server', href: 'https://chat.antfu.me', icon: 'i-simple-icons-discord' },
+  { name: 'Twitter', href: 'https://x.com/antfu7', icon: 'i-ri-twitter-x-fill' },
+  { name: '中文推', href: 'https://x.com/antfuzh', icon: 'i-ri-twitter-x-fill' },
+  { name: '日本語', href: 'https://x.com/antfujp', icon: 'i-ri-twitter-x-fill' },
+]
 ---
 
-<Default title="Anthony Fu" description="Anthony Fu's Portfolio">
+<Default
+  title="Anthony Fu"
+  description="Anthony Fu's Portfolio"
+  image="https://antfu.me/og.png"
+>
   <div class="prose m-auto slide-enter-content">
-    <h1>Hey, I'm astrofu</h1>
+    <h1>Hi, I'm Anthony Fu <span class="vp-wisper">_fu7_</span></h1>
+
+    <p>Hey! I'm Anthony Fu, a fanatical open sourceror and design engineer.</p>
+
     <p>
-      <em>An Astro port of antfu.me — a 1:1 clone built on Astro + Vue Islands + UnoCSS.</em>
+      Working at
+      {working.map((t, i) => (
+        <>
+          {i > 0 ? ' / ' : ' '}
+          <a href={t.href} target="_blank" rel="noopener noreferrer" class="magic-link">
+            <span class={`${t.icon} op75`} /> {t.name}
+          </a>
+        </>
+      ))}
+      <br />
+      Creator of
+      {created.map((t) => (
+        <>
+          {' '}
+          <a href={t.href} target="_blank" rel="noopener noreferrer" class="magic-link">
+            <span class={`${t.icon} op75`} /> {t.name}
+          </a>
+        </>
+      ))}
+      <br />
+      Core team of
+      {coreTeam.map((t) => (
+        <>
+          {' '}
+          <a href={t.href} target="_blank" rel="noopener noreferrer" class="magic-link">
+            <span class={`${t.icon} op75`} /> {t.name}
+          </a>
+        </>
+      ))}
+      <br />
+      Maintaining
+      {maintain.map((t) => (
+        <>
+          {' '}
+          <a href={t.href} target="_blank" rel="noopener noreferrer" class="magic-link">
+            <span class={`${t.icon} op75`} /> {t.name}
+          </a>
+        </>
+      ))}
     </p>
 
     <p>
-      Phase&nbsp;1 — vertical slice. Two sample posts are wired through the
-      whole pipeline (content collection → routing → layout → prose / markdown
-      styles → Shiki dual theme). Browse them on the
-      <a href="/posts">blog index</a>.
+      Dreaming up cool ideas and making them come true is where my passion lies.
+      I am enthusiastic about building tools that help myself and others to be
+      more productive and enjoy the process of crafting. You can find my
+      <a href="/projects">full projects list here</a>.
     </p>
 
-    <h2>Stack</h2>
-    <ul>
-      <li>Astro 4 (static-first, MDX-friendly)</li>
-      <li>Vue 3 islands via <code>@astrojs/vue</code></li>
-      <li>UnoCSS (same presets &amp; web fonts as the original)</li>
-      <li>Shiki + rehype-slug + rehype-autolink + remark-github-alerts</li>
-    </ul>
+    <p>
+      I give <a href="/talks">talks</a> and write
+      <a href="/posts">blog posts</a> about open source, coding, etc.
+      I am co-hosting a podcast
+      <a href="https://bento.me/nocodingtoday" target="_blank" rel="noopener noreferrer"><em>No Coding Today</em></a>
+      <span class="op75">(in Mandarin)</span>. Occasionally, I do live coding streams on
+      <a href="https://www.youtube.com/anthonyfu7" target="_blank" rel="noopener noreferrer">YouTube</a> and
+      <a href="https://space.bilibili.com/668380" target="_blank" rel="noopener noreferrer">哔哩哔哩</a>.
+      From time to time, I make some generative-art, interactivity experiments on
+      <a href="https://100.antfu.me/" target="_blank" rel="noopener noreferrer">100.antfu.me</a>.
+    </p>
+
+    <p>
+      Outside of programming, I enjoy doing photography and traveling. I post
+      <a href="/photos">photos on this page</a>. In case you are interested, here
+      are the <a href="/use">hardware/software I use</a>.
+    </p>
+
+    <div class="flex-auto" />
+
+    <hr />
+
+    <p>Find me on</p>
+
+    <p class="flex gap-2 flex-wrap mt--2!">
+      {socials.map((s) => (
+        <a href={s.href} target="_blank" rel="noopener noreferrer" class="magic-link">
+          <span class={`${s.icon} op75`} /> {s.name}
+        </a>
+      ))}
+    </p>
+
+    <p>
+      Or mail me at
+      <span class="font-mono">hi<span class="i-carbon-at" />antfu.me</span>
+    </p>
   </div>
 </Default>
+
+<style>
+  .magic-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    text-decoration-color: var(--c-border, currentColor);
+  }
+  .magic-link span:first-child {
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+  }
+  .vp-wisper {
+    font-family: 'Bad Script', serif;
+    opacity: 0.6;
+    font-size: 0.85em;
+    margin-left: 0.5em;
+  }
+</style>

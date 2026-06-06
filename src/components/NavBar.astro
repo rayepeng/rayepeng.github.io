@@ -2,6 +2,11 @@
 import Logo from '~/components/Logo.vue'
 import ToggleTheme from '~/components/ToggleTheme.vue'
 import BackToTop from '~/components/BackToTop.vue'
+
+/**
+ * Matches antfu.me/src/components/NavBar.vue 1:1 in terms of items, icons and
+ * responsive visibility. Astro replaces <RouterLink> with plain <a href>.
+ */
 ---
 
 <header class="header z-40">
@@ -22,6 +27,32 @@ import BackToTop from '~/components/BackToTop.vue'
         <span class="lt-md:hidden">Blog</span>
         <div i-ri-article-line class="md:hidden" />
       </a>
+      <a href="/projects" title="Projects">
+        <span class="lt-md:hidden">Projects</span>
+        <div i-ri-lightbulb-line class="md:hidden" />
+      </a>
+      <a href="/talks" class="lt-md:hidden" title="Talks">
+        Talks
+      </a>
+      <a href="/sponsors-list" title="Sponsors">
+        <span class="lt-md:hidden">Sponsors</span>
+        <div i-ri-heart-line class="md:hidden" />
+      </a>
+      <a href="/podcasts" class="lt-md:hidden" title="Podcasts">
+        <div i-ri-mic-line />
+      </a>
+      <a href="/photos" title="Photos">
+        <div i-ri-camera-3-line />
+      </a>
+      <a href="/demos" title="Demos">
+        <div i-ri-screenshot-line />
+      </a>
+      <a href="https://bsky.app/profile/antfu.me" target="_blank" rel="noopener noreferrer" title="Bluesky" class="lt-md:hidden">
+        <div i-ri-bluesky-line />
+      </a>
+      <a href="https://github.com/antfu" target="_blank" rel="noopener noreferrer" title="GitHub" class="lt-md:hidden">
+        <div i-uil-github-alt />
+      </a>
       <a href="/feed.xml" target="_blank" title="RSS" class="lt-md:hidden">
         <div i-la-rss-square style="font-size:1.25rem; margin: 0 -0.125rem;" />
       </a>
@@ -34,6 +65,11 @@ import BackToTop from '~/components/BackToTop.vue'
   .header h1 {
     margin-bottom: 0;
   }
+  .logo {
+    position: absolute;
+    top: 1.5rem;
+    left: 1.5rem;
+  }
   .nav {
     padding: 2rem;
     width: 100%;
@@ -43,6 +79,9 @@ import BackToTop from '~/components/BackToTop.vue'
   }
   .nav > * {
     margin: auto;
+  }
+  .nav img {
+    margin-bottom: 0;
   }
   .nav a {
     cursor: pointer;
@@ -60,5 +99,8 @@ import BackToTop from '~/components/BackToTop.vue'
     display: grid;
     grid-gap: 1.2rem;
     grid-auto-flow: column;
+  }
+  .nav .right > * {
+    margin: auto;
   }
 </style>

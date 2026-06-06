@@ -125,9 +125,24 @@
 
 ---
 
-## 📚 P4 — 内容全量迁移（Bulk Import）
+## 📚 P4 — 内容全量迁移（Bulk Import）⏸️ 已暂停
 
-> 前面 3 步已经把整套管线验证完毕，这里就是"体力活"。
+> **2026-06-06 暂停**：用户决定优先收敛"风格一致性"，待视觉/交互与 antfu.me 1:1 对齐并验收后再重启 P4。
+>
+> **暂停时状态快照**：
+> - astrofu 仅含 3 篇文章：`github-co-authors.md`、`match-chinese-characters.md`、`p3-mdx-demo.mdx`
+> - antfu.me 文章源原封不动留在 `/Users/raye/code/antfu.me/pages/posts/`（只读参考）
+> - `src/content/posts/` 目录下其他 80+ 篇尚未导入，**数据完整性 100%**（未发生破坏性写入）
+> - 迁移脚本尚未编写
+> - schema 已稳定，重启 P4 时不需要回改 [src/content/config.ts](file:///Users/raye/code/astrofu/src/content/config.ts)
+>
+> **恢复 P4 时的入口动作**：
+> 1. 依据本节"恢复指引"先重新确认风格收敛已完成
+> 2. 然后从 P4.1 起逐项执行（脚本扫描 → frontmatter 兜底 → magic-link 替换 → 嵌入语法清单 → 图片路径修复 → build 校验）
+>
+> ---
+>
+> 以下为原计划留档，恢复时按序执行：
 
 - [ ] 写迁移脚本：扫描 `/Users/raye/code/antfu.me/pages/posts/`，全部复制到 `src/content/posts/`
 - [ ] 脚本同时处理：frontmatter 字段补全（`description`、`image` 默认值 / 缺失 `date` 兜底）
@@ -138,6 +153,22 @@
 - [ ] `redirect` frontmatter 字段：在 `[...slug].astro` 中改为重定向到外部链接（`Astro.redirect()` 或在列表组件里渲染成外链）
 - [ ] `draft: true` 文章：dev 下显示，build 时过滤
 - [ ] 跑 `pnpm build`，检查全部文章可生成（失败的列入"需手动改写"清单）
+
+---
+
+## 🎯 P-Style — 风格一致性收敛（插入阶段，2026-06-06 创建）
+
+> 在重启 P4 之前必须 100% 完成。目标：当前已存在的所有页面/组件在视觉与交互层面与 antfu.me 完全一致。
+
+### 差异清单（来自一致性审计）
+
+| 优先级 | 修复项 | 涉及文件 | 状态 |
+|---|---|---|---|
+| 🔴 P0 | NavBar 补齐 antfu.me 全部 8 项导航（Blog / Projects / Talks / Sponsors / Podcasts / Photos / Demos / Bluesky / GitHub / RSS / ToggleTheme） | `src/components/NavBar.astro` | ✅ 已完成 |
+| 🔴 P1 | 首页 [pages/index.astro](file:///Users/raye/code/astrofu/src/pages/index.astro) 复刻 antfu.me [pages/index.md](file:///Users/raye/code/antfu.me/pages/index.md)（Hey 段落 + MagicLink 串 + 社交链接 + 邮箱） | `src/pages/index.astro` | ✅ 已完成（13 个 logo 静态内联） |
+| 🟡 P2 | 文章列表按年份分组 `<h4>YYYY</h4>` + slide-enter | `src/pages/posts/index.astro` | ✅ 已完成（2026/2021 两组） |
+| 🟢 P3 | `art: random` frontmatter 触发 ArtPlum/ArtDots（P7 实现，本阶段仅占位） | `src/pages/index.astro` | ⏸️ 推迟到 P7 |
+| 🟢 P4 | `.sponsorkit-*` / `.v-popper--*` 样式补全（P7 评估） | `src/styles/main.css` | ⏸️ 推迟到 P7 |
 
 ---
 
