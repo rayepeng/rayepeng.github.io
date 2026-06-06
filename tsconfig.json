@@ -1,0 +1,18 @@
+{
+  "extends": "astro/tsconfigs/strict",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "~/*": ["src/*"]
+    },
+    "jsx": "preserve",
+    "types": ["astro/client", "@vueuse/core", "vite/client"]
+  },
+  "include": [
+    "src/**/*",
+    ".astro/types.d.ts",
+    "astro.config.ts",
+    "uno.config.ts"
+  ],
+  "exclude": ["dist", "node_modules"]
+}

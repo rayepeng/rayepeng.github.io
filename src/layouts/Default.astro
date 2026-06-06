@@ -1,0 +1,67 @@
+---
+import '~/styles/main.css'
+import '~/styles/prose.css'
+import '~/styles/markdown.css'
+import 'markdown-it-github-alerts/styles/github-colors-light.css'
+import 'markdown-it-github-alerts/styles/github-colors-dark-class.css'
+import 'markdown-it-github-alerts/styles/github-base.css'
+
+interface Props {
+  title?: string
+  description?: string
+  image?: string
+}
+
+const {
+  title = 'Anthony Fu',
+  description = "Anthony Fu's Portfolio",
+  image = 'https://antfu.me/og.png',
+} = Astro.props
+
+const canonical = new URL(Astro.url.pathname, Astro.site).toString()
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+
+    <title>{title}</title>
+    <meta name="description" content={description} />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={image} />
+    <meta property="og:url" content={canonical} />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:creator" content="@antfu7" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={image} />
+
+    <link rel="canonical" href={canonical} />
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="/feed.xml" />
+
+    <!-- Color scheme bootstrap to avoid FOUC -->
+    <script is:inline>
+      const saved = localStorage.getItem('vueuse-color-scheme') || 'auto'
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
+      const isDark = saved === 'dark' || (saved === 'auto' && prefersDark)
+      document.documentElement.classList.toggle('dark', isDark)
+    </script>
+  </head>
+  <body>
+    <slot name="header" />
+    <main class="px-7 py-10 of-x-hidden">
+      <slot />
+    </main>
+    <slot name="footer" />
+  </body>
+</html>

@@ -1,0 +1,27 @@
+---
+import Default from '~/layouts/Default.astro'
+---
+
+<Default title="Anthony Fu" description="Anthony Fu's Portfolio">
+  <div class="prose m-auto slide-enter-content">
+    <h1>Hey, I'm astrofu</h1>
+    <p>
+      <em>An Astro port of antfu.me — a 1:1 clone built on Astro + Vue Islands + UnoCSS.</em>
+    </p>
+
+    <p>
+      Phase&nbsp;1 — vertical slice. Two sample posts are wired through the
+      whole pipeline (content collection → routing → layout → prose / markdown
+      styles → Shiki dual theme). Browse them on the
+      <a href="/posts">blog index</a>.
+    </p>
+
+    <h2>Stack</h2>
+    <ul>
+      <li>Astro 4 (static-first, MDX-friendly)</li>
+      <li>Vue 3 islands via <code>@astrojs/vue</code></li>
+      <li>UnoCSS (same presets &amp; web fonts as the original)</li>
+      <li>Shiki + rehype-slug + rehype-autolink + remark-github-alerts</li>
+    </ul>
+  </div>
+</Default>

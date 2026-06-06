@@ -1,0 +1,47 @@
+---
+const navItems = [
+  { label: 'Home', href: '/' },
+  { label: 'Blog', href: '/posts' },
+]
+---
+
+<header class="header z-40">
+  <nav class="nav">
+    <div class="spacer" />
+    <div class="right" print:op0>
+      {navItems.map((item) => (
+        <a href={item.href}>{item.label}</a>
+      ))}
+    </div>
+  </nav>
+</header>
+
+<style>
+  .nav {
+    padding: 2rem;
+    width: 100%;
+    display: grid;
+    grid-template-columns: auto max-content;
+    box-sizing: border-box;
+  }
+  .nav > * {
+    margin: auto;
+  }
+  .nav a {
+    cursor: pointer;
+    text-decoration: none;
+    color: inherit;
+    transition: opacity 0.2s ease;
+    opacity: 0.6;
+    outline: none;
+  }
+  .nav a:hover {
+    opacity: 1;
+    text-decoration-color: inherit;
+  }
+  .nav .right {
+    display: grid;
+    grid-gap: 1.2rem;
+    grid-auto-flow: column;
+  }
+</style>

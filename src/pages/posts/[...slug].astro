@@ -1,0 +1,24 @@
+---
+import type { GetStaticPaths } from 'astro'
+import { getCollection } from 'astro:content'
+import Default from '~/layouts/Default.astro'
+import PostLayout from '~/layouts/PostLayout.astro'
+
+export const getStaticPaths = (async () => {
+  const posts = await getCollection('posts', ({ data }) => !data.draft)
+  return posts.map((entry) => ({
+    params: { slug: entry.slug },
+    props: { entry },
+  }))
+}) satisfies GetStaticPaths
+
+const { entry } = Astro.props
+const { Content, headings, remarkPluginFrontmatter } = await entry.render()
+const { title, date, description } = entry.data
+---
+
+<Default title={`${title} — Anthony Fu`} description={description || title}>
+  <PostLayout title={title} date={date} headings={headings}>
+    <Content />
+  </PostLayout>
+</Default>

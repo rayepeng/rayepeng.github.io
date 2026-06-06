@@ -1,0 +1,80 @@
+---
+import { getCollection } from 'astro:content'
+import Default from '~/layouts/Default.astro'
+
+const posts = (await getCollection('posts', ({ data }) => !data.draft))
+  .sort((a, b) => +new Date(b.data.date) - +new Date(a.data.date))
+
+function formatDate(d: string) {
+  const date = new Date(d)
+  const now = new Date()
+  const opts: Intl.DateTimeFormatOptions = date.getFullYear() === now.getFullYear()
+    ? { month: 'short', day: 'numeric' }
+    : { month: 'short', day: 'numeric', year: 'numeric' }
+  return date.toLocaleDateString('en-US', opts)
+}
+---
+
+<Default title="Blog — Anthony Fu" description="Anthony Fu's Blog">
+  <div class="prose m-auto slide-enter-content">
+    <h1>Blog</h1>
+    <ul class="post-list">
+      {posts.map((post) => (
+        <li class="post-item">
+          <a href={`/posts/${post.slug}`} class="post-link">
+            <span class="post-title">{post.data.title}</span>
+            <span class="post-meta">
+              {post.data.lang && post.data.lang !== 'en' && (
+                <span class="post-lang">{post.data.lang}</span>
+              )}
+              <time>{formatDate(post.data.date)}</time>
+            </span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</Default>
+
+<style>
+  .post-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .post-item {
+    padding: 0 !important;
+    margin-bottom: 1.5em;
+  }
+  .post-item::before {
+    display: none !important;
+  }
+  .post-link {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25em;
+    text-decoration: none !important;
+    border-bottom: none !important;
+    opacity: 0.85;
+    transition: opacity 0.2s ease;
+  }
+  .post-link:hover {
+    opacity: 1;
+  }
+  .post-title {
+    font-size: 1.125rem;
+    line-height: 1.3;
+  }
+  .post-meta {
+    display: inline-flex;
+    gap: 0.5em;
+    font-size: 0.85em;
+    opacity: 0.5;
+  }
+  .post-lang {
+    padding: 0 0.35em;
+    border-radius: 4px;
+    background: rgba(125, 125, 125, 0.15);
+    font-size: 0.75em;
+  }
+</style>
