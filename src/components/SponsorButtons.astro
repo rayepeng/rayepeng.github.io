@@ -1,0 +1,55 @@
+---
+/**
+ * Placeholder for antfu.me/src/components/SponsorButtons.vue.
+ * The full sponsorkit SVG widget will be wired up in P7.
+ * For now, render the three primary CTA buttons so the page lights up.
+ */
+---
+
+<div class="flex flex-wrap items-center justify-center gap-3 py-4">
+  <a
+    href="https://github.com/sponsors/antfu"
+    target="_blank"
+    rel="noopener noreferrer"
+    class="btn-sponsor"
+  >
+    <span class="i-carbon-favorite-filled" />
+    Sponsor on GitHub
+  </a>
+  <a
+    href="https://opencollective.com/antfu"
+    target="_blank"
+    rel="noopener noreferrer"
+    class="btn-sponsor"
+  >
+    <span class="i-simple-icons-opencollective" />
+    Open Collective
+  </a>
+  <a
+    href="https://afdian.com/a/antfu7"
+    target="_blank"
+    rel="noopener noreferrer"
+    class="btn-sponsor"
+  >
+    <span class="i-carbon-cafe" />
+    爱发电
+  </a>
+</div>
+
+<style>
+  .btn-sponsor {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.6rem 1rem;
+    border: 1px solid #8884;
+    border-radius: 0.4rem;
+    opacity: 0.7;
+    text-decoration: none !important;
+    transition: opacity 0.2s ease, background 0.2s ease;
+  }
+  .btn-sponsor:hover {
+    opacity: 1;
+    background: rgba(125, 125, 125, 0.1);
+  }
+</style>

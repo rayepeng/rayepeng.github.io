@@ -1,0 +1,46 @@
+---
+/**
+ * antfu.me/src/components/ListProjects.vue equivalent.
+ * Accepts a `projects` prop shaped { "Group A": [items], "Group B": [items] }.
+ */
+interface ProjectItem {
+  name: string
+  link: string
+  desc?: string
+  icon?: string
+}
+
+interface Props {
+  projects: Record<string, ProjectItem[]>
+}
+
+const { projects } = Astro.props
+const groups = Object.entries(projects)
+---
+
+<div class="max-w-300 m-auto">
+  {groups.map(([groupName, items]) => (
+    <div class="mt-10">
+      <h4 class="mb-4 text-2xl font-bold op-60 slide-enter">{groupName}</h4>
+      <div class="project-grid py-2 max-w-300 grid grid-cols-1 md:grid-cols-2 gap-x-4">
+        {items.map((p, idx) => (
+          <a
+            href={p.link}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="item relative flex items-center mb-2 p-3 rounded transition hover:bg-hex-8881 no-underline slide-enter"
+            style={`--enter-stage: ${idx + 1}; --enter-step: 60ms;`}
+          >
+            {p.icon && (
+              <div class={`text-3xl mr-4 op-90 ${p.icon}`} />
+            )}
+            <div class="flex-auto">
+              <div class="text-normal">{p.name}</div>
+              {p.desc && <div class="desc text-sm op-50 font-normal">{p.desc}</div>}
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  ))}
+</div>

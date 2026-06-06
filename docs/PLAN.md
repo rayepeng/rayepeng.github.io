@@ -177,20 +177,45 @@
 > 把 antfu.me [pages/](file:///Users/raye/code/antfu.me/pages/) 里所有非 posts 路由迁过来。
 > 每个页面按 "路由 → 数据源 → 组件依赖 → 验收" 四步操作。
 
-### 5.1 简单 Markdown 单页（直接复制）
+### 5.0 阶段 1 — 框架骨架（2026-06-06 完成）
 
-- [ ] `/notes` ← [pages/notes.md](file:///Users/raye/code/antfu.me/pages/notes.md)
-- [ ] `/bookmarks` ← [pages/bookmarks.md](file:///Users/raye/code/antfu.me/pages/bookmarks.md)
-- [ ] `/use` ← [pages/use.md](file:///Users/raye/code/antfu.me/pages/use.md)
-- [ ] `/chat` ← [pages/chat.md](file:///Users/raye/code/antfu.me/pages/chat.md)
-- [ ] `/chat-zh` ← [pages/chat-zh.md](file:///Users/raye/code/antfu.me/pages/chat-zh.md)
-- [ ] `/bar` ← [pages/bar.md](file:///Users/raye/code/antfu.me/pages/bar.md)
-- [ ] `/giving-talks` ← [pages/giving-talks.md](file:///Users/raye/code/antfu.me/pages/giving-talks.md)
-- [ ] `/streams` ← [pages/streams.md](file:///Users/raye/code/antfu.me/pages/streams.md)
-- [ ] `/collective-sponsor-onetime` ← [pages/collective-sponsor-onetime.md](file:///Users/raye/code/antfu.me/pages/collective-sponsor-onetime.md)
-- [ ] `/[...404]` ← [pages/[...404].md](file:///Users/raye/code/antfu.me/pages/[...404].md) → Astro 用 `src/pages/404.astro`
+> 按用户要求"先框架后内容"。所有路由已搭好骨架，组件结构已成型，但**页面内容为占位符**，
+> 避免阶段间耦合。阶段 2（内容迁移）需等用户放行后再执行。
 
-### 5.2 列表型页面（依赖数据源）
+#### 已完成的骨架产物
+
+| 类型 | 数量 | 说明 |
+|---|---|---|
+| 新增路由 | 15 | /projects /talks /podcasts /notes /bookmarks /use /media /streams /chat /chat-zh /bar /giving-talks /sponsors-list /collective-sponsor-onetime /404 |
+| 新增组件 | 5 | SubNav.astro / EnglishOnlyToggle.vue / ListPosts.astro / ListProjects.astro / SponsorButtons.astro |
+| 扩展 schema | 4 | content/config.ts 新增 talks / podcasts / media / projects 集合（type:'data'） |
+| 构建产物 | 20 | 20 页全部生成静态 HTML |
+| 验收 | ✅ | 18 条路由 + 404 全部 HTTP 200 |
+
+#### 待阶段 2 执行
+
+- [ ] 将各 md 页面的真实内容从 antfu.me 复制到 astrofu 对应 `.astro` 页面
+- [ ] 迁移 `data/talks.ts`、`data/media.ts`、`demo/data.ts` 到 `src/data/`
+- [ ] 让 `/talks`、`/podcasts`、`/media`、`/projects` 页面读取上述数据并渲染列表
+- [ ] `/notes`、`/streams` 接入 `ListPosts.astro` 并按 type 过滤
+- [ ] 与原站逐页视觉对比验收
+
+---
+
+### 5.1 简单 Markdown 单页（阶段 2 执行）
+
+- [x] `/notes` — 骨架已建（`src/pages/notes.astro`），内容待迁移
+- [x] `/bookmarks` — 骨架已建（`src/pages/bookmarks.astro`），内容待迁移
+- [x] `/use` — 骨架已建（`src/pages/use.astro`），内容待迁移
+- [x] `/chat` — 骨架已建（`src/pages/chat.astro`），内容待迁移
+- [x] `/chat-zh` — 骨架已建（`src/pages/chat-zh.astro`），内容待迁移
+- [x] `/bar` — 骨架已建（`src/pages/bar.astro`），内容待迁移
+- [x] `/giving-talks` — 骨架已建（`src/pages/giving-talks.astro`），内容待迁移
+- [x] `/streams` — 骨架已建（`src/pages/streams.astro`），内容待迁移
+- [x] `/collective-sponsor-onetime` — 骨架已建，内容待迁移
+- [x] `/[...404]` — 已用 Astro 原生 `src/pages/404.astro`
+
+### 5.2 列表型页面（阶段 2 执行）
 
 - [ ] `/posts/index.astro` 升级 — 按年份分组 + `slide-enter` 阶梯入场 + `englishOnly` 过滤（对应原 `ListPosts.vue`）
 - [ ] `/projects` ← [pages/projects.md](file:///Users/raye/code/antfu.me/pages/projects.md) + `ListProjects.vue`

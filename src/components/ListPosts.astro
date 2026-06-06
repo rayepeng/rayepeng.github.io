@@ -1,0 +1,113 @@
+---
+import { formatDate } from '~/logics'
+
+/**
+ * Astro-native replacement for antfu.me/src/components/ListPosts.vue.
+ * Renders posts grouped by year with a big semi-transparent year label
+ * and per-post metadata (lang badge, recording/radio/video icons, date,
+ * duration, platform, place, redirect arrow).
+ */
+
+interface PostItem {
+  slug: string
+  title: string
+  date: string
+  lang?: string
+  duration?: string
+  recording?: string
+  radio?: boolean
+  video?: boolean
+  inperson?: boolean
+  redirect?: string
+  place?: string
+  platform?: string
+  upcoming?: boolean
+}
+
+interface Props {
+  posts: PostItem[]
+}
+
+const { posts } = Astro.props
+
+const sorted = [...posts].sort((a, b) => +new Date(b.date) - +new Date(a.date))
+
+function getYear(d: string) { return new Date(d).getFullYear() }
+function isFuture(d?: string) { return d && new Date(d) > new Date() }
+function isSameGroup(a: PostItem, b?: PostItem) {
+  if (!b) return false
+  return isFuture(a.date) === isFuture(b.date) && getYear(a.date) === getYear(b.date)
+}
+function getGroupName(p: PostItem) {
+  if (isFuture(p.date)) return 'Upcoming'
+  return getYear(p.date)
+}
+---
+
+<ul>
+  {!sorted.length && (
+    <div class="py-2 op50">{'{ nothing here yet }'}</div>
+  )}
+  {sorted.map((post, idx) => {
+    const prev = idx > 0 ? sorted[idx - 1] : undefined
+    const isExt = post.redirect || post.slug.startsWith('http')
+    const href = post.redirect || `/posts/${post.slug}`
+    return (
+      <>
+        {!isSameGroup(post, prev) && (
+          <div
+            class="select-none relative h-20 pointer-events-none slide-enter"
+            style={`--enter-stage: ${idx - 2}; --enter-step: 60ms;`}
+          >
+            <span
+              class="text-8em color-transparent absolute left--3rem top--2rem font-bold text-stroke-2 text-stroke-hex-aaa op10"
+            >
+              {getGroupName(post)}
+            </span>
+          </div>
+        )}
+        <div
+          class="slide-enter"
+          style={`--enter-stage: ${idx}; --enter-step: 60ms;`}
+        >
+          <a
+            href={href}
+            class="item block font-normal mb-6 mt-2 no-underline"
+            {...(isExt ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+          >
+            <li class="no-underline" flex="~ col md:row gap-2 md:items-center">
+              <div class="title text-lg leading-1.2em" flex="~ gap-2 wrap">
+                {post.lang === 'zh' && (
+                  <span align-middle flex-none class="text-xs bg-zinc:15 text-zinc5 rounded px-1 py-0.5 ml--12 mr-2 my-auto hidden md:block">中文</span>
+                )}
+                {post.lang === 'ja' && (
+                  <span align-middle flex-none class="text-xs bg-zinc:15 text-zinc5 rounded px-1 py-0.5 ml--15 mr-2 my-auto hidden md:block">日本語</span>
+                )}
+                <span align-middle>{post.title}</span>
+                {post.redirect && (
+                  <span align-middle op50 flex-none text-xs ml--1.5 i-carbon-arrow-up-right title="External" />
+                )}
+              </div>
+              <div flex="~ gap-2 items-center">
+                {post.inperson && <span align-middle op50 flex-none i-ri:group-2-line title="In person" />}
+                {(post.recording || post.video) && <span align-middle op50 flex-none i-ri:film-line title="Video" />}
+                {post.radio && <span align-middle op50 flex-none i-ri:radio-line title="Radio" />}
+                <span text-sm op50 ws-nowrap>{formatDate(post.date)}</span>
+                {post.duration && <span text-sm op40 ws-nowrap>&middot; {post.duration}</span>}
+                {post.platform && <span text-sm op40 ws-nowrap>&middot; {post.platform}</span>}
+                {post.place && <span text-sm op40 ws-nowrap md:hidden>&middot; {post.place}</span>}
+                {post.lang === 'zh' && (
+                  <span align-middle flex-none class="text-xs bg-zinc:15 text-zinc5 rounded px-1 py-0.5 my-auto md:hidden">中文</span>
+                )}
+                {post.lang === 'ja' && (
+                  <span align-middle flex-none class="text-xs bg-zinc:15 text-zinc5 rounded px-1 py-0.5 my-auto md:hidden">日本語</span>
+                )}
+              </div>
+            </li>
+            {post.place && <div op50 text-sm hidden mt--2 md:block>{post.place}</div>}
+          </a>
+        </div>
+      </>
+    )
+  })}
+</ul>
