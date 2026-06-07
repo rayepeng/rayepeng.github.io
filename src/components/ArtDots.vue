@@ -1,7 +1,5 @@
 <script setup lang="ts">
-import type { Texture } from 'pixi.js'
 import { ref, onMounted, onUnmounted, onScopeDispose, nextTick, effectScope } from 'vue'
-import { Application, Graphics, Particle, ParticleContainer } from 'pixi.js'
 import { createNoise3D } from 'simplex-noise'
 import { useEventListener } from '@vueuse/core'
 
@@ -17,7 +15,7 @@ const SPACING = 15
 const noise3d = createNoise3D()
 
 const existingPoints = new Set<string>()
-const points: { x: number, y: number, opacity: number, particle: Particle }[] = []
+const points: { x: number, y: number, opacity: number, particle: any }[] = []
 
 function getForceOnPoint(x: number, y: number, z: number) {
   return (noise3d(x / SCALE, y / SCALE, z) - 0.5) * 2 * Math.PI
@@ -25,33 +23,12 @@ function getForceOnPoint(x: number, y: number, z: number) {
 
 const mountedScope = effectScope()
 
-function createDotTexture(app: Application) {
-  const g = new Graphics().circle(0, 0, 1).fill(0xCCCCCC)
-  return app.renderer.generateTexture(g)
-}
-
-function addPoints({ dotTexture, particleContainer }: { dotTexture: Texture, particleContainer: ParticleContainer }) {
-  for (let x = -SPACING / 2; x < w + SPACING; x += SPACING) {
-    for (let y = -SPACING / 2; y < h + SPACING; y += SPACING) {
-      const id = `${x}-${y}`
-      if (existingPoints.has(id))
-        continue
-      existingPoints.add(id)
-
-      const particle = new Particle(dotTexture)
-      particle.anchorX = 0.5
-      particle.anchorY = 0.5
-      particleContainer.addParticle(particle)
-
-      const opacity = Math.random() * 0.5 + 0.5
-      points.push({ x, y, opacity, particle })
-    }
-  }
-}
-
 async function setup() {
   if (el.value == null)
     return
+
+  const { Application, Graphics, Particle, ParticleContainer } = await import('pixi.js')
+
   const app = new Application()
   await app.init({
     backgroundAlpha: 0,
@@ -68,8 +45,29 @@ async function setup() {
   const particleContainer = new ParticleContainer({ dynamicProperties: { position: true, alpha: true } })
   app.stage.addChild(particleContainer)
 
-  const dotTexture = createDotTexture(app)
-  addPoints({ dotTexture, particleContainer })
+  const g = new Graphics().circle(0, 0, 1).fill(0xCCCCCC)
+  const dotTexture = app.renderer.generateTexture(g)
+
+  function addPoints() {
+    for (let x = -SPACING / 2; x < w + SPACING; x += SPACING) {
+      for (let y = -SPACING / 2; y < h + SPACING; y += SPACING) {
+        const id = `${x}-${y}`
+        if (existingPoints.has(id))
+          continue
+        existingPoints.add(id)
+
+        const particle = new Particle(dotTexture)
+        particle.anchorX = 0.5
+        particle.anchorY = 0.5
+        particleContainer.addParticle(particle)
+
+        const opacity = Math.random() * 0.5 + 0.5
+        points.push({ x, y, opacity, particle })
+      }
+    }
+  }
+
+  addPoints()
 
   app.ticker.add(() => {
     const t = Date.now() / 10000
@@ -92,7 +90,7 @@ async function setup() {
       w = window.innerWidth
       h = window.innerHeight
       app.renderer.resize(w, h)
-      addPoints({ dotTexture, particleContainer })
+      addPoints()
     })
     onScopeDispose(() => {
       try {
