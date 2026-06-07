@@ -38,6 +38,11 @@ let leftBand = { x0: 0, x1: 0 }
 let rightBand = { x0: 0, x1: 0 }
 const startTime = Date.now()
 
+// Throttle to ~30fps to halve CPU usage (60fps is overkill for ambient anim)
+const FRAME_INTERVAL = 1000 / 30
+let lastFrameTime = 0
+let paused = false
+
 function rand(min: number, max: number) {
   return min + Math.random() * (max - min)
 }
@@ -198,8 +203,16 @@ function render(ctx: CanvasRenderingContext2D, t: number) {
 }
 
 function loop(ctx: CanvasRenderingContext2D) {
-  render(ctx, Date.now())
   rafId = requestAnimationFrame(() => loop(ctx))
+  if (paused) return
+  const now = Date.now()
+  if (now - lastFrameTime < FRAME_INTERVAL) return
+  lastFrameTime = now
+  render(ctx, now)
+}
+
+function handleVisibilityChange() {
+  paused = document.visibilityState === 'hidden'
 }
 
 function handleMouseMove(e: MouseEvent) {
@@ -237,6 +250,7 @@ onMounted(() => {
   loop(ctx)
   window.addEventListener('mousemove', handleMouseMove)
   window.addEventListener('mouseleave', handleMouseLeave)
+  document.addEventListener('visibilitychange', handleVisibilityChange)
   const resizeHandler = () => handleResize(canvas)
   window.addEventListener('resize', resizeHandler)
   // Cleanup hook attaches its own ref
@@ -247,6 +261,7 @@ onUnmounted(() => {
   cancelAnimationFrame(rafId)
   window.removeEventListener('mousemove', handleMouseMove)
   window.removeEventListener('mouseleave', handleMouseLeave)
+  document.removeEventListener('visibilitychange', handleVisibilityChange)
   const canvas = canvasRef.value
   if (canvas && (canvas as any).__resizeHandler) {
     window.removeEventListener('resize', (canvas as any).__resizeHandler)

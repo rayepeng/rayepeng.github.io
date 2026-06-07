@@ -9,6 +9,7 @@ import 'markdown-it-github-alerts/styles/github-base.css'
 import NavBar from '~/components/NavBar.astro'
 import Footer from '~/components/Footer.astro'
 import ImageZoom from '~/components/ImageZoom.vue'
+import ArtPaths from '~/components/ArtPaths.vue'
 
 interface Props {
   title?: string
@@ -74,6 +75,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site).toString()
     </script>
   </head>
   <body>
+    <ArtPaths client:load />
     {!hideNav && <NavBar />}
     <main class:list={['py-10 of-x-hidden', fullwidth ? '' : 'px-7']}>
       <slot />
