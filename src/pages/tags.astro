@@ -110,18 +110,45 @@ const tagsData = sortedTags.map(([tag, { count }]) => ({
 </Default>
 
 <script>
+  function toggleTagSection(header: HTMLElement, expand: boolean) {
+    const body = header.nextElementSibling as HTMLElement
+    if (!body) return
+    body.style.display = expand ? 'block' : 'none'
+    const toggle = header.querySelector('.tag-toggle')!
+    toggle.className = `tag-toggle i-carbon-chevron-${expand ? 'down' : 'right'}`
+    header.classList.toggle('tag-open', expand)
+  }
+
   // Enable expand/collapse for each tag section
   document.querySelectorAll('.tag-header').forEach((header) => {
     header.addEventListener('click', () => {
       const body = header.nextElementSibling as HTMLElement
       if (!body) return
-      const collapsed = body.style.display === 'none'
-      body.style.display = collapsed ? 'block' : 'none'
-      const toggle = header.querySelector('.tag-toggle')!
-      toggle.className = `tag-toggle i-carbon-chevron-${collapsed ? 'down' : 'right'}`
-      header.classList.toggle('tag-open', collapsed)
+      toggleTagSection(header as HTMLElement, body.style.display === 'none')
     })
   })
+
+  // Auto-expand the tag section matching the URL hash
+  function expandFromHash() {
+    const hash = location.hash.slice(1) // e.g. "tag-生活"
+    if (!hash.startsWith('tag-')) return
+    const section = document.getElementById(hash)
+    if (!section) {
+      // Try decoded version
+      const decoded = decodeURIComponent(hash)
+      const decodedSection = document.getElementById(decoded)
+      if (decodedSection) {
+        const header = decodedSection.querySelector('.tag-header') as HTMLElement
+        if (header) toggleTagSection(header, true)
+      }
+      return
+    }
+    const header = section.querySelector('.tag-header') as HTMLElement
+    if (header) toggleTagSection(header, true)
+  }
+
+  expandFromHash()
+  window.addEventListener('hashchange', expandFromHash)
 </script>
 
 <style is:global>
