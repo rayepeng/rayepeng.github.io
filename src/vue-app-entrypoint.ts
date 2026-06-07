@@ -1,7 +1,6 @@
 import type { App } from 'vue'
-import FloatingVue from 'floating-vue'
-import 'floating-vue/dist/style.css'
 
 export default (app: App) => {
-  app.use(FloatingVue)
+  // floating-vue removed — tooltip not currently used.
+  // Re-add with `app.use(FloatingVue)` if tooltips are needed.
 }

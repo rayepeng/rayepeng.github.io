@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import type { Texture } from 'pixi.js'
-import { ref, computed, onMounted, onUnmounted, effectScope } from 'vue'
+import { ref, onMounted, onUnmounted, onScopeDispose, nextTick, effectScope } from 'vue'
 import { Application, Graphics, Particle, ParticleContainer } from 'pixi.js'
 import { createNoise3D } from 'simplex-noise'
-import { useHead, useEventListener } from '@vueuse/core'
+import { useEventListener } from '@vueuse/core'
 
 const el = ref<HTMLDivElement>()
 
-let w = window.innerWidth
-let h = window.innerHeight
+let w = typeof window !== 'undefined' ? window.innerWidth : 800
+let h = typeof window !== 'undefined' ? window.innerHeight : 600
 
 const SCALE = 200
 const LENGTH = 5

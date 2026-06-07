@@ -1,9 +1,20 @@
 import { useDark, useLocalStorage } from '@vueuse/core'
-import { nextTick } from 'vue'
+import { nextTick, ref } from 'vue'
 
-export const isDark = useDark()
-export const englishOnly = useLocalStorage('antfu-english-only', false)
-export const galleryView = useLocalStorage<'cover' | 'contain'>('antfu-gallery-view', 'cover')
+const isBrowser = typeof window !== 'undefined'
+
+// Lazy-initialize VueUse composables so they don't crash during Astro SSR
+// (where `window` / `document` are absent).  On first client-side access we
+// instantiate the real refs; until then we provide plain Vue refs as stubs.
+const _isDark = isBrowser ? useDark() : ref(false)
+const _englishOnly = isBrowser ? useLocalStorage('antfu-english-only', false) : ref(false)
+const _galleryView = isBrowser
+  ? useLocalStorage<'cover' | 'contain'>('antfu-gallery-view', 'cover')
+  : ref<'cover' | 'contain'>('cover')
+
+export const isDark = _isDark
+export const englishOnly = _englishOnly
+export const galleryView = _galleryView
 
 /**
  * Toggle dark mode with a radial clip-path view transition based on the
@@ -14,6 +25,8 @@ export const galleryView = useLocalStorage<'cover' | 'contain'>('antfu-gallery-v
  * Credit: hooray @ vuejs/vitepress#2347
  */
 export function toggleDark(event: MouseEvent) {
+  if (!isBrowser) return
+
   const isAppearanceTransition =
     // @ts-expect-error experimental API
     typeof document !== 'undefined' && document.startViewTransition
