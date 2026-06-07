@@ -76,19 +76,69 @@ html.dark .prose .shiki span {
   width: 100%;
 }
 
-/* Failed image fallback — add `.img-broken` via JS error listener.
-   Keeps it simple: a thin dashed box with the alt text. */
+/* Failed image fallback — `.img-broken` is added by a global error
+   listener in Default.astro. We hide the native broken-image icon and
+   render a friendly "image lost" placeholder via pseudo-elements.
+
+   Pseudo-elements DO work on <img> once the resource has failed to
+   load, because the element is no longer treated as a replaced element. */
 .prose img.img-broken {
-  min-height: 60px;
-  padding: 1em;
-  border: 1px dashed rgba(125, 125, 125, 0.3);
-  border-radius: 6px;
-  color: rgba(125, 125, 125, 0.7);
-  font-family: 'DM Mono', monospace;
-  font-size: 0.85em;
+  position: relative;
+  display: block;
+  width: 100%;
+  min-height: 140px;
+  margin: 1.5em 0;
+  padding: 2em 1em;
+  border: 1px dashed rgba(125, 125, 125, 0.35);
+  border-radius: 10px;
+  background: rgba(125, 125, 125, 0.04);
+  color: transparent; /* hide the bare alt text browsers may render */
+  overflow: hidden;
+  /* Soft idle-bounce so the placeholder feels alive */
+  animation: img-broken-float 4s ease-in-out infinite;
+}
+
+.prose img.img-broken::before {
+  content: '🖼️';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, calc(-50% - 1.2em));
+  font-size: 2em;
+  filter: grayscale(0.4);
+  animation: img-broken-wiggle 2.4s ease-in-out infinite;
+}
+
+.prose img.img-broken::after {
+  content: '这里有一张图片的，但是加载失败了 ฅ(°ω°ฅ)';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, calc(-50% + 1em));
+  width: max-content;
+  max-width: 90%;
   text-align: center;
-  /* Show alt text via :after when img fails (works because we keep the
-     <img> but JS adds class + sets a CSS var). */
+  font-family: 'DM Mono', 'Input Mono', monospace;
+  font-size: 0.85em;
+  color: rgba(125, 125, 125, 0.85);
+  letter-spacing: 0.02em;
+}
+
+@keyframes img-broken-wiggle {
+  0%, 100% { transform: translate(-50%, calc(-50% - 1.2em)) rotate(-4deg); }
+  50%      { transform: translate(-50%, calc(-50% - 1.2em)) rotate(4deg); }
+}
+
+@keyframes img-broken-float {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(125, 125, 125, 0); }
+  50%      { box-shadow: 0 0 0 4px rgba(125, 125, 125, 0.04); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .prose img.img-broken,
+  .prose img.img-broken::before {
+    animation: none;
+  }
 }
 
 .prose p > img {
