@@ -65,6 +65,7 @@ export default defineConfig({
   vite: {
     ssr: {
       noExternal: ['floating-vue', 'shiki-magic-move'],
+      external: ['pixi.js'],
     },
   },
 })
