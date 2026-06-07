@@ -7,16 +7,19 @@
 </template>
 
 <script setup lang="ts">
+import { onMounted } from 'vue'
+
 defineProps<{ id: string; user?: string }>()
 
-useHead({
-  script: [
-    {
-      src: 'https://platform.twitter.com/widgets.js',
-      async: true,
-      tagPosition: 'bodyClose',
-    },
-  ],
+onMounted(() => {
+  // Load Twitter widgets script if not already loaded
+  if (!document.getElementById('twitter-widgets-script')) {
+    const script = document.createElement('script')
+    script.id = 'twitter-widgets-script'
+    script.src = 'https://platform.twitter.com/widgets.js'
+    script.async = true
+    document.body.appendChild(script)
+  }
 })
 </script>
 

@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import type { Texture } from 'pixi.js'
+import { ref, computed, onMounted, onUnmounted, effectScope } from 'vue'
 import { Application, Graphics, Particle, ParticleContainer } from 'pixi.js'
 import { createNoise3D } from 'simplex-noise'
+import { useHead, useEventListener } from '@vueuse/core'
 
 const el = ref<HTMLDivElement>()
 

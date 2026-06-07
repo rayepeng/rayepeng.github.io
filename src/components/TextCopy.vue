@@ -10,6 +10,8 @@
 </template>
 
 <script setup lang="ts">
+import { ref } from 'vue'
+
 const props = defineProps<{ text?: string }>()
 const copied = ref(false)
 

@@ -11,6 +11,8 @@
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue'
+
 const props = defineProps<{ id: string }>()
 const videoId = computed(() => {
   // Support full URL or just the ID

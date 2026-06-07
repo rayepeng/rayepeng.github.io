@@ -13,6 +13,7 @@
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue'
 import { media, type MediaType } from '~/data/media'
 
 const labels: Record<MediaType, string> = {

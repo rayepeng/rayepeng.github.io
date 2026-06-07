@@ -4,9 +4,23 @@ import ToggleTheme from '~/components/ToggleTheme.vue'
 import BackToTop from '~/components/BackToTop.vue'
 
 /**
- * Matches antfu.me/src/components/NavBar.vue 1:1 in terms of items, icons and
- * responsive visibility. Astro replaces <RouterLink> with plain <a href>.
+ * NavBar items — set enabled: false to hide any nav item temporarily.
+ * Items with `alwaysShow: true` are always visible (not hidden on mobile).
  */
+const navItems = [
+  { href: '/posts', title: 'Blog', icon: 'i-ri-article-line', label: 'Blog', enabled: true, alwaysShow: true },
+  { href: '/projects', title: 'Projects', icon: 'i-ri-lightbulb-line', label: 'Projects', enabled: true, alwaysShow: true },
+  { href: '/talks', title: 'Talks', icon: '', label: 'Talks', enabled: true, alwaysShow: false },
+  { href: '/sponsors-list', title: 'Sponsors', icon: 'i-ri-heart-line', label: 'Sponsors', enabled: true, alwaysShow: true },
+  { href: '/podcasts', title: 'Podcasts', icon: 'i-ri-mic-line', label: '', enabled: true, alwaysShow: false },
+  { href: '/photos', title: 'Photos', icon: 'i-ri-camera-3-line', label: '', enabled: false },
+  { href: '/demos', title: 'Demos', icon: 'i-ri-screenshot-line', label: '', enabled: false },
+  { href: 'https://bsky.app/profile/antfu.me', title: 'Bluesky', icon: 'i-ri-bluesky-line', label: '', enabled: true, alwaysShow: false, external: true },
+  { href: 'https://github.com/antfu', title: 'GitHub', icon: 'i-uil-github-alt', label: '', enabled: true, alwaysShow: false, external: true },
+  { href: '/feed.xml', title: 'RSS', icon: 'i-la-rss-square', label: '', enabled: true, alwaysShow: false, iconStyle: 'font-size:1.25rem; margin: 0 -0.125rem;' },
+]
+
+const visibleItems = navItems.filter(i => i.enabled)
 ---
 
 <header class="header z-40">
@@ -23,39 +37,18 @@ import BackToTop from '~/components/BackToTop.vue'
   <nav class="nav">
     <div class="spacer" />
     <div class="right" print:op0>
-      <a href="/posts" title="Blog">
-        <span class="lt-md:hidden">Blog</span>
-        <div i-ri-article-line class="md:hidden" />
-      </a>
-      <a href="/projects" title="Projects">
-        <span class="lt-md:hidden">Projects</span>
-        <div i-ri-lightbulb-line class="md:hidden" />
-      </a>
-      <a href="/talks" class="lt-md:hidden" title="Talks">
-        Talks
-      </a>
-      <a href="/sponsors-list" title="Sponsors">
-        <span class="lt-md:hidden">Sponsors</span>
-        <div i-ri-heart-line class="md:hidden" />
-      </a>
-      <a href="/podcasts" class="lt-md:hidden" title="Podcasts">
-        <div i-ri-mic-line />
-      </a>
-      <a href="/photos" title="Photos">
-        <div i-ri-camera-3-line />
-      </a>
-      <a href="/demos" title="Demos">
-        <div i-ri-screenshot-line />
-      </a>
-      <a href="https://bsky.app/profile/antfu.me" target="_blank" rel="noopener noreferrer" title="Bluesky" class="lt-md:hidden">
-        <div i-ri-bluesky-line />
-      </a>
-      <a href="https://github.com/antfu" target="_blank" rel="noopener noreferrer" title="GitHub" class="lt-md:hidden">
-        <div i-uil-github-alt />
-      </a>
-      <a href="/feed.xml" target="_blank" title="RSS" class="lt-md:hidden">
-        <div i-la-rss-square style="font-size:1.25rem; margin: 0 -0.125rem;" />
-      </a>
+      {visibleItems.map(item => (
+        <a
+          href={item.href}
+          title={item.title}
+          class:list={[!item.alwaysShow && 'lt-md:hidden']}
+          target={item.external ? '_blank' : undefined}
+          rel={item.external ? 'noopener noreferrer' : undefined}
+        >
+          {item.label && <span class="lt-md:hidden">{item.label}</span>}
+          {item.icon && <div class:list={[item.icon, item.label ? 'md:hidden' : '']} style={item.iconStyle || ''} />}
+        </a>
+      ))}
       <ToggleTheme client:load />
     </div>
   </nav>
