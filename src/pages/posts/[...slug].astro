@@ -15,6 +15,9 @@ export const getStaticPaths = (async () => {
 
 const { entry } = Astro.props
 const { title, date, description, image, lang, redirect } = entry.data
+// Extract tags and category from data (may be undefined for legacy posts)
+const tags: string[] = (entry.data as any).tags ?? []
+const category: string = (entry.data as any).category ?? ''
 
 const { Content, headings, remarkPluginFrontmatter } = await entry.render()
 ---
@@ -35,7 +38,7 @@ const { Content, headings, remarkPluginFrontmatter } = await entry.render()
 
 <Default title={`${title} — Raye's Journey`} description={description || title}>
   <SubNav active="/posts" />
-  <PostLayout title={title} date={date} description={description} image={image} lang={lang} headings={headings}>
+  <PostLayout title={title} date={date} description={description} image={image} lang={lang} tags={tags} category={category} headings={headings}>
     <Content />
   </PostLayout>
 </Default>

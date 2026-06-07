@@ -7,13 +7,27 @@ interface Props {
   description?: string
   image?: string
   lang?: string
+  tags?: string[]
+  category?: string
   headings?: { depth: number; slug: string; text: string }[]
 }
 
-const { title, date, description = '', image = '', lang = 'en' } = Astro.props
+const {
+  title,
+  date,
+  description = '',
+  image = '',
+  lang = 'en',
+  tags = [],
+  category = '',
+  headings = [],
+} = Astro.props
 const siteUrl = Astro.site?.toString() || 'https://rayepeng.github.io/'
 const ogImage = image || `${siteUrl}og/${Astro.params.slug}.png`
 const canonicalURL = new URL(Astro.url.pathname, siteUrl)
+
+// Only h1 and h2 for outline
+const outline = headings.filter(h => h.depth <= 2)
 ---
 
 <Fragment slot="og">
@@ -22,13 +36,39 @@ const canonicalURL = new URL(Astro.url.pathname, siteUrl)
   <meta property="article:author" content="Raye" />
   <meta property="og:image" content={ogImage} />
   <meta name="twitter:image" content={ogImage} />
+  {tags.map(tag => <meta property="article:tag" content={tag} />)}
 </Fragment>
 
 <article class="prose m-auto mb-8 slide-enter-content">
   <h1>{title}</h1>
-  <p class="post-date">
+  <div class="post-meta">
     <time datetime={date}>{formatDate(date, false)}</time>
-  </p>
+    {tags.length > 0 && (
+      <div class="post-tags">
+        {tags.map(tag => (
+          <a href={`/tags#tag-${encodeURIComponent(tag)}`} class="post-tag">#{tag}</a>
+        ))}
+      </div>
+    )}
+  </div>
+
+  {outline.length > 1 && (
+    <nav class="post-outline" id="post-outline">
+      <div class="outline-title">Outline</div>
+      <div class="outline-list">
+        {outline.map(h => (
+          <a
+            href={`#${h.slug}`}
+            class:list={['outline-item', `outline-h${h.depth}`]}
+            data-slug={h.slug}
+          >
+            {h.text}
+          </a>
+        ))}
+      </div>
+    </nav>
+  )}
+
   <slot />
 </article>
 
@@ -41,11 +81,127 @@ const canonicalURL = new URL(Astro.url.pathname, siteUrl)
   >cd ..</a>
 </div>
 
+<script>
+  // Scroll spy: highlight the outline item matching the current scroll position
+  const outline = document.getElementById('post-outline')
+  if (outline) {
+    const items = outline.querySelectorAll<HTMLAnchorElement>('.outline-item')
+    const anchors = [...items].map(item => document.getElementById(item.dataset.slug!)).filter(Boolean) as HTMLElement[]
+
+    function updateActive() {
+      let current = ''
+      for (const anchor of anchors) {
+        if (anchor.getBoundingClientRect().top <= 120) {
+          current = anchor.id
+        }
+      }
+      items.forEach(item => {
+        item.classList.toggle('outline-active', item.dataset.slug === current)
+      })
+    }
+
+    window.addEventListener('scroll', updateActive, { passive: true })
+    updateActive()
+
+    // Smooth scroll on click
+    items.forEach(item => {
+      item.addEventListener('click', (e) => {
+        e.preventDefault()
+        const target = document.getElementById(item.dataset.slug!)
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' })
+        }
+      })
+    })
+  }
+</script>
+
 <style>
-  .post-date {
+  .post-meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.8rem;
     opacity: 0.5;
-    margin-top: -1.5rem !important;
+    margin-top: -1.5rem;
     margin-bottom: 2rem;
     font-size: 0.9em;
+  }
+
+  .post-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  .post-tag {
+    font-size: 0.85em;
+    color: inherit;
+    text-decoration: none;
+    padding: 0.1rem 0.5rem;
+    border: 1px solid rgba(125, 125, 125, 0.2);
+    border-radius: 99px;
+    transition: background 0.15s, border-color 0.15s;
+  }
+  .post-tag:hover {
+    background: rgba(125, 125, 125, 0.08);
+    border-color: rgba(125, 125, 125, 0.35);
+  }
+
+  .post-outline {
+    margin-bottom: 2rem;
+    padding: 1rem 1.2rem;
+    border-radius: 10px;
+    border: 1px solid rgba(125, 125, 125, 0.12);
+    background: rgba(125, 125, 125, 0.03);
+  }
+
+  .outline-title {
+    font-size: 0.8em;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    opacity: 0.45;
+    margin-bottom: 0.5rem;
+    font-family: 'DM Mono', monospace;
+  }
+
+  .outline-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+
+  .outline-item {
+    display: block;
+    font-size: 0.88em;
+    color: inherit;
+    text-decoration: none;
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    opacity: 0.55;
+    transition: background 0.15s, opacity 0.15s, color 0.15s;
+    line-height: 1.5;
+  }
+  .outline-item:hover {
+    background: rgba(125, 125, 125, 0.06);
+    opacity: 0.85;
+  }
+  .outline-item.outline-active {
+    opacity: 1;
+    color: #e8a540;
+    background: rgba(232, 165, 64, 0.06);
+    font-weight: 500;
+  }
+  .dark .outline-item.outline-active {
+    color: #d4953a;
+    background: rgba(212, 149, 58, 0.08);
+  }
+
+  .outline-h1 {
+    padding-left: 0.5rem;
+  }
+  .outline-h2 {
+    padding-left: 1.2rem;
   }
 </style>
