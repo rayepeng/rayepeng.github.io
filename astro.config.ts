@@ -2,7 +2,7 @@ import { defineConfig } from 'astro/config'
 import vue from '@astrojs/vue'
 import mdx from '@astrojs/mdx'
 import UnoCSS from '@unocss/astro'
-// import sitemap from '@astrojs/sitemap'
+import sitemap from '@astrojs/sitemap'
 
 import rehypeSlug from 'rehype-slug'
 import rehypeAutolinkHeadings from 'rehype-autolink-headings'
@@ -24,7 +24,7 @@ export default defineConfig({
     UnoCSS({ injectReset: true }),
     vue({ appEntrypoint: '/src/vue-app-entrypoint.ts' }),
     mdx(),
-    // sitemap(),
+    sitemap(),
   ],
   markdown: {
     syntaxHighlight: 'shiki',

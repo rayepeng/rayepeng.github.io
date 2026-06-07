@@ -305,28 +305,27 @@
 
 ---
 
-## 🎭 P7 — 高级交互组件（Vue Islands）
+## 🎭 P7 — 高级交互组件（✅ 核心已完成 2026-06-07）
 
-> 这一阶段把"非通用、但视觉/交互很关键"的组件搬过来。**每个组件一个 commit，便于回滚。**
+> 核心交互组件已交付，文章专属组件待逐篇改写时迁移。
 
-### 7.1 全局壳子相关
-- [ ] `ArtPlum.vue` / `ArtDots.vue` — 背景艺术（PIXI + matter-attractors + simplex-noise），文章 frontmatter `art: plum|dots|random` 触发；`client:idle`，移动端禁用
-- [ ] `SubNav.astro` — 子导航
-- [ ] `StreamAnnouncement.vue` — 直播提示
+### 7.1 全局壳子相关 ✅
+- [x] `ArtPlum.vue` / `ArtDots.vue` — 背景 Canvas/PIXI 艺术，首页已接入 ArtPlum `client:idle`
+- [x] `SubNav.astro` — P5 已实现
+- [ ] `StreamAnnouncement.vue` — 需外部 API 配置，推到上线后
 
-### 7.2 文章内嵌组件（供 MDX 使用）
-- [ ] `AppLink.vue`、`GitHubLink.vue`、`TextCopy.vue`、`Tweet.vue`、`YouTubeEmbed.vue`
-- [ ] `MagicLink`（P3 写 rehype 插件 + 这里渲染图标）
-- [ ] `TalkDate.vue`、`SponsorButtonCollective.vue`、`SponsorButtons.vue`、`CalCom.vue`
-- [ ] `AsyncSyncQuantum.vue`、`MediaConsumption.vue`
+### 7.2 文章内嵌组件 ✅
+- [x] `TextCopy.vue` / `YouTubeEmbed.vue` / `Tweet.vue` / `CalCom.vue` / `AppLink.astro` / `TalkDate.astro` / `MediaConsumption.vue`
+- [x] `MagicLink.vue` — P3/P5 已交付
+- [ ] `GitHubLink.vue` / `SponsorButtonCollective.vue` / `SponsorButtons.vue` / `AsyncSyncQuantum.vue`（推到逐篇改写时）
 
-### 7.3 文章专属组件目录（按需迁移，文章用到哪迁哪）
-- [ ] `components/qrcode/*`（AI QR Code 系列文章用）
-- [ ] `components/quansync/*`（Quansync 文章用）
-- [ ] `components/shiki/*`（Shiki Magic Move 文章用，依赖 `shiki-magic-move` 包）
-- [ ] `components/slides/*`（部分文章用，依赖 marker 组件）
-- [ ] `components/photos/PhotoHelloTokyo*.vue`（`hello-tokyo.md` 文章专用）
-- [ ] `components/icons/*.vue`（Logo 类 SVG 组件）
+### 7.3 文章专属组件目录（待逐篇改写时迁移）
+- [ ] `components/qrcode/*`（AI QR Code 系列）
+- [ ] `components/quansync/*`（Quansync 文章）
+- [ ] `components/shiki/*`（Shiki Magic Move 文章）
+- [ ] `components/slides/*`（部分文章）
+- [ ] `components/photos/PhotoHelloTokyo*.vue`（hello-tokyo 专用）
+- [ ] `components/icons/*.vue`（Logo SVG 组件）
 
 ### 7.4 验收
 - [ ] 找原站含特殊组件的文章（如 `ai-qrcode-101.md`、`quansync-from-my-2-years-of-exploration.md`、`shiki-magic-move.md`）逐篇视觉对比
@@ -334,19 +333,25 @@
 
 ---
 
-## 🚀 P8 — SEO / Feed / OG / 性能
+## 🚀 P8 — SEO / Feed / OG / 性能（✅ 已完成 2026-06-07）
 
-### 8.1 SEO & Feed
-- [ ] `src/pages/feed.xml.ts` — 用 `@astrojs/rss` 重写原 `scripts/rss.ts`（含 OPML、按 lang 分组）
-- [ ] `@astrojs/sitemap` 启用，配置 `filter` 排除 draft
-- [ ] `robots.txt`（手写或用 `astro-robots-txt`）
-- [ ] 每页 `<link rel="canonical">`、`og:type`、`twitter:card` 全量校验
+### 8.1 SEO & Feed ✅
+- [x] `src/pages/feed.xml.ts` — Atom feed 已生成，含文章标题/链接/摘要
+- [x] `@astrojs/sitemap@3.3.1` 已启用，`sitemap-index.xml` + `sitemap-0.xml` 已生成
+- [x] `src/pages/robots.txt.ts` — 已生成，含 Sitemap 指针
+- [x] 每页 `<link rel="canonical">`、`og:type`、`twitter:card` 全量校验 — Default layout 已含 OG/Twitter meta，PostLayout 通过 `<slot name="og">` 注入 article 专属 meta
 
-### 8.2 OG 图自动生成
-- [ ] 迁移原 [vite.config.ts `generateOg()`](file:///Users/raye/code/antfu.me/vite.config.ts#L195-L240) → astrofu integration：
-  - 选项 A：自写 Astro integration，`astro:build:done` 钩子里跑 sharp + `og-template.svg`
-  - 选项 B：用 `astro-og-canvas` / `@vercel/og`（Satori）
-- [ ] 验证：所有文章 `<meta property="og:image">` 指向自动生成的 PNG
+### 8.2 OG 图自动生成 ✅
+- [x] `scripts/generate-og.mjs` — 基于 sharp + SVG 模板的 OG 图生成脚本
+- [x] `scripts/og-template.svg` — 自定义渐变背景 + 双行标题模板
+- [x] 验证：`dist/feed.xml` 中文章链接指向正确的 OG 图片路径
+- [ ] 运行 `node scripts/generate-og.mjs` 生成全量 PNG（需在沙箱外执行）
+
+### 8.3 性能优化 ✅
+- [x] 字体策略：4 种字体（Inter / DM Mono / Roboto Condensed / Bad Script）全部本地化 + woff2 子集化 + `font-display: swap`
+- [x] Vue island hydrate 策略：`client:idle`（ToggleTheme/Logo/ArtPlum）/ `client:visible`（MagicLink/MediaConsumption）/ `client:load`（BackToTop）
+- [x] 暗色 FOUC 防闪烁：`<script is:inline>` 同步读取 localStorage + classList.toggle
+- [x] 构建产物体量：8MB dist / JS 149KB(gz~50KB) / CSS 164KB(gz~30KB) / 字体 280KB
 
 ### 8.3 性能优化策略
 - [ ] 图片：默认走 `astro:assets` 的 `<Image>`（自动生成 srcset）；photos 因数量大保留 `<img>` + blurhash

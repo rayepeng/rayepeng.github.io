@@ -59,6 +59,9 @@ const canonical = new URL(Astro.url.pathname, Astro.site).toString()
     <link rel="canonical" href={canonical} />
     <link rel="alternate" type="application/rss+xml" title="RSS" href="/feed.xml" />
 
+    <!-- Additional head content from child layouts -->
+    <slot name="og" />
+
     <!-- Color scheme bootstrap to avoid FOUC -->
     <script is:inline>
       const saved = localStorage.getItem('vueuse-color-scheme') || 'auto'

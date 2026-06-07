@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a1a2e"/>
+      <stop offset="50%" style="stop-color:#16213e"/>
+      <stop offset="100%" style="stop-color:#0f3460"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <!-- Decorative dots pattern -->
+  <g opacity="0.1">
+    <circle cx="100" cy="100" r="80" fill="#e94560"/>
+    <circle cx="1100" cy="530" r="120" fill="#533483"/>
+    <circle cx="900" cy="80" r="60" fill="#0f3460"/>
+    <circle cx="200" cy="500" r="90" fill="#533483"/>
+  </g>
+  <!-- Title text -->
+  <text x="80" y="320" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="56" font-weight="800" fill="#ffffff">
+    <tspan x="80" y="320">{{line1}}</tspan>
+    <tspan x="80" y="400">{{line2}}</tspan>
+  </text>
+  <!-- Subtitle -->
+  <text x="80" y="500" font-family="system-ui, -apple-system, sans-serif" font-size="26" font-weight="400" fill="#888888">{{date}} · Anthony Fu</text>
+  <!-- Avatar indicator -->
+  <circle cx="1080" cy="120" r="40" fill="#e94560" opacity="0.8"/>
+  <text x="1080" y="130" font-family="system-ui, sans-serif" font-size="28" font-weight="700" fill="#ffffff" text-anchor="middle">AF</text>
+</svg>

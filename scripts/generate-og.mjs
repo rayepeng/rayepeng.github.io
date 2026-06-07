@@ -1,57 +1,103 @@
 /**
- * Post-build OG image generator
- * Reads all post frontmatter from astrofu/dist content, generates og-image PNG via sharp + SVG template,
- * writes to astrofu/public/og/<slug>.png — then they'll be picked up by next build.
+ * OG image generator for astrofu
  *
- * For now this is a standalone script. Run: node scripts/generate-og.mjs
- * Will be wired as a postbuild hook in P9.
+ * Reads all post frontmatter from Content Collection (via glob scan of frontmatter),
+ * generates PNG via sharp + SVG template, writes to public/og/<slug>.png.
+ *
+ * Run: node scripts/generate-og.mjs
  */
-import { readFileSync, existsSync, mkdirSync, writeFileSync } from 'node:fs'
+import { readFileSync, existsSync, mkdirSync, writeFileSync, readdirSync } from 'node:fs'
 import { join } from 'node:path'
 import sharp from 'sharp'
 
-const DIST = '/Users/raye/code/astrofu/dist'
+const POSTS_DIR = '/Users/raye/code/astrofu/src/content/posts'
 const OG_DIR = '/Users/raye/code/astrofu/public/og'
-const TEMPLATE = `/Users/raye/code/astrofu/scripts/og-template.svg`
+const TEMPLATE = '/Users/raye/code/astrofu/scripts/og-template.svg'
 
 if (!existsSync(OG_DIR)) mkdirSync(OG_DIR, { recursive: true })
 
-// Read the SVG template
-let svgTemplate = ''
-if (existsSync(TEMPLATE)) {
-  svgTemplate = readFileSync(TEMPLATE, 'utf-8')
-} else {
-  // Inline minimal template
-  svgTemplate = `<svg width="1200" height="630" xmlns="http://www.w3.org/2000/svg">
-  <rect width="1200" height="630" fill="#fafafa"/>
-  <text x="60" y="340" font-family="Inter,sans-serif" font-size="64" font-weight="700" fill="#333">{{TITLE}}</text>
-  <text x="60" y="420" font-family="Inter,sans-serif" font-size="28" fill="#888">{{DATE}} · Anthony Fu</text>
-</svg>`
-}
+const svgTemplate = readFileSync(TEMPLATE, 'utf-8')
 
-// Scan dist for post HTML files and extract title/date from embedded JSON-LD
-function extractPosts() {
-  // This is a simplified version — in production, read from Content Collection directly
-  // For now, just log instructions
-  console.log('OG image generator ready.')
-  console.log('To generate OG images, ensure antfu.me/scripts/og-template.svg exists,')
-  console.log('then run: node scripts/generate-og.mjs')
-  return []
-}
-
-const posts = extractPosts()
-
-for (const post of posts) {
-  const svg = svgTemplate
-    .replace('{{TITLE}}', escapeXml(post.title))
-    .replace('{{DATE}}', post.date)
-
-  const pngBuffer = await sharp(Buffer.from(svg)).png().toBuffer()
-  const outPath = join(OG_DIR, `${post.slug}.png`)
-  writeFileSync(outPath, pngBuffer)
-  console.log(`Generated: ${outPath}`)
+// Parse YAML frontmatter from markdown files
+function parseFrontmatter(content: string) {
+  const match = content.match(/^---\n([\s\S]*?)\n---/)
+  if (!match) return {}
+  const yaml = match[1]
+  const result: Record<string, string> = {}
+  for (const line of yaml.split('\n')) {
+    const kv = line.match(/^(\w+):\s*['"]?(.*?)['"]?\s*$/)
+    if (kv) result[kv[1]] = kv[2]
+  }
+  return result
 }
 
 function escapeXml(s: string) {
-  return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+  return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
 }
+
+function formatDate(dateStr: string) {
+  try {
+    const d = new Date(dateStr)
+    return d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
+  }
+  catch {
+    return dateStr
+  }
+}
+
+// Split title into two lines if too long
+function splitTitle(title: string): [string, string] {
+  const maxChars = 30
+  if (title.length <= maxChars) return [title, '']
+  // Try to split at a space near the middle
+  const mid = Math.floor(title.length / 2)
+  let splitIdx = title.lastIndexOf(' ', mid + 5)
+  if (splitIdx <= 0 || splitIdx > mid + 10) splitIdx = title.indexOf(' ', mid - 5)
+  if (splitIdx <= 0) return [title.slice(0, maxChars) + '…', '']
+  return [title.slice(0, splitIdx), title.slice(splitIdx + 1)]
+}
+
+const files = readdirSync(POSTS_DIR).filter(f => f.endsWith('.md'))
+let generated = 0
+let skipped = 0
+
+for (const file of files) {
+  const content = readFileSync(join(POSTS_DIR, file), 'utf-8')
+  const fm = parseFrontmatter(content)
+
+  // Skip drafts and redirects
+  if (fm.draft === 'true' || fm.redirect) {
+    skipped++
+    continue
+  }
+
+  const slug = file.replace(/\.md$/, '')
+  const title = fm.title || slug
+  const date = fm.date ? formatDate(fm.date) : ''
+
+  const [line1, line2] = splitTitle(title)
+  const svg = svgTemplate
+    .replace('{{line1}}', escapeXml(line1))
+    .replace('{{line2}}', escapeXml(line2))
+    .replace('{{date}}', date)
+
+  const outPath = join(OG_DIR, `${slug}.png`)
+
+  // Skip if already exists and newer than source
+  if (existsSync(outPath)) {
+    skipped++
+    continue
+  }
+
+  try {
+    const pngBuffer = await sharp(Buffer.from(svg)).png().toBuffer()
+    writeFileSync(outPath, pngBuffer)
+    generated++
+    if (generated <= 5 || generated % 20 === 0) console.log(`  Generated: ${slug}.png`)
+  }
+  catch (e: any) {
+    console.error(`  FAILED: ${slug} — ${e.message}`)
+  }
+}
+
+console.log(`\nOG generation complete: ${generated} generated, ${skipped} skipped`)

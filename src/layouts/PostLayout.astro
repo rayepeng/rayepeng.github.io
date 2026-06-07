@@ -4,11 +4,25 @@ import { formatDate } from '~/logics'
 interface Props {
   title: string
   date: string
+  description?: string
+  image?: string
+  lang?: string
   headings?: { depth: number; slug: string; text: string }[]
 }
 
-const { title, date } = Astro.props
+const { title, date, description = '', image = '', lang = 'en' } = Astro.props
+const siteUrl = Astro.site?.toString() || 'https://antfu.me/'
+const ogImage = image || `${siteUrl}og/${Astro.params.slug}.png`
+const canonicalURL = new URL(Astro.url.pathname, siteUrl)
 ---
+
+<Fragment slot="og">
+  <meta property="og:type" content="article" />
+  <meta property="article:published_time" content={date} />
+  <meta property="article:author" content="Anthony Fu" />
+  <meta property="og:image" content={ogImage} />
+  <meta name="twitter:image" content={ogImage} />
+</Fragment>
 
 <article class="prose m-auto mb-8 slide-enter-content">
   <h1>{title}</h1>

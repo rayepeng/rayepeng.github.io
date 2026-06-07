@@ -14,11 +14,11 @@ export const getStaticPaths = (async () => {
 
 const { entry } = Astro.props
 const { Content, headings, remarkPluginFrontmatter } = await entry.render()
-const { title, date, description } = entry.data
+const { title, date, description, image, lang } = entry.data
 ---
 
 <Default title={`${title} — Anthony Fu`} description={description || title}>
-  <PostLayout title={title} date={date} headings={headings}>
+  <PostLayout title={title} date={date} description={description} image={image} lang={lang} headings={headings}>
     <Content />
   </PostLayout>
 </Default>
