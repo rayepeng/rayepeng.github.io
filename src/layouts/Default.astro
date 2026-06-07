@@ -18,6 +18,8 @@ interface Props {
   hideNav?: boolean
   /** Hide the global Footer. */
   hideFooter?: boolean
+  /** Full-width layout (no horizontal padding). */
+  fullwidth?: boolean
 }
 
 const {
@@ -26,6 +28,7 @@ const {
   image = 'https://antfu.me/og.png',
   hideNav = false,
   hideFooter = false,
+  fullwidth = false,
 } = Astro.props
 
 const canonical = new URL(Astro.url.pathname, Astro.site).toString()
@@ -72,7 +75,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site).toString()
   </head>
   <body>
     {!hideNav && <NavBar />}
-    <main class="px-7 py-10 of-x-hidden">
+    <main class:list={['py-10 of-x-hidden', fullwidth ? '' : 'px-7']}>
       <slot />
     </main>
     {!hideFooter && <Footer />}

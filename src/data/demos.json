@@ -1,0 +1,158 @@
+[
+  {
+    "date": "2023-06-23",
+    "link": "https://twitter.com/antfu7/status/1671974341032935424",
+    "description": "The upcoming Picture-in-Picture API that Chrome is pushing is soo promising! 🤩\n\n[<span i-logos-nuxt-icon /> Nuxt DevTools](https://github.com/nuxt/devtools) is now able to pop up as a separate window!",
+    "video": "/demo/2023-06-23.mp4"
+  },
+  {
+    "date": "2023-06-15",
+    "link": "https://twitter.com/nuxt_js/status/1669329360933797891",
+    "description": "Nuxt Devtools 0.6 is out 🪄\n\n- ✨ New floating panel with time-to render and shortcut to inspect Vue components\n- ⌨️ CMD+K to jump around tabs or open the Nuxt documentation [@arash_sheyda](https://twitter.com/arash_sheyda)",
+    "video": "/demo/2023-06-15.mp4"
+  },
+  {
+    "date": "2023-06-06",
+    "link": "https://twitter.com/nuxt_js/status/1666097021638565893",
+    "description": "Nuxt Movies Demo now leverages the browser View Transitions API 🪄\n\n<p>\n<GitHubLink repo=\"nuxt/movies\" />\n</p>",
+    "video": "/demo/2023-06-06.mp4"
+  },
+  {
+    "date": "2023-05-23",
+    "link": "https://twitter.com/nuxt_js/status/1661012222053855232",
+    "description": "Nuxt Devtools v0.5 is out ✨\n\n- Search and install modules\n- Analyze production builds\n- Interact with server routes",
+    "video": "/demo/2023-05-23.mp4"
+  },
+  {
+    "date": "2023-05-08",
+    "link": "https://twitter.com/antfu7/status/1655554923667308544",
+    "description": "⚓️ Just landed in the [<span i-logos-nuxt-icon /> Nuxt DevTools](https://github.com/nuxt/devtools)! Now we are able to inspect the Open Graph tags on each route, preview it and copy the snippet to improve them directly!\n\n💚 Great thanks to [@arash_sheyda](https://twitter.com/arash_sheyda) again for cooking so many awesome integrations, and Vercel for the nice design reference!",
+    "video": "/demo/2023-05-08.mp4"
+  },
+  {
+    "date": "2023-05-07",
+    "link": "https://twitter.com/antfu7/status/1655280793688604676",
+    "description": "Took some time to refine [antfu.me](/) a bit.\n\nThanks to [@pacocoursey](https://twitter.com/pacocoursey)'s animation, it looks a lot more vibrant now 😆",
+    "video": "/demo/2023-05-07.mp4"
+  },
+  {
+    "date": "2023-04-30",
+    "link": "https://twitter.com/i/status/1652490775664508929",
+    "description": "🔍 Now in the latest [<span i-logos-nuxt-icon /> Nuxt DevTools](https://github.com/nuxt/devtools), you are able to inspect the elements, open the corresponding source right inside the embedded VS Code, and edit them with HMR!\n\nFULL FEEDBACK LOOP - make changes without the need to learn project structure - or even leave the browser! 🤯",
+    "video": "/demo/2023-04-30.mp4"
+  },
+  {
+    "date": "2023-03-27",
+    "link": "https://twitter.com/nuxt_js/status/1640370414160412673",
+    "description": "Introducing the Nuxt Devtools ✨",
+    "video": "/demo/2023-03-27.mp4"
+  },
+  {
+    "date": "2023-03-18",
+    "link": "https://twitter.com/antfu7/status/1637080965850755072",
+    "description": "🚀 Quality of Life updates to Icônes!\n\n🌵 Variants filter\n🕦 Recently used icons\n💡 Smart search alias (e.g. person/user/account etc.)\n🔍 Search all icons from the home page\n\n[icones.js.org](https://icones.js.org)",
+    "video": "/demo/2023-03-18.mp4"
+  },
+  {
+    "date": "2023-02-27",
+    "link": "https://twitter.com/antfu7/status/1630230818042912776",
+    "description": "🕰️ Bringing Zeitreise to [<span i-logos-nuxt-icon /> Nuxt DevTools](https://github.com/nuxt/devtools), the time travel machine!\n\n🕥 Scroll the time bar, and you can see how old browsers render your app, or how your app looks without flexbox, right in the DevTools!",
+    "video": "/demo/2023-02-27.mp4"
+  },
+  {
+    "date": "2023-01-29",
+    "link": "https://twitter.com/antfu7/status/1619536044311089154",
+    "description": "🛹 Slidev finally got built-in slide transitions in v0.39.0! - something I wanted so much since the beginning!",
+    "video": "/demo/2023-01-29.mp4"
+  },
+  {
+    "date": "2022-04-28",
+    "link": "https://twitter.com/antfu7/status/1519684898344554500",
+    "description": "🌈 UnoCSS finally got the docs! - unlike the traditional static docs, I'd like to make it as dynamic and interactive as possible.\n\n✨ Introducing you the first preview of http://unocss.dev/interactive!",
+    "video": "/demo/2022-04-28.mp4"
+  },
+  {
+    "date": "2022-04-13",
+    "link": "https://twitter.com/antfu7/status/1514049844541005824",
+    "description": "🛰 Quite some polishment made to Vue Starport since the release!\n\nNow it no longer deps on Vue Router, meaning you can do components transition even on the same page (statefully!)\n\n<p>\n<GitHubLink repo=\"antfu/vue-starport\" />\n</p>",
+    "video": "/demo/2022-04-13.mp4"
+  },
+  {
+    "date": "2022-03-23",
+    "link": "https://twitter.com/antfu7/status/1506508822030200833",
+    "description": "🚀 Introducing Smart Clicks for VS Code!\n\n🖱 Double-click the bracket, and select the content inside them. Or double-click on the HTML tag name and make changes with the end tag!\n\n<p>\n<GitHubLink repo=\"antfu/vscode-smart-clicks\" />\n</p>",
+    "video": "/demo/2022-03-23.mp4"
+  },
+  {
+    "date": "2022-03-19",
+    "link": "https://twitter.com/antfu7/status/1505236765447458817",
+    "description": "🎥 Live coding is hard to be perfect (I'm so good at typo), so why don't we automate it?\n\n⌨️ Take the snapshots for the changes(clicks), and then play it! Saves as plain text so you can edit it afterward and even commit to git",
+    "video": "/demo/2022-03-19.mp4"
+  },
+  {
+    "date": "2022-03-18",
+    "link": "https://twitter.com/antfu7/status/1504639906232307712",
+    "description": "When seeing the screenshots of my apps, I sometimes find they render differently on others' devices.\n\nSo I made the experiment Zeitreise to do the time-traveling and see what your apps would look like, without the new features from the browsers 🕝",
+    "video": "/demo/2022-03-18.mp4"
+  },
+  {
+    "date": "2021-12-26",
+    "link": "https://twitter.com/antfu7/status/1475190497094541312",
+    "description": "The inline snapshot in [<span i-logos-vitest /> Vitest](https://github.com/vitest-dev/vitest) is soo fast that you can even play with it like a REPL 🟥 🟩\n\nMerry Christmas!🎄",
+    "video": "/demo/2021-12-26.mp4"
+  },
+  {
+    "date": "2021-12-24",
+    "link": "https://twitter.com/antfu7/status/1474335224536322050",
+    "description": "So pleasant to watch tests running with the dot reporter on [<span i-logos-vitest /> Vitest](https://github.com/vitest-dev/vitest) 😆",
+    "video": "/demo/2021-12-24.mp4"
+  },
+  {
+    "date": "2021-12-07",
+    "link": "https://twitter.com/antfu7/status/1468233216939245579",
+    "description": "Just like how Vite works in the browser, Vitest also knows the graph of your modules, which makes it able to do smart detection and only rerun the related tests. Feels almost like HMR but for tests 😍",
+    "video": "/demo/2021-12-07.mp4"
+  },
+  {
+    "date": "2021-09-11",
+    "link": "https://twitter.com/antfu7/status/1436476518113316866",
+    "description": "This could be a good way to learn how Vite works and debug your apps and plugins.\n\nThis plugin lets you see the intermediate states of plugins transform and the changes they applied. Now also with a cool module graph built with vis.js 🕸\n\n<p>\n<GitHubLink repo=\"antfu/vite-plugin-inspect\" />\n</p>",
+    "video": "/demo/2021-09-11.mp4"
+  },
+  {
+    "date": "2021-08-17",
+    "link": "https://twitter.com/antfu7/status/1424027510342250499",
+    "description": "🌈 Working on some cool stuff for [<Slidev inline/> Slidev](https://github.com/slidevjs/slidev)\n\nOn the right it's the presenter mode, which can work remotely on your phone or iPad 😳, even with pen pressure support! ✍️",
+    "video": "/demo/2021-08-17.mp4"
+  },
+  {
+    "date": "2021-05-23",
+    "link": "https://twitter.com/antfu7/status/1374289088900001795",
+    "description": "An experimental of Windi CSS running on the client-side and works for any websites with only one line of code, WITHOUT any dev servers! 🧪🍃",
+    "video": "/demo/2021-05-23.mp4"
+  },
+  {
+    "date": "2021-05-01",
+    "link": "https://twitter.com/antfu7/status/1388529647428636675",
+    "description": "Working on the homepage of [<Slidev inline/> Slidev](https://github.com/slidevjs/slidev) docs 😍",
+    "video": "/demo/2021-05-01.mp4"
+  },
+  {
+    "date": "2021-03-16",
+    "link": "https://twitter.com/antfu7/status/1371779599084888064",
+    "description": "Spoiler of the new piece of Wind CSS playground - interactive selector.\n\nI always find myself trouble picking the directions of rounded corners and looking up for a huge table of all the possible combinations could be inefficient. So yeah :)\n\nrounded-1/2 is new in Windi CSS btw 😉",
+    "video": "/demo/2021-03-16.mp4"
+  },
+  {
+    "date": "2021-03-01",
+    "link": "https://twitter.com/antfu7/status/1366239109446963200",
+    "description": "VS Code extension for [<span i-logos-vitejs /> Vite](https://github.com/vitejs/vite). Fire up your Vite server along with your project, and play it without even leaving your editor. Another way of being faster 🚀",
+    "video": "/demo/2021-03-01.mp4"
+  },
+  {
+    "date": "2021-01-12",
+    "link": "https://twitter.com/antfu7/status/1348840965641932800",
+    "description": "🚏 Auto navigate to the page you are working on!",
+    "video": "/demo/2021-01-12.mp4"
+  }
+]

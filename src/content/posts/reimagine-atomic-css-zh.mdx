@@ -72,7 +72,7 @@ John Polacek 在 [文章 Let’s Define Exactly What Atomic CSS is](https://css-
 
 编译结果为：
 
-<!-- eslint-skip -->
+{/* eslint-skip */}
 
 ```css
 .m-1 { margin: 0.25 rem; }
@@ -284,7 +284,7 @@ rules: [
 
 当在用户代码库中检测到 `m-1` 时，就会生成如下 CSS：
 
-<!-- eslint-skip -->
+{/* eslint-skip */}
 
 ```css
 .m-1 { margin: 0.25rem; }
@@ -316,7 +316,7 @@ rules: [
 
 就会生成相应的 CSS：
 
-<!-- eslint-skip -->
+{/* eslint-skip */}
 
 ```css
 .m-100 { margin: 25rem; }
@@ -361,7 +361,7 @@ variants: [
 
 例如，`ml-3`（Tailwind），`ms-2`（Bootstrap），`ma4`（Tachyons），`mt-10px`（Windi CSS）均会生效。
 
-<!-- eslint-skip -->
+{/* eslint-skip */}
 
 ```css
 .ma4 { margin: 1rem; }
@@ -384,7 +384,7 @@ variants: [
 
 它会把你的冗长的 Tailwind 代码（难以阅读与编辑）：
 
-<!-- eslint-skip -->
+{/* eslint-skip */}
 
 ```html
 <button class="bg-blue-400 hover:bg-blue-500 text-sm text-white font-mono font-light py-2 px-4 rounded border-2 border-blue-200 dark:bg-blue-500 dark:hover:bg-blue-600">
@@ -429,39 +429,21 @@ variants: [
 如果你读过我之前的文章 [Journey with Icons Continues](/posts/journey-with-icons-continues)，你一定知道我对图标非常热衷，并且在积极研究图标的各种解决方案。这次，凭借 UnoCSS 的灵活性，我们甚至可以拥有纯 CSS 的图标。你没看错，**它是纯 CSS 的图标，不需要任何 JavaScript**！让我们来看看它长什么样子：
 
 ```html
-<!-- A basic anchor icon from Phosphor icons -->
+{/* A basic anchor icon from Phosphor icons */}
 <div class="i-ph-anchor-simple-thin" />
-<!-- An orange alarm from Material Design Icons -->
+{/* An orange alarm from Material Design Icons */}
 <div class="i-mdi-alarm text-orange-400 hover:text-teal-400" />
-<!-- A large Vue logo -->
+{/* A large Vue logo */}
 <div class="i-logos-vue text-3xl" />
-<!-- Sun in light mode, Moon in dark mode, from Carbon -->
+{/* Sun in light mode, Moon in dark mode, from Carbon */}
 <button class="i-carbon-sun dark:i-carbon-moon" />
-<!-- Twemoji of laugh, turns to tear on hovering -->
+{/* Twemoji of laugh, turns to tear on hovering */}
 <div class="i-twemoji-grinning-face-with-smiling-eyes hover:i-twemoji-face-with-tears-of-joy" />
 ```
 
-<div flex gap-2 text-4xl p-2 mt4>
-  <!-- A basic anchor icon from Phosphor icons -->
-  <div class="i-ph-anchor-simple-thin" />
-  <!-- An orange alarm from Material Design Icons -->
-  <div class="i-mdi-alarm text-orange-400 hover:text-teal-400" />
-  <!-- A large Vue logo -->
-  <div class="i-logos-vue transform transition-800 hover:rotate-180" />
-  <!-- Sun in light mode, Moon in dark mode, from Carbon -->
-  <button class="i-carbon-sun dark:i-carbon-moon" @click="toggleDark()"/>
-  <!-- Twemoji of laugh, turns to tear on hovering -->
-  <div class="i-twemoji-grinning-face-with-smiling-eyes hover:i-twemoji-face-with-tears-of-joy" />
-  <div text-base my-auto flex><div i-carbon-arrow-left my-auto mr-1 /> 悬停在它上面</div>
-</div>
+import IconDemoDarkToggle from '~/components/demos/IconDemoDarkToggle.vue'
 
-<script setup>
-import { isDark } from '~/logics'
-
-function toggleDark() {
-  isDark.value = !isDark.value
-}
-</script>
+<IconDemoDarkToggle client:visible />
 
 与可变修饰结合，你甚至可以根据悬停状态或颜色模式来切换图标。得益于 [Iconify](https://iconify.design/) 项目，你可以从一百余个热门图标集合（Material Design Icons， Ant Design Icons 等等）中获得 **超过一万个图标** 供你按需使用。
 
@@ -484,7 +466,7 @@ function toggleDark() {
   </div>
 </template>
 
-<!-- 以下内容将被注入 bundler 中 -->
+{/* 以下内容将被注入 bundler 中 */}
 <style scoped>
 .m-2 {
   margin: 0.5rem;

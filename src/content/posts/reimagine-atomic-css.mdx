@@ -66,7 +66,7 @@ The traditional way of making Atomic CSS is to provide all the CSS utilities you
 
 It will be compiled to:
 
-<!-- eslint-skip -->
+{/* eslint-skip */}
 
 ```css
 .m-1 { margin: 0.25 rem; }
@@ -280,7 +280,7 @@ rules: [
 
 Whenever `m-1` is detected in users' codebase, the following CSS will be generated:
 
-<!-- eslint-skip -->
+{/* eslint-skip */}
 
 ```css
 .m-1 { margin: 0.25rem; }
@@ -312,7 +312,7 @@ For example, with the usage:
 
 the corresponding CSS will be generated:
 
-<!-- eslint-skip -->
+{/* eslint-skip */}
 
 ```css
 .m-100 { margin: 25rem; }
@@ -357,7 +357,7 @@ One thing worth mentioning is the default [`@unocss/preset-uno`](https://github.
 
 For example, both `ml-3` (Tailwind), `ms-2` (Bootstrap), `ma4` (Tachyons), `mt-10px` (Windi CSS) are valid.
 
-<!-- eslint-skip -->
+{/* eslint-skip */}
 
 ```css
 .ma4 { margin: 1rem; }
@@ -380,7 +380,7 @@ Let's unleash the true power of UnoCSS:
 
 It turns your Tailwind code from this:
 
-<!-- eslint-skip -->
+{/* eslint-skip */}
 
 ```html
 <button class="bg-blue-400 hover:bg-blue-500 text-sm text-white font-mono font-light py-2 px-4 rounded border-2 border-blue-200 dark:bg-blue-500 dark:hover:bg-blue-600">
@@ -425,39 +425,21 @@ Attributify Mode is provided via preset [`@unocss/preset-attributify`](https://g
 If you've ever read my previous post [Journey with Icons Continues](/posts/journey-with-icons-continues) you must know that I am very enthusiastic about icons and actively researching for icons solutions. This time with UnoCSS's flexibility, we could even have pure CSS icons! Yes, you read me, **it's purely in CSS and zero JavaScript**! Let's just see how it looks like:
 
 ```html
-<!-- A basic anchor icon from Phosphor icons -->
+{/* A basic anchor icon from Phosphor icons */}
 <div class="i-ph-anchor-simple-thin" />
-<!-- An orange alarm from Material Design Icons -->
+{/* An orange alarm from Material Design Icons */}
 <div class="i-mdi-alarm text-orange-400 hover:text-teal-400" />
-<!-- A large Vue logo -->
+{/* A large Vue logo */}
 <div class="i-logos-vue text-3xl" />
-<!-- Sun in light mode, Moon in dark mode, from Carbon -->
+{/* Sun in light mode, Moon in dark mode, from Carbon */}
 <button class="i-carbon-sun dark:i-carbon-moon" />
-<!-- Twemoji of laugh, turns to tear on hovering -->
+{/* Twemoji of laugh, turns to tear on hovering */}
 <div class="i-twemoji-grinning-face-with-smiling-eyes hover:i-twemoji-face-with-tears-of-joy" />
 ```
 
-<div flex gap-2 text-4xl p-2 mt4>
-  <!-- A basic anchor icon from Phosphor icons -->
-  <div class="i-ph-anchor-simple-thin" />
-  <!-- An orange alarm from Material Design Icons -->
-  <div class="i-mdi-alarm text-orange-400 hover:text-teal-400" />
-  <!-- A large Vue logo -->
-  <div class="i-logos-vue transform transition-800 hover:rotate-180" />
-  <!-- Sun in light mode, Moon in dark mode, from Carbon -->
-  <button class="i-carbon-sun dark:i-carbon-moon" @click="toggleDark()"/>
-  <!-- Twemoji of laugh, turns to tear on hovering -->
-  <div class="i-twemoji-grinning-face-with-smiling-eyes hover:i-twemoji-face-with-tears-of-joy" />
-  <div text-base my-auto flex><div i-carbon-arrow-left my-auto mr-1 /> Hover it</div>
-</div>
+import IconDemoDarkToggle from '~/components/demos/IconDemoDarkToggle.vue'
 
-<script setup>
-import { isDark } from '~/logics'
-
-function toggleDark() {
-  isDark.value = !isDark.value
-}
-</script>
+<IconDemoDarkToggle client:visible />
 
 Combining with variants, you can even switch icons based on hovering state or even color schema. Play with the demo above and see. Thanks to the awesome [Iconify](https://iconify.design/) project, you have access to over **10,000 icons** from over 100 popular icon sets **on-demand**.
 
@@ -482,7 +464,7 @@ This also allows UnoCSS to have more possibilities on CSS Scoping. For example, 
   </div>
 </template>
 
-<!-- the following will be inject in the bundler -->
+{/* the following will be inject in the bundler */}
 <style scoped>
 .m-2 {
   margin: 0.5rem;

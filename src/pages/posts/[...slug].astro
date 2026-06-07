@@ -13,12 +13,29 @@ export const getStaticPaths = (async () => {
 }) satisfies GetStaticPaths
 
 const { entry } = Astro.props
+const { title, date, description, image, lang, redirect } = entry.data
+
 const { Content, headings, remarkPluginFrontmatter } = await entry.render()
-const { title, date, description, image, lang } = entry.data
 ---
+
+{redirect ? (
+  <html lang="en">
+    <head>
+      <meta charset="utf-8" />
+      <title>{title} — Redirecting...</title>
+      <link rel="canonical" href={redirect} />
+      <meta http-equiv="refresh" content={`0;url=${redirect}`} />
+    </head>
+    <body>
+      <p>Redirecting to <a href={redirect}>{redirect}</a>...</p>
+    </body>
+  </html>
+) : (
 
 <Default title={`${title} — Anthony Fu`} description={description || title}>
   <PostLayout title={title} date={date} description={description} image={image} lang={lang} headings={headings}>
     <Content />
   </PostLayout>
 </Default>
+
+)}

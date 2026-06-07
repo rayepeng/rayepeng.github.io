@@ -1,0 +1,58 @@
+---
+import Default from '~/layouts/Default.astro'
+import demos from '~/data/demos.json'
+---
+
+<Default title="Demos — Anthony Fu" description="Demonstrations for projects I am working on from Tweets" fullwidth>
+  <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4" style="max-width: 1400px; margin: auto;">
+    {demos.map((demo, idx) => (
+      <div class="slide-enter" style={`--enter-stage: ${(idx % 3) + 1}`}>
+        <div class="rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
+          {demo.video && (
+            <video
+              src={demo.video}
+              class="w-full"
+              muted
+              loop
+              playsinline
+              autoplay
+              preload="none"
+              loading="lazy"
+            />
+          )}
+          <div class="p-3">
+            <div class="text-sm op-60 mb-1">{demo.date}</div>
+            <div class="text-sm" set:html={demo.description} />
+            {demo.link && (
+              <a
+                href={demo.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="text-sm text-teal-600 dark:text-teal-400 hover:underline mt-1 inline-flex items-center gap-1"
+              >
+                <span class="i-carbon-logo-twitter text-xs" /> View Tweet
+              </a>
+            )}
+          </div>
+        </div>
+      </div>
+    ))}
+  </div>
+</Default>
+
+<script>
+  // Lazy load videos with IntersectionObserver
+  document.querySelectorAll('video[preload="none"]').forEach((video) => {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          const v = entry.target as HTMLVideoElement
+          vpreload = 'auto'
+          v.play().catch(() => {})
+          observer.unobserve(v)
+        }
+      })
+    }, { threshold: 0.1 })
+    observer.observe(video)
+  })
+</script>

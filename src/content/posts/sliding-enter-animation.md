@@ -6,13 +6,7 @@ duration: 6min
 description: Adding an elegant sliding enter animation to your blog.
 ---
 
-<script setup lag="ts">
-import { useRouter } from 'vue-router/auto'
-
-const router = useRouter()
-</script>
-
-As you might notice, I recently added a sliding enter effect to almost all the pages in my blog. And I quite like it. If you missed it, <a @click="router.go(0)">refresh the page</a> to see it in action.
+As you might notice, I recently added a sliding enter effect to almost all the pages in my blog. And I quite like it. If you missed it, [refresh the page](/posts/sliding-enter-animation) to see it in action.
 
 This effect is inspired by [paco.me](https://paco.me/) - the portfolio of [Paco Coursey](https://twitter.com/pacocoursey), one of my favorite developer-designers.
 
