@@ -2,96 +2,30 @@
 import { getCollection } from 'astro:content'
 import Default from '~/layouts/Default.astro'
 import SubNav from '~/components/SubNav.astro'
-import { formatDate } from '~/logics'
+import ListPosts from '~/components/ListPosts.astro'
 
 /**
- * Group posts by year (descending) to mirror antfu.me/src/components/ListPosts.vue.
- * Within each year, posts are sorted by date desc.
+ * Feed Content Collection posts into ListPosts for consistent
+ * year-grouped layout with background year labels.
  */
-const all = (await getCollection('posts', ({ data }) => !data.draft))
-  .sort((a, b) => +new Date(b.data.date) - +new Date(a.data.date))
+const all = await getCollection('posts', ({ data }) => !data.draft)
 
-const groups = new Map<number, typeof all>()
-for (const post of all) {
-  const y = new Date(post.data.date).getFullYear()
-  if (!groups.has(y)) groups.set(y, [])
-  groups.get(y)!.push(post)
-}
-const grouped = Array.from(groups.entries())
+const postItems = all
+  .map((post) => ({
+    slug: post.slug,
+    title: post.data.title,
+    date: post.data.date,
+    lang: post.data.lang,
+    redirect: post.data.redirect,
+    duration: post.data.duration,
+  }))
+  .sort((a, b) => +new Date(b.date) - +new Date(a.date))
 ---
 
 <Default title="Blog — Anthony Fu" description="Anthony Fu's Blog">
   <SubNav active="/posts" />
-  <div class="prose m-auto slide-enter-content">
-    <h1>Blog</h1>
 
-    {grouped.map(([year, posts]) => (
-      <>
-        <h4
-          class="text-1.2em mt-8 mb-2 op-50 font-bold slide-enter"
-          style="--enter-stage: 1;"
-        >
-          {year}
-        </h4>
-        <ul class="post-list">
-          {posts.map((post) => (
-            <li class="post-item slide-enter">
-              <a href={`/posts/${post.slug}`} class="post-link">
-                <span class="post-title">{post.data.title}</span>
-                <span class="post-meta">
-                  {post.data.lang && post.data.lang !== 'en' && (
-                    <span class="post-lang">{post.data.lang}</span>
-                  )}
-                  <time>{formatDate(post.data.date)}</time>
-                </span>
-              </a>
-            </li>
-          ))}
-        </ul>
-      </>
-    ))}
+  <div class="prose m-auto slide-enter-content">
+    <ListPosts posts={postItems} />
   </div>
 </Default>
-
-<style>
-  .post-list {
-    list-style: none;
-    padding: 0;
-    margin: 0 0 1em 0;
-  }
-  .post-item {
-    padding: 0 !important;
-    margin-bottom: 0.8em;
-  }
-  .post-item::before {
-    display: none !important;
-  }
-  .post-link {
-    display: flex;
-    flex-direction: column;
-    gap: 0.25em;
-    text-decoration: none !important;
-    border-bottom: none !important;
-    opacity: 0.85;
-    transition: opacity 0.2s ease;
-  }
-  .post-link:hover {
-    opacity: 1;
-  }
-  .post-title {
-    font-size: 1.05rem;
-    line-height: 1.3;
-  }
-  .post-meta {
-    display: inline-flex;
-    gap: 0.5em;
-    font-size: 0.85em;
-    opacity: 0.5;
-  }
-  .post-lang {
-    padding: 0 0.35em;
-    border-radius: 4px;
-    background: rgba(125, 125, 125, 0.15);
-    font-size: 0.75em;
-  }
-</style>
