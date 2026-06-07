@@ -71,7 +71,7 @@ const catsData = sortedCats.map(c => ({
       const header = document.createElement('div')
       header.className = 'tree-header'
       header.innerHTML = `
-        <span class="tree-toggle i-carbon-chevron-up"></span>
+        <span class="tree-toggle i-carbon-chevron-right"></span>
         <span class="tree-folder-icon i-carbon-folder"></span>
         <span class="tree-folder-name">${cat.name}</span>
         <span class="tree-count">${cat.count}</span>
@@ -142,7 +142,7 @@ const catsData = sortedCats.map(c => ({
     transform: rotate(0deg);
   }
   .tree-folder.is-open .tree-toggle {
-    transform: rotate(180deg);
+    transform: rotate(90deg);
   }
 
   .tree-folder-icon {
