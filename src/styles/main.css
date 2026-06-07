@@ -1,5 +1,6 @@
 :root {
   --c-bg: #fff;
+  --c-text: #222;
   --c-scrollbar: #eee;
   --c-scrollbar-hover: #bbb;
   color-scheme: light dark;
@@ -7,12 +8,14 @@
 
 html {
   background-color: var(--c-bg);
+  color: var(--c-text);
   overflow-x: hidden;
   overflow-y: scroll;
 }
 
 html.dark {
   --c-bg: #050505;
+  --c-text: #ddd;
   --c-scrollbar: #111;
   --c-scrollbar-hover: #222;
   color-scheme: dark;
