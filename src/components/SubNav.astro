@@ -1,14 +1,7 @@
 ---
 import EnglishOnlyToggle from '~/components/EnglishOnlyToggle.vue'
 
-/**
- * Second-level navigation across content categories — mirrors
- * antfu.me/src/components/SubNav.vue. Active link uses underline,
- * inactive uses opacity-20.
- */
-
 interface Props {
-  /** Currently-active route path, e.g. "/posts" / "/talks" */
   active: string
 }
 
@@ -16,10 +9,7 @@ const { active } = Astro.props
 
 const items = [
   { to: '/posts', label: 'Blog' },
-  { to: '/talks', label: 'Talks' },
-  { to: '/podcasts', label: 'Podcasts' },
-  { to: '/streams', label: 'Streams' },
-  { to: '/notes', label: 'Notes' },
+  { to: '/archive', label: 'Archive' },
 ]
 
 const inactive = 'opacity-20 hover:opacity-50'

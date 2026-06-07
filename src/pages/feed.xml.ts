@@ -19,9 +19,9 @@ export async function GET(context: APIContext) {
   const sorted = posts.sort((a, b) => +new Date(b.data.date) - +new Date(a.data.date))
 
   return rss({
-    title: "Anthony Fu's Blog",
-    description: "Anthony Fu's Blog — Web Dev, Open Source, Photography",
-    site: context.site ?? 'https://antfu.me/',
+    title: "Raye's Journey",
+    description: "Raye's Journey — 无人调护，自去经心",
+    site: context.site ?? 'https://rayepeng.github.io/',
     items: sorted.map((post) => {
       let content = typeof post.body === 'string' ? post.body : String(post.body || '')
       // Strip MDX import/export lines so markdown-it doesn't render them as text
@@ -37,6 +37,6 @@ export async function GET(context: APIContext) {
         }),
       }
     }),
-    customData: '<language>en</language>',
+    customData: '<language>zh_CN</language>',
   })
 }

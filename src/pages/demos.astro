@@ -3,7 +3,7 @@ import Default from '~/layouts/Default.astro'
 import demos from '~/data/demos.json'
 ---
 
-<Default title="Demos — Anthony Fu" description="Demonstrations for projects I am working on from Tweets" fullwidth>
+<Default title="Demos — Raye's Journey" description="Demonstrations for projects I am working on from Tweets" fullwidth>
   <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4" style="max-width: 1400px; margin: auto;">
     {demos.map((demo, idx) => (
       <div class="slide-enter" style={`--enter-stage: ${(idx % 3) + 1}`}>

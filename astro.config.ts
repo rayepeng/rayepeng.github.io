@@ -18,7 +18,7 @@ import {
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://antfu.me',
+  site: 'https://rayepeng.github.io',
   trailingSlash: 'never',
   integrations: [
     UnoCSS({ injectReset: true }),

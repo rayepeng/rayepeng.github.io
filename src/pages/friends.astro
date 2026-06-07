@@ -1,0 +1,45 @@
+---
+import Default from '~/layouts/Default.astro'
+import friends from '~/data/friends.json'
+
+interface FriendItem {
+  siteTitle: string
+  siteDesc: string
+  siteUrl: string
+  siteIcon: string
+}
+---
+
+<Default title="Friends — Raye's Journey" description="My friends and their blogs">
+  <div class="prose m-auto slide-enter-content">
+    <h1>Friends</h1>
+    <p>以下是我的朋友们，欢迎去他们的博客看看。</p>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-8 my-6 not-prose">
+      {(friends as FriendItem[]).map((item) => (
+        <div class="flex items-stretch h-28 gap-4 rounded-xl border border-zinc-200 dark:border-zinc-800 overflow-hidden bg-white dark:bg-zinc-900 hover:border-orange-400 dark:hover:border-orange-600 transition-colors">
+          <div class="w-28 h-28 flex-shrink-0 bg-zinc-100 dark:bg-zinc-800 overflow-hidden">
+            <img src={item.siteIcon} alt={item.siteTitle} class="w-full h-full object-cover" loading="lazy" />
+          </div>
+          <div class="grow flex flex-col justify-center min-w-0 px-3 py-2">
+            <div class="font-bold text-base text-zinc-900 dark:text-zinc-100 mb-1 truncate">{item.siteTitle}</div>
+            <div class="text-sm text-zinc-500 dark:text-zinc-400 line-clamp-2">{item.siteDesc}</div>
+          </div>
+          <a
+            href={item.siteUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="flex items-center justify-center w-14 flex-shrink-0 bg-zinc-50 dark:bg-zinc-800 hover:bg-orange-50 dark:hover:bg-orange-900/20 transition-colors"
+            aria-label={`Visit ${item.siteTitle}`}
+          >
+            <div class="i-carbon-chevron-right text-xl text-orange-500" />
+          </a>
+        </div>
+      ))}
+    </div>
+
+    <blockquote>
+      <p>如果你想交换友链，欢迎通过 <a href="https://t.me/RayeJourney" target="_blank" rel="noopener noreferrer">Telegram</a> 联系我。</p>
+    </blockquote>
+  </div>
+</Default>

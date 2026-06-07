@@ -8,15 +8,14 @@ import BackToTop from '~/components/BackToTop.vue'
  * Items with `alwaysShow: true` are always visible (not hidden on mobile).
  */
 const navItems = [
+  { href: '/archive', title: 'Archive', icon: 'i-ri-archive-line', label: 'Archive', enabled: true, alwaysShow: true },
   { href: '/posts', title: 'Blog', icon: 'i-ri-article-line', label: 'Blog', enabled: true, alwaysShow: true },
   { href: '/projects', title: 'Projects', icon: 'i-ri-lightbulb-line', label: 'Projects', enabled: true, alwaysShow: true },
-  { href: '/talks', title: 'Talks', icon: '', label: 'Talks', enabled: true, alwaysShow: false },
-  { href: '/sponsors-list', title: 'Sponsors', icon: 'i-ri-heart-line', label: 'Sponsors', enabled: true, alwaysShow: true },
-  { href: '/podcasts', title: 'Podcasts', icon: 'i-ri-mic-line', label: '', enabled: true, alwaysShow: false },
-  { href: '/photos', title: 'Photos', icon: 'i-ri-camera-3-line', label: '', enabled: false },
-  { href: '/demos', title: 'Demos', icon: 'i-ri-screenshot-line', label: '', enabled: false },
-  { href: 'https://bsky.app/profile/antfu.me', title: 'Bluesky', icon: 'i-ri-bluesky-line', label: '', enabled: true, alwaysShow: false, external: true },
-  { href: 'https://github.com/antfu', title: 'GitHub', icon: 'i-uil-github-alt', label: '', enabled: true, alwaysShow: false, external: true },
+  { href: '/about', title: 'About', icon: 'i-ri-user-line', label: 'About', enabled: true, alwaysShow: true },
+  { href: '/friends', title: 'Friends', icon: 'i-ri-links-line', label: 'Friends', enabled: true, alwaysShow: false },
+  { href: 'https://photo.rayepeng.net/', title: 'Photo', icon: 'i-ri-camera-3-line', label: '', enabled: true, alwaysShow: false, external: true },
+  { href: 'https://rayepeng.net/workouts_page/', title: 'Running', icon: 'i-ri-run-line', label: '', enabled: true, alwaysShow: false, external: true },
+  { href: 'https://github.com/rayepeng', title: 'GitHub', icon: 'i-uil-github-alt', label: '', enabled: true, alwaysShow: false, external: true },
   { href: '/feed.xml', title: 'RSS', icon: 'i-la-rss-square', label: '', enabled: true, alwaysShow: false, iconStyle: 'font-size:1.25rem; margin: 0 -0.125rem;' },
 ]
 
