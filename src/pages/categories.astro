@@ -5,7 +5,6 @@ import Default from '~/layouts/Default.astro'
 const all = await getCollection('posts', ({ data }) => !data.draft && !data.redirect)
 
 // Build category → posts map from frontmatter `category`
-// Also incorporate slug-based folder structure under imported/
 interface TreeNode {
   name: string
   slug: string
@@ -16,10 +15,6 @@ interface TreeNode {
 const categories = new Map<string, { title: string; slug: string; date: string }[]>()
 
 for (const post of all) {
-  // Strip leading "imported/" from slug for display
-  let cleanSlug = post.slug.startsWith('imported/') ? post.slug.slice('imported/'.length) : post.slug
-
-  // Get category from frontmatter
   const cat = (post.data as any).category || '未分类'
   if (!categories.has(cat)) categories.set(cat, [])
   categories.get(cat)!.push({
