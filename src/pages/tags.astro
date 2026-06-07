@@ -4,13 +4,13 @@ import Default from '~/layouts/Default.astro'
 
 const all = await getCollection('posts', ({ data }) => !data.draft && !data.redirect)
 
-// Collect all tags with counts
+// Collect tags with counts and posts
 const tagMap = new Map<string, { count: number; posts: { title: string; slug: string; date: string }[] }>()
 
 for (const post of all) {
   const tags: string[] = (post.data as any).tags ?? []
-  if (!tags.length) {
-    // categorize under 未标签
+  if (!tags || !tags.length) {
+    // Use 未标签 for posts without tags
     const t = '未标签'
     if (!tagMap.has(t)) tagMap.set(t, { count: 0, posts: [] })
     tagMap.get(t)!.count++
@@ -39,18 +39,17 @@ const sortedTags = [...tagMap.entries()]
 const maxCount = Math.max(...sortedTags.map(([, v]) => v.count), 1)
 const minCount = Math.min(...sortedTags.map(([, v]) => v.count), 1)
 
-// Map count to font-size for tag cloud
 function tagSize(count: number) {
   const ratio = maxCount === minCount ? 0.5 : (count - minCount) / (maxCount - minCount)
-  return 0.8 + ratio * 1.8 // 0.8rem → 2.6rem
+  return 0.8 + ratio * 1.6
 }
 
 function tagOpacity(count: number) {
   const ratio = maxCount === minCount ? 0.5 : (count - minCount) / (maxCount - minCount)
-  return 0.45 + ratio * 0.55 // 0.45 → 1.0
+  return 0.45 + ratio * 0.55
 }
 
-// Encode for client-side
+// Encode for client
 const tagsData = sortedTags.map(([tag, { count }]) => ({
   tag,
   count,
@@ -65,7 +64,7 @@ const tagsData = sortedTags.map(([tag, { count }]) => ({
 
     <!-- Tag Cloud -->
     <h2 id="tag-cloud">Tag Cloud</h2>
-    <div class="not-prose tag-cloud" id="tag-cloud-area">
+    <div class="not-prose tag-cloud">
       {tagsData.map(({ tag, count, size, opacity }) => (
         <a
           href={`#tag-${encodeURIComponent(tag)}`}
@@ -80,20 +79,23 @@ const tagsData = sortedTags.map(([tag, { count }]) => ({
 
     <hr />
 
-    <!-- Tag List -->
+    <!-- Tag List with collapsible sections -->
     <h2 id="tag-list">All Tags</h2>
     <div class="not-prose" id="tag-list-area">
       {sortedTags.map(([tag, { count, posts }]) => (
         <div class="tag-section" id={`tag-${encodeURIComponent(tag)}`}>
-          <div class="tag-header">
+          <div class="tag-header" data-tag={tag}>
+            <span class="tag-toggle i-carbon-chevron-right"></span>
+            <span class="tag-hash">#</span>
             <span class="tag-name">{tag}</span>
             <span class="tag-badge">{count}</span>
           </div>
-          <div class="tag-posts">
+          <div class="tag-body" style="display: none;">
             {posts
               .sort((a, b) => +new Date(b.date) - +new Date(a.date))
               .map((post) => (
                 <a href={`/posts/${post.slug}`} class="tag-post-item">
+                  <span class="tag-post-icon i-carbon-document"></span>
                   <span class="tag-post-title">{post.title}</span>
                   <span class="tag-post-date">
                     {post.date ? new Date(post.date).toISOString().slice(0, 10) : ''}
@@ -107,13 +109,28 @@ const tagsData = sortedTags.map(([tag, { count }]) => ({
   </div>
 </Default>
 
+<script>
+  // Enable expand/collapse for each tag section
+  document.querySelectorAll('.tag-header').forEach((header) => {
+    header.addEventListener('click', () => {
+      const body = header.nextElementSibling as HTMLElement
+      if (!body) return
+      const collapsed = body.style.display === 'none'
+      body.style.display = collapsed ? 'block' : 'none'
+      const toggle = header.querySelector('.tag-toggle')!
+      toggle.className = `tag-toggle i-carbon-chevron-${collapsed ? 'down' : 'right'}`
+      header.classList.toggle('tag-open', collapsed)
+    })
+  })
+</script>
+
 <style is:global>
   .tag-cloud {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     justify-content: center;
-    gap: 0.6rem 0.9rem;
+    gap: 0.5rem 0.8rem;
     padding: 1.5rem 1rem;
     border-radius: 12px;
     background: rgba(125, 125, 125, 0.03);
@@ -135,40 +152,62 @@ const tagsData = sortedTags.map(([tag, { count }]) => ({
   }
 
   .tag-section {
-    margin-bottom: 1.2rem;
+    margin-bottom: 0.6rem;
+    user-select: none;
   }
 
   .tag-header {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
-    padding: 0.3rem 0;
+    gap: 0.35rem;
+    padding: 0.35rem 0;
+    cursor: pointer;
+    border-radius: 6px;
+    transition: background 0.15s;
+  }
+  .tag-header:hover {
+    background: rgba(125, 125, 125, 0.08);
+  }
+
+  .tag-toggle {
+    font-size: 0.75em;
+    opacity: 0.45;
+  }
+
+  .tag-hash {
+    font-weight: 700;
+    opacity: 0.35;
+    font-size: 0.85em;
+    color: #e8a540;
+  }
+  .dark .tag-hash {
+    color: #d4953a;
   }
 
   .tag-name {
     font-weight: 600;
-    font-size: 1rem;
+    font-size: 0.95em;
   }
 
   .tag-badge {
-    font-size: 0.7rem;
+    font-size: 0.65em;
     background: rgba(125, 125, 125, 0.12);
     color: rgba(125, 125, 125, 0.8);
-    padding: 0.1rem 0.45rem;
+    padding: 0.1rem 0.4rem;
     border-radius: 99px;
     font-family: 'DM Mono', monospace;
   }
 
-  .tag-posts {
+  .tag-body {
     padding-left: 1rem;
     border-left: 2px solid rgba(125, 125, 125, 0.1);
-    margin-left: 0.3rem;
+    margin-left: 0.55rem;
   }
 
   .tag-post-item {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: 0.4rem;
     padding: 0.3rem 0.5rem;
     text-decoration: none;
     color: inherit;
@@ -179,13 +218,18 @@ const tagsData = sortedTags.map(([tag, { count }]) => ({
     background: rgba(125, 125, 125, 0.06);
   }
 
+  .tag-post-icon {
+    font-size: 0.8em;
+    opacity: 0.35;
+  }
+
   .tag-post-title {
     flex: 1;
-    font-size: 0.9em;
+    font-size: 0.88em;
   }
 
   .tag-post-date {
-    font-size: 0.75em;
+    font-size: 0.72em;
     opacity: 0.35;
     font-family: 'DM Mono', monospace;
     flex-shrink: 0;

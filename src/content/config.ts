@@ -17,6 +17,11 @@ const postsCollection = defineCollection({
     // antfu.me posts may carry `type: note` (multi-typed via "blog+note")
     type: z.string().optional().default('blog'),
     redirect: z.string().optional().default(''),
+    // rayepeng imported posts
+    tags: z.array(z.string()).optional().default([]),
+    category: z.string().optional().default(''),
+    updated: z.union([z.string(), z.date()]).optional(),
+    customSlug: z.string().optional().default(''),
   }),
 })
 

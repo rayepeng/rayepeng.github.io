@@ -61,7 +61,8 @@ function getGroupName(p: PostItem) {
             style={`--enter-stage: ${idx - 2}; --enter-step: 60ms;`}
           >
             <span
-              class="text-8em color-transparent absolute left--3rem top--2rem font-bold text-stroke-2 text-stroke-hex-aaa op10"
+              class="select-none absolute left--3rem top--2rem font-bold op10"
+              style="font-size: 8em; color: transparent; -webkit-text-stroke: 2px #aaa;"
             >
               {getGroupName(post)}
             </span>

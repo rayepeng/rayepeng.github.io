@@ -4,7 +4,8 @@ import Default from '~/layouts/Default.astro'
 
 const all = await getCollection('posts', ({ data }) => !data.draft && !data.redirect)
 
-// Group by category → subfolder structure
+// Build category → posts map from frontmatter `category`
+// Also incorporate slug-based folder structure under imported/
 interface TreeNode {
   name: string
   slug: string
@@ -12,164 +13,114 @@ interface TreeNode {
   children: TreeNode[]
 }
 
-// Build folder hierarchy from slug paths
-const root: TreeNode = { name: 'Posts', slug: '', posts: [], children: [] }
+const categories = new Map<string, { title: string; slug: string; date: string }[]>()
 
 for (const post of all) {
-  const parts = post.slug.split('/')
-  let node = root
+  // Strip leading "imported/" from slug for display
+  let cleanSlug = post.slug.startsWith('imported/') ? post.slug.slice('imported/'.length) : post.slug
 
-  // Walk through path parts to build tree
-  for (let i = 0; i < parts.length - 1; i++) {
-    const part = parts[i]
-    let child = node.children.find(c => c.name === part)
-    if (!child) {
-      child = { name: part, slug: parts.slice(0, i + 1).join('/'), posts: [], children: [] }
-      node.children.push(child)
-    }
-    node = child
-  }
-
-  // Also check frontmatter category
-  const cat = (post.data as any).category
-  if (cat && !node.children.find(c => c.name === cat)) {
-    let catNode = node.children.find(c => c.name === cat)
-    if (!catNode) {
-      catNode = { name: cat, slug: `${node.slug}/${cat}`, posts: [], children: [] }
-      node.children.push(catNode)
-    }
-    catNode.posts.push({
-      title: post.data.title,
-      slug: post.slug,
-      date: typeof post.data.date === 'string' ? post.data.date : post.data.date?.toISOString?.() ?? '',
-    })
-  } else {
-    node.posts.push({
-      title: post.data.title,
-      slug: post.slug,
-      date: typeof post.data.date === 'string' ? post.data.date : post.data.date?.toISOString?.() ?? '',
-    })
-  }
+  // Get category from frontmatter
+  const cat = (post.data as any).category || '未分类'
+  if (!categories.has(cat)) categories.set(cat, [])
+  categories.get(cat)!.push({
+    title: post.data.title,
+    slug: post.slug,
+    date: typeof post.data.date === 'string' ? post.data.date : post.data.date?.toISOString?.() ?? '',
+  })
 }
 
-// Sort children alphabetically, posts by date
-function sortTree(node: TreeNode) {
-  node.children.sort((a, b) => a.name.localeCompare(b.name, 'zh-CN'))
-  node.posts.sort((a, b) => +new Date(b.date) - +new Date(a.date))
-  node.children.forEach(sortTree)
-}
-sortTree(root)
+// Sort: category name alphabetically, posts by date desc
+const sortedCats = [...categories.entries()]
+  .sort((a, b) => a[0].localeCompare(b[0], 'zh-CN'))
+  .map(([name, posts]) => ({
+    name,
+    posts: posts.sort((a, b) => +new Date(b.date) - +new Date(a.date)),
+  }))
 
-// Count total posts in a subtree
-function countPosts(node: TreeNode): number {
-  return node.posts.length + node.children.reduce((s, c) => s + countPosts(c), 0)
-}
+const totalPosts = sortedCats.reduce((s, c) => s + c.posts.length, 0)
+
+// Encode for client
+const catsData = sortedCats.map(c => ({
+  name: c.name,
+  count: c.posts.length,
+  posts: c.posts.map(p => ({
+    title: p.title,
+    slug: p.slug,
+    date: p.date ? new Date(p.date).toISOString().slice(0, 10) : '',
+  })),
+}))
 ---
 
 <Default title="Categories — Raye's Journey" description="Browse posts by category">
   <div class="prose m-auto slide-enter-content">
     <h1>Categories</h1>
-    <p class="op50 mt-0!">共 {countPosts(root)} 篇文章</p>
+    <p class="op50 mt-0!">共 {totalPosts} 篇文章，{sortedCats.length} 个分类</p>
 
-    <div class="not-prose" id="tree-root" data-json={JSON.stringify(root)} />
+    <div class="not-prose" id="cat-root" data-json={JSON.stringify(catsData)} />
   </div>
 </Default>
 
 <script>
-  interface TreeNode {
+  interface TagCat {
     name: string
-    slug: string
+    count: number
     posts: { title: string; slug: string; date: string }[]
-    children: TreeNode[]
   }
 
-  function countPosts(node: TreeNode): number {
-    return node.posts.length + node.children.reduce((s, c) => s + countPosts(c), 0)
-  }
+  function render(el: HTMLElement, cats: TagCat[]) {
+    for (const cat of cats) {
+      const section = document.createElement('div')
+      section.className = 'tree-folder'
 
-  function formatDateISO(d: string) {
-    try { return new Date(d).toISOString().slice(0, 10) } catch { return d }
-  }
-
-  function renderTree(node: TreeNode, depth = 0): HTMLElement {
-    const container = document.createElement('div')
-    container.className = 'tree-folder'
-    container.dataset.depth = String(depth)
-
-    // Folder header
-    if (depth > 0) {
+      // Header
       const header = document.createElement('div')
       header.className = 'tree-header'
-      header.style.paddingLeft = `${depth * 1.2}rem`
       header.innerHTML = `
         <span class="tree-toggle i-carbon-chevron-right"></span>
         <span class="tree-folder-icon i-carbon-folder"></span>
-        <span class="tree-folder-name">${node.name}</span>
-        <span class="tree-count">${countPosts(node)}</span>
+        <span class="tree-folder-name">${cat.name}</span>
+        <span class="tree-count">${cat.count}</span>
       `
-      container.appendChild(header)
+      section.appendChild(header)
 
-      // Collapsible body
+      // Body (collapsed by default)
       const body = document.createElement('div')
       body.className = 'tree-body'
-      body.style.display = 'block'
+      body.style.display = 'none'
 
-      // Render child folders
-      for (const child of node.children)
-        body.appendChild(renderTree(child, depth + 1))
-
-      // Render posts
-      for (const post of node.posts) {
-        const item = document.createElement('a')
-        item.href = `/posts/${post.slug}`
-        item.className = 'tree-file'
-        item.style.paddingLeft = `${(depth + 1) * 1.2}rem`
-        item.innerHTML = `
+      for (const post of cat.posts) {
+        const a = document.createElement('a')
+        a.href = `/posts/${post.slug}`
+        a.className = 'tree-file'
+        a.innerHTML = `
           <span class="tree-file-icon i-carbon-document"></span>
           <span class="tree-file-name">${post.title}</span>
-          <span class="tree-date">${formatDateISO(post.date)}</span>
+          <span class="tree-date">${post.date}</span>
         `
-        body.appendChild(item)
+        body.appendChild(a)
       }
 
-      container.appendChild(body)
+      section.appendChild(body)
 
-      // Toggle
-      const toggle = header.querySelector('.tree-toggle')!
-      const folderIcon = header.querySelector('.tree-folder-icon')!
+      // Toggle interaction
       header.addEventListener('click', () => {
         const collapsed = body.style.display === 'none'
         body.style.display = collapsed ? 'block' : 'none'
+        const toggle = header.querySelector('.tree-toggle')!
+        const icon = header.querySelector('.tree-folder-icon')!
         toggle.className = `tree-toggle i-carbon-chevron-${collapsed ? 'down' : 'right'}`
-        folderIcon.className = `tree-folder-icon i-carbon-folder${collapsed ? '-open' : ''}`
+        icon.className = `tree-folder-icon i-carbon-folder${collapsed ? '-open' : ''}`
         header.classList.toggle('tree-open', collapsed)
       })
-    }
-    else {
-      // Root node — just render children
-      for (const child of node.children)
-        container.appendChild(renderTree(child, depth + 1))
-      for (const post of node.posts) {
-        const item = document.createElement('a')
-        item.href = `/posts/${post.slug}`
-        item.className = 'tree-file'
-        item.style.paddingLeft = `${1.2}rem`
-        item.innerHTML = `
-          <span class="tree-file-icon i-carbon-document"></span>
-          <span class="tree-file-name">${post.title}</span>
-          <span class="tree-date">${formatDateISO(post.date)}</span>
-        `
-        container.appendChild(item)
-      }
-    }
 
-    return container
+      el.appendChild(section)
+    }
   }
 
-  const el = document.getElementById('tree-root')
-  if (el) {
-    const data: TreeNode = JSON.parse(el.dataset.json!)
-    el.replaceWith(renderTree(data))
+  const root = document.getElementById('cat-root')
+  if (root) {
+    const data: TagCat[] = JSON.parse(root.dataset.json!)
+    render(root, data)
   }
 </script>
 
@@ -182,7 +133,7 @@ function countPosts(node: TreeNode): number {
     display: flex;
     align-items: center;
     gap: 0.4rem;
-    padding: 0.4rem 0;
+    padding: 0.45rem 0;
     cursor: pointer;
     border-radius: 6px;
     transition: background 0.15s;
@@ -192,13 +143,13 @@ function countPosts(node: TreeNode): number {
   }
 
   .tree-toggle {
-    font-size: 0.85em;
+    font-size: 0.8em;
     opacity: 0.5;
     transition: transform 0.2s;
   }
 
   .tree-folder-icon {
-    font-size: 1.1em;
+    font-size: 1.05em;
     color: #e8a540;
   }
   .dark .tree-folder-icon {
@@ -211,19 +162,26 @@ function countPosts(node: TreeNode): number {
   }
 
   .tree-count {
-    font-size: 0.75em;
+    font-size: 0.7em;
     opacity: 0.4;
     margin-left: 0.3rem;
+    font-family: 'DM Mono', monospace;
+  }
+
+  .tree-body {
+    padding-left: 1.2rem;
+    border-left: 1px solid rgba(125, 125, 125, 0.12);
+    margin-left: 0.45rem;
   }
 
   .tree-file {
     display: flex;
     align-items: center;
     gap: 0.4rem;
-    padding: 0.35rem 0;
+    padding: 0.35rem 0.5rem;
     text-decoration: none;
     color: inherit;
-    border-radius: 6px;
+    border-radius: 4px;
     transition: background 0.15s;
   }
   .tree-file:hover {
@@ -231,17 +189,17 @@ function countPosts(node: TreeNode): number {
   }
 
   .tree-file-icon {
-    font-size: 0.9em;
+    font-size: 0.85em;
     opacity: 0.4;
   }
 
   .tree-file-name {
     flex: 1;
-    font-size: 0.9em;
+    font-size: 0.88em;
   }
 
   .tree-date {
-    font-size: 0.75em;
+    font-size: 0.72em;
     opacity: 0.35;
     font-family: 'DM Mono', monospace;
     flex-shrink: 0;
