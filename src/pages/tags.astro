@@ -90,18 +90,20 @@ const tagsData = sortedTags.map(([tag, { count }]) => ({
             <span class="tag-name">{tag}</span>
             <span class="tag-badge">{count}</span>
           </div>
-          <div class="tag-body" style="display: none;">
-            {posts
-              .sort((a, b) => +new Date(b.date) - +new Date(a.date))
-              .map((post) => (
-                <a href={`/posts/${post.slug}`} class="tag-post-item">
-                  <span class="tag-post-icon i-carbon-document"></span>
-                  <span class="tag-post-title">{post.title}</span>
-                  <span class="tag-post-date">
-                    {post.date ? new Date(post.date).toISOString().slice(0, 10) : ''}
-                  </span>
-                </a>
-              ))}
+          <div class="tag-body">
+            <div class="tag-body-inner">
+              {posts
+                .sort((a, b) => +new Date(b.date) - +new Date(a.date))
+                .map((post) => (
+                  <a href={`/posts/${post.slug}`} class="tag-post-item">
+                    <span class="tag-post-icon i-carbon-document"></span>
+                    <span class="tag-post-title">{post.title}</span>
+                    <span class="tag-post-date">
+                      {post.date ? new Date(post.date).toISOString().slice(0, 10) : ''}
+                    </span>
+                  </a>
+                ))}
+            </div>
           </div>
         </div>
       ))}
@@ -111,20 +113,17 @@ const tagsData = sortedTags.map(([tag, { count }]) => ({
 
 <script>
   function toggleTagSection(header: HTMLElement, expand: boolean) {
-    const body = header.nextElementSibling as HTMLElement
-    if (!body) return
-    body.style.display = expand ? 'block' : 'none'
-    const toggle = header.querySelector('.tag-toggle')!
-    toggle.className = `tag-toggle i-carbon-chevron-${expand ? 'down' : 'right'}`
-    header.classList.toggle('tag-open', expand)
+    const section = header.parentElement as HTMLElement
+    if (!section) return
+    section.classList.toggle('is-open', expand)
   }
 
   // Enable expand/collapse for each tag section
   document.querySelectorAll('.tag-header').forEach((header) => {
     header.addEventListener('click', () => {
-      const body = header.nextElementSibling as HTMLElement
-      if (!body) return
-      toggleTagSection(header as HTMLElement, body.style.display === 'none')
+      const section = header.parentElement as HTMLElement
+      if (!section) return
+      toggleTagSection(header as HTMLElement, !section.classList.contains('is-open'))
     })
   })
 
@@ -199,6 +198,11 @@ const tagsData = sortedTags.map(([tag, { count }]) => ({
   .tag-toggle {
     font-size: 0.75em;
     opacity: 0.45;
+    transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    transform: rotate(0deg);
+  }
+  .tag-section.is-open .tag-toggle {
+    transform: rotate(90deg);
   }
 
   .tag-hash {
@@ -221,10 +225,23 @@ const tagsData = sortedTags.map(([tag, { count }]) => ({
     font-family: 'DM Mono', monospace;
   }
 
+  /* Smooth collapse using grid-template-rows trick */
   .tag-body {
+    display: grid;
+    grid-template-rows: 0fr;
     padding-left: 1rem;
-    border-left: 2px solid rgba(125, 125, 125, 0.1);
+    border-left: 2px solid rgba(125, 125, 125, 0);
     margin-left: 0.55rem;
+    transition: grid-template-rows 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+                border-left-color 0.35s ease;
+  }
+  .tag-section.is-open .tag-body {
+    grid-template-rows: 1fr;
+    border-left-color: rgba(125, 125, 125, 0.1);
+  }
+  .tag-body-inner {
+    overflow: hidden;
+    min-height: 0;
   }
 
   .tag-post-item {
