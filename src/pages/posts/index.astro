@@ -12,7 +12,7 @@ const all = await getCollection('posts', ({ data }) => !data.draft)
 
 const postItems = all
   .map((post) => ({
-    slug: post.slug,
+    slug: (post.data as any).customSlug || post.slug,
     title: post.data.title,
     date: post.data.date,
     lang: post.data.lang,

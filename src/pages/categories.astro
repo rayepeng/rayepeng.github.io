@@ -19,7 +19,7 @@ for (const post of all) {
   if (!categories.has(cat)) categories.set(cat, [])
   categories.get(cat)!.push({
     title: post.data.title,
-    slug: post.slug,
+    slug: (post.data as any).customSlug || post.slug,
     date: typeof post.data.date === 'string' ? post.data.date : post.data.date?.toISOString?.() ?? '',
   })
 }

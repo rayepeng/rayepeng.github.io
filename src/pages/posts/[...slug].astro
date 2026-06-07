@@ -7,15 +7,18 @@ import SubNav from '~/components/SubNav.astro'
 
 export const getStaticPaths = (async () => {
   const posts = await getCollection('posts', ({ data }) => !data.draft)
-  return posts.map((entry) => ({
-    params: { slug: entry.slug },
-    props: { entry },
-  }))
+  return posts.map((entry) => {
+    const customSlug: string = (entry.data as any).customSlug ?? ''
+    const slug = customSlug || entry.slug
+    return {
+      params: { slug },
+      props: { entry, slug },
+    }
+  })
 }) satisfies GetStaticPaths
 
-const { entry } = Astro.props
+const { entry, slug } = Astro.props
 const { title, date, description, image, lang, redirect } = entry.data
-// Extract tags and category from data (may be undefined for legacy posts)
 const tags: string[] = (entry.data as any).tags ?? []
 const category: string = (entry.data as any).category ?? ''
 
