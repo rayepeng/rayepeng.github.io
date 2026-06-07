@@ -23,7 +23,9 @@ export async function GET(context: APIContext) {
     description: "Anthony Fu's Blog — Web Dev, Open Source, Photography",
     site: context.site ?? 'https://antfu.me/',
     items: sorted.map((post) => {
-      const content = typeof post.body === 'string' ? post.body : String(post.body || '')
+      let content = typeof post.body === 'string' ? post.body : String(post.body || '')
+      // Strip MDX import/export lines so markdown-it doesn't render them as text
+      content = content.replace(/^(import|export)\s.+$/gm, '')
       const cleanedContent = stripInvalidXmlChars(content)
       return {
         title: post.data.title,
@@ -36,6 +38,5 @@ export async function GET(context: APIContext) {
       }
     }),
     customData: '<language>en</language>',
-    stylesheet: '/rss-styles.xsl',
   })
 }
