@@ -71,7 +71,7 @@ const catsData = sortedCats.map(c => ({
       const header = document.createElement('div')
       header.className = 'tree-header'
       header.innerHTML = `
-        <span class="tree-toggle i-carbon-chevron-right"></span>
+        <span class="tree-toggle i-carbon-chevron-up"></span>
         <span class="tree-folder-icon i-carbon-folder"></span>
         <span class="tree-folder-name">${cat.name}</span>
         <span class="tree-count">${cat.count}</span>
@@ -81,7 +81,9 @@ const catsData = sortedCats.map(c => ({
       // Body (collapsed by default)
       const body = document.createElement('div')
       body.className = 'tree-body'
-      body.style.display = 'none'
+      const bodyInner = document.createElement('div')
+      bodyInner.className = 'tree-body-inner'
+      body.appendChild(bodyInner)
 
       for (const post of cat.posts) {
         const a = document.createElement('a')
@@ -92,20 +94,16 @@ const catsData = sortedCats.map(c => ({
           <span class="tree-file-name">${post.title}</span>
           <span class="tree-date">${post.date}</span>
         `
-        body.appendChild(a)
+        bodyInner.appendChild(a)
       }
 
       section.appendChild(body)
 
-      // Toggle interaction
+      // Toggle interaction — arrow rotates, folder icon swaps, body slides
       header.addEventListener('click', () => {
-        const collapsed = body.style.display === 'none'
-        body.style.display = collapsed ? 'block' : 'none'
-        const toggle = header.querySelector('.tree-toggle')!
+        const isOpen = section.classList.toggle('is-open')
         const icon = header.querySelector('.tree-folder-icon')!
-        toggle.className = `tree-toggle i-carbon-chevron-${collapsed ? 'down' : 'right'}`
-        icon.className = `tree-folder-icon i-carbon-folder${collapsed ? '-open' : ''}`
-        header.classList.toggle('tree-open', collapsed)
+        icon.className = `tree-folder-icon i-carbon-folder${isOpen ? '-open' : ''}`
       })
 
       el.appendChild(section)
@@ -140,12 +138,17 @@ const catsData = sortedCats.map(c => ({
   .tree-toggle {
     font-size: 0.8em;
     opacity: 0.5;
-    transition: transform 0.2s;
+    transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    transform: rotate(0deg);
+  }
+  .tree-folder.is-open .tree-toggle {
+    transform: rotate(180deg);
   }
 
   .tree-folder-icon {
     font-size: 1.05em;
     opacity: 0.45;
+    transition: opacity 0.2s;
   }
 
   .tree-folder-name {
@@ -160,10 +163,24 @@ const catsData = sortedCats.map(c => ({
     font-family: 'DM Mono', monospace;
   }
 
+  /* Smooth collapse using grid-template-rows trick — no JS height measurement */
   .tree-body {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.35s cubic-bezier(0.4, 0, 0.2, 1);
     padding-left: 1.2rem;
-    border-left: 1px solid rgba(125, 125, 125, 0.12);
+    border-left: 1px solid rgba(125, 125, 125, 0);
     margin-left: 0.45rem;
+    transition: grid-template-rows 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+                border-left-color 0.35s ease;
+  }
+  .tree-folder.is-open .tree-body {
+    grid-template-rows: 1fr;
+    border-left-color: rgba(125, 125, 125, 0.12);
+  }
+  .tree-body-inner {
+    overflow: hidden;
+    min-height: 0;
   }
 
   .tree-file {
