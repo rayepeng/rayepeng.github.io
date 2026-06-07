@@ -10,7 +10,8 @@
     "build": "astro build",
     "preview": "astro preview",
     "check": "astro check",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "new": "node scripts/new-post.mjs"
   },
   "dependencies": {
     "@astrojs/rss": "^4.0.7",
