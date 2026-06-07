@@ -1,6 +1,7 @@
 ---
 import { getCollection } from 'astro:content'
 import Default from '~/layouts/Default.astro'
+import SubNav from '~/components/SubNav.astro'
 import { formatDate } from '~/logics'
 
 /**
@@ -20,6 +21,7 @@ const grouped = Array.from(groups.entries())
 ---
 
 <Default title="Blog — Anthony Fu" description="Anthony Fu's Blog">
+  <SubNav active="/posts" />
   <div class="prose m-auto slide-enter-content">
     <h1>Blog</h1>
 

@@ -3,6 +3,7 @@ import type { GetStaticPaths } from 'astro'
 import { getCollection } from 'astro:content'
 import Default from '~/layouts/Default.astro'
 import PostLayout from '~/layouts/PostLayout.astro'
+import SubNav from '~/components/SubNav.astro'
 
 export const getStaticPaths = (async () => {
   const posts = await getCollection('posts', ({ data }) => !data.draft)
@@ -33,6 +34,7 @@ const { Content, headings, remarkPluginFrontmatter } = await entry.render()
 ) : (
 
 <Default title={`${title} — Anthony Fu`} description={description || title}>
+  <SubNav active="/posts" />
   <PostLayout title={title} date={date} description={description} image={image} lang={lang} headings={headings}>
     <Content />
   </PostLayout>
