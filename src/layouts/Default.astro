@@ -80,5 +80,20 @@ const canonical = new URL(Astro.url.pathname, Astro.site).toString()
     </main>
     {!hideFooter && <Footer />}
     <ImageZoom client:idle />
+    <script is:inline>
+      // Lightweight broken-image fallback: add a class so the dashed
+      // placeholder style in markdown.css kicks in; surface alt text in title.
+      addEventListener(
+        'error',
+        (e) => {
+          const img = e.target
+          if (img instanceof HTMLImageElement) {
+            img.classList.add('img-broken')
+            if (img.alt && !img.title) img.title = img.alt + ' (image unavailable)'
+          }
+        },
+        true,
+      )
+    </script>
   </body>
 </html>

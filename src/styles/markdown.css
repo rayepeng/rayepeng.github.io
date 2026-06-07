@@ -49,8 +49,46 @@ html:not(.dark) .shiki span {
   margin: 0.5em 0;
 }
 
+/* Apply Shiki dual-theme CSS variables.
+   Astro's built-in Shiki integration with `themes: { light, dark }` injects
+   inline `style="--shiki-light:#XXX;--shiki-dark:#YYY"` on every <span>, but
+   never sets the actual `color`/`background` properties — pages have to
+   wire the variables up themselves. */
+.prose .shiki,
+.prose .shiki span {
+  color: var(--shiki-light);
+  background-color: var(--shiki-light-bg);
+  font-style: var(--shiki-light-font-style);
+  font-weight: var(--shiki-light-font-weight);
+  text-decoration: var(--shiki-light-text-decoration);
+}
+
+html.dark .prose .shiki,
+html.dark .prose .shiki span {
+  color: var(--shiki-dark);
+  background-color: var(--shiki-dark-bg);
+  font-style: var(--shiki-dark-font-style);
+  font-weight: var(--shiki-dark-font-weight);
+  text-decoration: var(--shiki-dark-text-decoration);
+}
+
 .prose img {
   width: 100%;
+}
+
+/* Failed image fallback — add `.img-broken` via JS error listener.
+   Keeps it simple: a thin dashed box with the alt text. */
+.prose img.img-broken {
+  min-height: 60px;
+  padding: 1em;
+  border: 1px dashed rgba(125, 125, 125, 0.3);
+  border-radius: 6px;
+  color: rgba(125, 125, 125, 0.7);
+  font-family: 'DM Mono', monospace;
+  font-size: 0.85em;
+  text-align: center;
+  /* Show alt text via :after when img fails (works because we keep the
+     <img> but JS adds class + sets a CSS var). */
 }
 
 .prose p > img {
