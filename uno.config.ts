@@ -55,8 +55,8 @@ export default defineConfig({
   safelist: [
     'i-ri-menu-2-fill',
     // Dynamically toggled icons in categories tree
-    'i-carbon-folder',
-    'i-carbon-folder-open',
+    'i-ri-folder-line',
+    'i-ri-folder-open-line',
     'i-carbon-chevron-right',
   ],
 })
