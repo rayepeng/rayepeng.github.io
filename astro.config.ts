@@ -34,7 +34,6 @@ export default defineConfig({
         dark: 'vitesse-dark',
       },
       defaultColor: false,
-      cssVariablePrefix: '--s-',
       transformers: [
         transformerNotationDiff(),
         transformerNotationHighlight(),

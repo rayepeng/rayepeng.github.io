@@ -1,0 +1,249 @@
+---
+import { getCollection } from 'astro:content'
+import Default from '~/layouts/Default.astro'
+
+const all = await getCollection('posts', ({ data }) => !data.draft && !data.redirect)
+
+// Group by category → subfolder structure
+interface TreeNode {
+  name: string
+  slug: string
+  posts: { title: string; slug: string; date: string }[]
+  children: TreeNode[]
+}
+
+// Build folder hierarchy from slug paths
+const root: TreeNode = { name: 'Posts', slug: '', posts: [], children: [] }
+
+for (const post of all) {
+  const parts = post.slug.split('/')
+  let node = root
+
+  // Walk through path parts to build tree
+  for (let i = 0; i < parts.length - 1; i++) {
+    const part = parts[i]
+    let child = node.children.find(c => c.name === part)
+    if (!child) {
+      child = { name: part, slug: parts.slice(0, i + 1).join('/'), posts: [], children: [] }
+      node.children.push(child)
+    }
+    node = child
+  }
+
+  // Also check frontmatter category
+  const cat = (post.data as any).category
+  if (cat && !node.children.find(c => c.name === cat)) {
+    let catNode = node.children.find(c => c.name === cat)
+    if (!catNode) {
+      catNode = { name: cat, slug: `${node.slug}/${cat}`, posts: [], children: [] }
+      node.children.push(catNode)
+    }
+    catNode.posts.push({
+      title: post.data.title,
+      slug: post.slug,
+      date: typeof post.data.date === 'string' ? post.data.date : post.data.date?.toISOString?.() ?? '',
+    })
+  } else {
+    node.posts.push({
+      title: post.data.title,
+      slug: post.slug,
+      date: typeof post.data.date === 'string' ? post.data.date : post.data.date?.toISOString?.() ?? '',
+    })
+  }
+}
+
+// Sort children alphabetically, posts by date
+function sortTree(node: TreeNode) {
+  node.children.sort((a, b) => a.name.localeCompare(b.name, 'zh-CN'))
+  node.posts.sort((a, b) => +new Date(b.date) - +new Date(a.date))
+  node.children.forEach(sortTree)
+}
+sortTree(root)
+
+// Count total posts in a subtree
+function countPosts(node: TreeNode): number {
+  return node.posts.length + node.children.reduce((s, c) => s + countPosts(c), 0)
+}
+---
+
+<Default title="Categories — Raye's Journey" description="Browse posts by category">
+  <div class="prose m-auto slide-enter-content">
+    <h1>Categories</h1>
+    <p class="op50 mt-0!">共 {countPosts(root)} 篇文章</p>
+
+    <div class="not-prose" id="tree-root" data-json={JSON.stringify(root)} />
+  </div>
+</Default>
+
+<script>
+  interface TreeNode {
+    name: string
+    slug: string
+    posts: { title: string; slug: string; date: string }[]
+    children: TreeNode[]
+  }
+
+  function countPosts(node: TreeNode): number {
+    return node.posts.length + node.children.reduce((s, c) => s + countPosts(c), 0)
+  }
+
+  function formatDateISO(d: string) {
+    try { return new Date(d).toISOString().slice(0, 10) } catch { return d }
+  }
+
+  function renderTree(node: TreeNode, depth = 0): HTMLElement {
+    const container = document.createElement('div')
+    container.className = 'tree-folder'
+    container.dataset.depth = String(depth)
+
+    // Folder header
+    if (depth > 0) {
+      const header = document.createElement('div')
+      header.className = 'tree-header'
+      header.style.paddingLeft = `${depth * 1.2}rem`
+      header.innerHTML = `
+        <span class="tree-toggle i-carbon-chevron-right"></span>
+        <span class="tree-folder-icon i-carbon-folder"></span>
+        <span class="tree-folder-name">${node.name}</span>
+        <span class="tree-count">${countPosts(node)}</span>
+      `
+      container.appendChild(header)
+
+      // Collapsible body
+      const body = document.createElement('div')
+      body.className = 'tree-body'
+      body.style.display = 'block'
+
+      // Render child folders
+      for (const child of node.children)
+        body.appendChild(renderTree(child, depth + 1))
+
+      // Render posts
+      for (const post of node.posts) {
+        const item = document.createElement('a')
+        item.href = `/posts/${post.slug}`
+        item.className = 'tree-file'
+        item.style.paddingLeft = `${(depth + 1) * 1.2}rem`
+        item.innerHTML = `
+          <span class="tree-file-icon i-carbon-document"></span>
+          <span class="tree-file-name">${post.title}</span>
+          <span class="tree-date">${formatDateISO(post.date)}</span>
+        `
+        body.appendChild(item)
+      }
+
+      container.appendChild(body)
+
+      // Toggle
+      const toggle = header.querySelector('.tree-toggle')!
+      const folderIcon = header.querySelector('.tree-folder-icon')!
+      header.addEventListener('click', () => {
+        const collapsed = body.style.display === 'none'
+        body.style.display = collapsed ? 'block' : 'none'
+        toggle.className = `tree-toggle i-carbon-chevron-${collapsed ? 'down' : 'right'}`
+        folderIcon.className = `tree-folder-icon i-carbon-folder${collapsed ? '-open' : ''}`
+        header.classList.toggle('tree-open', collapsed)
+      })
+    }
+    else {
+      // Root node — just render children
+      for (const child of node.children)
+        container.appendChild(renderTree(child, depth + 1))
+      for (const post of node.posts) {
+        const item = document.createElement('a')
+        item.href = `/posts/${post.slug}`
+        item.className = 'tree-file'
+        item.style.paddingLeft = `${1.2}rem`
+        item.innerHTML = `
+          <span class="tree-file-icon i-carbon-document"></span>
+          <span class="tree-file-name">${post.title}</span>
+          <span class="tree-date">${formatDateISO(post.date)}</span>
+        `
+        container.appendChild(item)
+      }
+    }
+
+    return container
+  }
+
+  const el = document.getElementById('tree-root')
+  if (el) {
+    const data: TreeNode = JSON.parse(el.dataset.json!)
+    el.replaceWith(renderTree(data))
+  }
+</script>
+
+<style is:global>
+  .tree-folder {
+    user-select: none;
+  }
+
+  .tree-header {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.4rem 0;
+    cursor: pointer;
+    border-radius: 6px;
+    transition: background 0.15s;
+  }
+  .tree-header:hover {
+    background: rgba(125, 125, 125, 0.08);
+  }
+
+  .tree-toggle {
+    font-size: 0.85em;
+    opacity: 0.5;
+    transition: transform 0.2s;
+  }
+
+  .tree-folder-icon {
+    font-size: 1.1em;
+    color: #e8a540;
+  }
+  .dark .tree-folder-icon {
+    color: #d4953a;
+  }
+
+  .tree-folder-name {
+    font-weight: 500;
+    font-size: 0.95em;
+  }
+
+  .tree-count {
+    font-size: 0.75em;
+    opacity: 0.4;
+    margin-left: 0.3rem;
+  }
+
+  .tree-file {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.35rem 0;
+    text-decoration: none;
+    color: inherit;
+    border-radius: 6px;
+    transition: background 0.15s;
+  }
+  .tree-file:hover {
+    background: rgba(125, 125, 125, 0.06);
+  }
+
+  .tree-file-icon {
+    font-size: 0.9em;
+    opacity: 0.4;
+  }
+
+  .tree-file-name {
+    flex: 1;
+    font-size: 0.9em;
+  }
+
+  .tree-date {
+    font-size: 0.75em;
+    opacity: 0.35;
+    font-family: 'DM Mono', monospace;
+    flex-shrink: 0;
+  }
+</style>

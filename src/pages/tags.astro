@@ -1,0 +1,193 @@
+---
+import { getCollection } from 'astro:content'
+import Default from '~/layouts/Default.astro'
+
+const all = await getCollection('posts', ({ data }) => !data.draft && !data.redirect)
+
+// Collect all tags with counts
+const tagMap = new Map<string, { count: number; posts: { title: string; slug: string; date: string }[] }>()
+
+for (const post of all) {
+  const tags: string[] = (post.data as any).tags ?? []
+  if (!tags.length) {
+    // categorize under 未标签
+    const t = '未标签'
+    if (!tagMap.has(t)) tagMap.set(t, { count: 0, posts: [] })
+    tagMap.get(t)!.count++
+    tagMap.get(t)!.posts.push({
+      title: post.data.title,
+      slug: post.slug,
+      date: typeof post.data.date === 'string' ? post.data.date : post.data.date?.toISOString?.() ?? '',
+    })
+    continue
+  }
+  for (const tag of tags) {
+    if (!tagMap.has(tag)) tagMap.set(tag, { count: 0, posts: [] })
+    tagMap.get(tag)!.count++
+    tagMap.get(tag)!.posts.push({
+      title: post.data.title,
+      slug: post.slug,
+      date: typeof post.data.date === 'string' ? post.data.date : post.data.date?.toISOString?.() ?? '',
+    })
+  }
+}
+
+// Sort tags by count desc
+const sortedTags = [...tagMap.entries()]
+  .sort((a, b) => b[1].count - a[1].count)
+
+const maxCount = Math.max(...sortedTags.map(([, v]) => v.count), 1)
+const minCount = Math.min(...sortedTags.map(([, v]) => v.count), 1)
+
+// Map count to font-size for tag cloud
+function tagSize(count: number) {
+  const ratio = maxCount === minCount ? 0.5 : (count - minCount) / (maxCount - minCount)
+  return 0.8 + ratio * 1.8 // 0.8rem → 2.6rem
+}
+
+function tagOpacity(count: number) {
+  const ratio = maxCount === minCount ? 0.5 : (count - minCount) / (maxCount - minCount)
+  return 0.45 + ratio * 0.55 // 0.45 → 1.0
+}
+
+// Encode for client-side
+const tagsData = sortedTags.map(([tag, { count }]) => ({
+  tag,
+  count,
+  size: tagSize(count),
+  opacity: tagOpacity(count),
+}))
+---
+
+<Default title="Tags — Raye's Journey" description="All blog post tags">
+  <div class="prose m-auto slide-enter-content">
+    <h1>Tags</h1>
+
+    <!-- Tag Cloud -->
+    <h2 id="tag-cloud">Tag Cloud</h2>
+    <div class="not-prose tag-cloud" id="tag-cloud-area">
+      {tagsData.map(({ tag, count, size, opacity }) => (
+        <a
+          href={`#tag-${encodeURIComponent(tag)}`}
+          class="tag-cloud-item"
+          style={`font-size:${size}rem; opacity:${opacity}`}
+          title={`${tag} (${count})`}
+        >
+          {tag}
+        </a>
+      ))}
+    </div>
+
+    <hr />
+
+    <!-- Tag List -->
+    <h2 id="tag-list">All Tags</h2>
+    <div class="not-prose" id="tag-list-area">
+      {sortedTags.map(([tag, { count, posts }]) => (
+        <div class="tag-section" id={`tag-${encodeURIComponent(tag)}`}>
+          <div class="tag-header">
+            <span class="tag-name">{tag}</span>
+            <span class="tag-badge">{count}</span>
+          </div>
+          <div class="tag-posts">
+            {posts
+              .sort((a, b) => +new Date(b.date) - +new Date(a.date))
+              .map((post) => (
+                <a href={`/posts/${post.slug}`} class="tag-post-item">
+                  <span class="tag-post-title">{post.title}</span>
+                  <span class="tag-post-date">
+                    {post.date ? new Date(post.date).toISOString().slice(0, 10) : ''}
+                  </span>
+                </a>
+              ))}
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</Default>
+
+<style is:global>
+  .tag-cloud {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem 0.9rem;
+    padding: 1.5rem 1rem;
+    border-radius: 12px;
+    background: rgba(125, 125, 125, 0.03);
+    border: 1px solid rgba(125, 125, 125, 0.1);
+  }
+
+  .tag-cloud-item {
+    display: inline-block;
+    font-weight: 600;
+    text-decoration: none;
+    color: inherit;
+    line-height: 1.3;
+    transition: transform 0.2s, opacity 0.2s;
+    cursor: pointer;
+  }
+  .tag-cloud-item:hover {
+    transform: scale(1.12);
+    opacity: 1 !important;
+  }
+
+  .tag-section {
+    margin-bottom: 1.2rem;
+  }
+
+  .tag-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.3rem 0;
+  }
+
+  .tag-name {
+    font-weight: 600;
+    font-size: 1rem;
+  }
+
+  .tag-badge {
+    font-size: 0.7rem;
+    background: rgba(125, 125, 125, 0.12);
+    color: rgba(125, 125, 125, 0.8);
+    padding: 0.1rem 0.45rem;
+    border-radius: 99px;
+    font-family: 'DM Mono', monospace;
+  }
+
+  .tag-posts {
+    padding-left: 1rem;
+    border-left: 2px solid rgba(125, 125, 125, 0.1);
+    margin-left: 0.3rem;
+  }
+
+  .tag-post-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.3rem 0.5rem;
+    text-decoration: none;
+    color: inherit;
+    border-radius: 4px;
+    transition: background 0.15s;
+  }
+  .tag-post-item:hover {
+    background: rgba(125, 125, 125, 0.06);
+  }
+
+  .tag-post-title {
+    flex: 1;
+    font-size: 0.9em;
+  }
+
+  .tag-post-date {
+    font-size: 0.75em;
+    opacity: 0.35;
+    font-family: 'DM Mono', monospace;
+    flex-shrink: 0;
+  }
+</style>

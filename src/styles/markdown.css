@@ -1,21 +1,40 @@
-.dark .shiki,
-.dark .shiki span {
-  color: var(--s-dark, inherit);
+/* Shiki dual-theme color bridge.
+   Astro's built-in Shiki integration injects inline
+   style="--shiki-light:#XXX;--shiki-dark:#YYY" on every <span> but never
+   wires those variables to actual color/background — we do it here.
+   (Note: `cssVariablePrefix: '--s-'` in astro.config has no effect on
+    Astro's built-in integration; the prefix is always `--shiki-`.) */
+.shiki,
+.shiki span {
+  color: var(--shiki-light);
+  background-color: var(--shiki-light-bg);
+  font-style: var(--shiki-light-font-style);
+  font-weight: var(--shiki-light-font-weight);
+  text-decoration: var(--shiki-light-text-decoration);
+}
+
+html.dark .shiki,
+html.dark .shiki span {
+  color: var(--shiki-dark);
+  background-color: var(--shiki-dark-bg);
+  font-style: var(--shiki-dark-font-style);
+  font-weight: var(--shiki-dark-font-weight);
+  text-decoration: var(--shiki-dark-text-decoration);
   --twoslash-popup-bg: #191919;
   --twoslash-border-color: #8884;
 }
-.dark .shiki {
-  background-color: #0e0e0e;
-}
 
 html:not(.dark) .shiki {
-  background-color: #fafafa;
+  --twoslash-popup-bg: #fafafa;
 }
 
-html:not(.dark) .shiki,
-html:not(.dark) .shiki span {
-  color: var(--s-light, inherit);
-  --twoslash-popup-bg: #fafafa;
+/* Block-level background uses solid theme color so transformers
+   (highlighted line strip etc.) blend properly. */
+.shiki {
+  background-color: #fafafa;
+}
+html.dark .shiki {
+  background-color: #0e0e0e;
 }
 
 .twoslash ul {
@@ -47,29 +66,6 @@ html:not(.dark) .shiki span {
   font-size: 0.92em;
   line-height: 1.4;
   margin: 0.5em 0;
-}
-
-/* Apply Shiki dual-theme CSS variables.
-   Astro's built-in Shiki integration with `themes: { light, dark }` injects
-   inline `style="--shiki-light:#XXX;--shiki-dark:#YYY"` on every <span>, but
-   never sets the actual `color`/`background` properties — pages have to
-   wire the variables up themselves. */
-.prose .shiki,
-.prose .shiki span {
-  color: var(--shiki-light);
-  background-color: var(--shiki-light-bg);
-  font-style: var(--shiki-light-font-style);
-  font-weight: var(--shiki-light-font-weight);
-  text-decoration: var(--shiki-light-text-decoration);
-}
-
-html.dark .prose .shiki,
-html.dark .prose .shiki span {
-  color: var(--shiki-dark);
-  background-color: var(--shiki-dark-bg);
-  font-style: var(--shiki-dark-font-style);
-  font-weight: var(--shiki-dark-font-weight);
-  text-decoration: var(--shiki-dark-text-decoration);
 }
 
 .prose img {
