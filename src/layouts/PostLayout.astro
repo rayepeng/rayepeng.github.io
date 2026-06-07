@@ -52,6 +52,16 @@ const outline = headings.filter(h => h.depth <= 2)
     )}
   </div>
 
+  {image && (
+    <div class="post-cover" id="post-cover">
+      <img src={image} alt={title} />
+    </div>
+  )}
+
+  {!image && (
+    <div class="post-cover" id="post-cover" style="display:none"></div>
+  )}
+
   {outline.length > 1 && (
     <nav class="post-outline" id="post-outline">
       <div class="outline-title">Outline</div>
@@ -69,7 +79,9 @@ const outline = headings.filter(h => h.depth <= 2)
     </nav>
   )}
 
-  <slot />
+  <div id="post-body">
+    <slot />
+  </div>
 </article>
 
 <div class="prose m-auto mt-8 mb-8 slide-enter animate-delay-500">
@@ -114,9 +126,42 @@ const outline = headings.filter(h => h.depth <= 2)
       })
     })
   }
+
+  // Auto-extract first image from article body as cover if no frontmatter image
+  const coverEl = document.getElementById('post-cover')
+  const bodyEl = document.getElementById('post-body')
+  if (coverEl && bodyEl && !coverEl.querySelector('img')) {
+    // Find the first <img> in the body (may be wrapped in <p>)
+    const firstP = bodyEl.querySelector('p')
+    const firstImg = firstP?.querySelector('img') || bodyEl.querySelector('img')
+    if (firstImg) {
+      // Move the image to the cover container
+      const wrapper = firstImg.closest('p') || firstImg
+      coverEl.appendChild(firstImg)
+      coverEl.style.display = ''
+      // Remove empty <p> wrapper if it only contained the image
+      if (firstP && !firstP.textContent?.trim() && !firstP.querySelector('img')) {
+        firstP.remove()
+      }
+    }
+  }
 </script>
 
 <style>
+  .post-cover {
+    margin-bottom: 2rem;
+    border-radius: 12px;
+    overflow: hidden;
+    line-height: 0;
+  }
+  .post-cover img {
+    width: 100%;
+    height: auto;
+    max-height: 420px;
+    object-fit: cover;
+    border-radius: 12px;
+  }
+
   .post-meta {
     display: flex;
     flex-wrap: wrap;
