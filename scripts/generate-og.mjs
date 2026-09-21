@@ -16,11 +16,10 @@
  */
 
 import { existsSync } from 'node:fs'
-import { mkdir, readFile, readdir, rm, stat, writeFile } from 'node:fs/promises'
+import { mkdir, readFile, readdir, stat, writeFile } from 'node:fs/promises'
 import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
-import { slug as githubSlug } from 'github-slugger'
 import matter from 'gray-matter'
 import sharp from 'sharp'
 
@@ -278,8 +277,6 @@ async function main() {
   let skippedExisting = 0
   let skippedCustomCover = 0
   const failures = []
-  /** 本次构建应该存在的卡片文件名，用于识别失效的旧卡片 */
-  const kept = new Set()
 
   console.log('OG 卡片生成')
 
@@ -289,9 +286,7 @@ async function main() {
 
     if (data.draft || data.redirect) continue
 
-    // 必须和 Astro 的 entry.slug 一致：它用 github-slugger 处理文件名
-    // （小写化、去标点、空格转连字符）。否则页面引用的 /og/<slug>.jpg 会 404。
-    const slug = data.customSlug || githubSlug(file.replace(/\.mdx?$/, ''))
+    const slug = data.customSlug || file.replace(/\.mdx?$/, '')
     if (ONLY && slug !== ONLY) continue
 
     // 作者手工设计过封面：那张图通常已经带标题，直接用，不再叠字
@@ -301,7 +296,6 @@ async function main() {
     }
 
     const outPath = join(OUT_DIR, `${slug}.jpg`)
-    kept.add(`${slug}.jpg`)
     if (!FORCE && existsSync(outPath)) {
       const [outStat, srcStat] = await Promise.all([stat(outPath), stat(source)])
       if (outStat.mtimeMs > srcStat.mtimeMs) {
@@ -338,24 +332,12 @@ async function main() {
     console.log('  已生成站点默认图 public/og.jpg')
   }
   catch (e) {
-    failures.push(`og.jpg: ${e.message}`)
-  }
-
-  // 文章改名或被删掉后，旧卡片不会再有页面引用，清掉免得跟着部署上去
-  let removed = 0
-  if (!ONLY) {
-    const expected = new Set([...kept, 'og.jpg'])
-    for (const name of await readdir(OUT_DIR)) {
-      if (!name.endsWith('.jpg') || expected.has(name)) continue
-      await rm(join(OUT_DIR, name))
-      removed++
-    }
+    failures.push(`og.png: ${e.message}`)
   }
 
   console.log(
     `\n完成：生成 ${generated} 张，跳过 ${skippedExisting} 张（未变更），`
-    + `${skippedCustomCover} 张沿用作者封面`
-    + (removed ? `，清理 ${removed} 张失效卡片` : ''),
+    + `${skippedCustomCover} 张沿用作者封面`,
   )
 
   if (failures.length) {
