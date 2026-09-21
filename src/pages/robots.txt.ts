@@ -1,10 +1,11 @@
 import type { APIRoute } from 'astro'
 
-export const GET: APIRoute = async () => {
+export const GET: APIRoute = async ({ site }) => {
+  const sitemap = new URL('sitemap-index.xml', site ?? 'https://rayepeng.net').toString()
   const body = `User-agent: *
 Allow: /
 
-Sitemap: https://rayepeng.github.io/sitemap-index.xml
+Sitemap: ${sitemap}
 `
 
   return new Response(body, {

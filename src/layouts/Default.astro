@@ -26,7 +26,7 @@ interface Props {
 const {
   title = "Raye's Journey",
   description = '无人调护，自去经心',
-  image = 'https://rayepeng.github.io/og.png',
+  image = 'https://rayepeng.net/og.png',
   hideNav = false,
   hideFooter = false,
   fullwidth = false,
@@ -61,7 +61,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site).toString()
     <meta name="twitter:image" content={image} />
 
     <link rel="canonical" href={canonical} />
-    <link rel="alternate" type="application/rss+xml" title="RSS" href="/feed" />
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="/feed.xml" />
 
     <!-- Additional head content from child layouts -->
     <slot name="og" />

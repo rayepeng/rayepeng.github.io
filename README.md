@@ -121,7 +121,7 @@ src/
 | Categories | `/categories` | VSCode 风格可折叠文件夹树，默认折叠 |
 | Tags | `/tags` | 标签云（字号∝频率）+ 可折叠标签列表 |
 | Friends | `/friends` | 友链卡片，头像 `object-contain` 展示 |
-| RSS | `/feed` | RSS 订阅（同时保留 `/feed.xml` 兼容） |
+| RSS | `/feed.xml` | RSS 订阅（`/rss.xml` 为同内容别名；`/feed` 保留为兼容跳转页） |
 
 ### 文章页特性
 

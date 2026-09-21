@@ -1,0 +1,32 @@
+---
+// `/feed` is kept as a URL for backwards compatibility, but it can no longer
+// serve the XML itself.
+//
+// This site is hosted on GitHub Pages, which derives the Content-Type purely
+// from the file extension and offers no way to override response headers. The
+// former `feed.ts` endpoint was emitted as an extension-less `dist/feed` file,
+// so GitHub Pages served it as `application/octet-stream` — browsers downloaded
+// it and some RSS readers rejected it. Rendering an HTML page instead yields a
+// correct `text/html` response that points readers at the real feed.
+const feedPath = '/feed.xml'
+const feedUrl = new URL(feedPath, Astro.site).toString()
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>RSS Feed — Raye's Journey</title>
+    <link rel="canonical" href={feedUrl} />
+    <link rel="alternate" type="application/rss+xml" title="Raye's Journey" href={feedUrl} />
+    <meta http-equiv="refresh" content={`0;url=${feedUrl}`} />
+  </head>
+  <body>
+    <p>
+      This page is not the feed itself. Subscribe at
+      <a href={feedPath}>{feedUrl}</a>.
+    </p>
+    <script is:inline>
+      location.replace('/feed.xml')
+    </script>
+  </body>
+</html>

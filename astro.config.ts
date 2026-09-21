@@ -18,7 +18,10 @@ import {
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://rayepeng.github.io',
+  // The site is actually served from the custom domain (see public/CNAME).
+  // This value drives canonical URLs, sitemap entries, robots.txt and RSS item
+  // links, so pointing it at *.github.io made all of them advertise the wrong host.
+  site: 'https://rayepeng.net',
   trailingSlash: 'never',
   integrations: [
     UnoCSS({ injectReset: true }),
