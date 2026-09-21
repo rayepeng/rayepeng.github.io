@@ -33,13 +33,6 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-      # OG cards render Chinese titles through SVG text, which needs a CJK font.
-      - name: Ensure CJK fonts
-        run: |
-          if ! fc-list | grep -qiE 'cjk|wenquanyi|source han'; then
-            sudo apt-get update && sudo apt-get install -y fonts-noto-cjk
-          fi
-
       - name: Build
         run: pnpm build
 

@@ -14,10 +14,7 @@ import ArtPaths from '~/components/ArtPaths.vue'
 interface Props {
   title?: string
   description?: string
-  /** Social share image. Build-time generated cards live in /og/. */
   image?: string
-  /** Open Graph type — articles should pass 'article'. */
-  ogType?: string
   /** Hide the global NavBar (e.g. for landing/full-bleed pages). */
   hideNav?: boolean
   /** Hide the global Footer. */
@@ -29,8 +26,7 @@ interface Props {
 const {
   title = "Raye's Journey",
   description = '无人调护，自去经心',
-  image = 'https://rayepeng.net/og.jpg',
-  ogType = 'website',
+  image = 'https://rayepeng.net/og.png',
   hideNav = false,
   hideFooter = false,
   fullwidth = false,
@@ -51,7 +47,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site).toString()
     <meta name="description" content={description} />
 
     <!-- Open Graph -->
-    <meta property="og:type" content={ogType} />
+    <meta property="og:type" content="website" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={image} />

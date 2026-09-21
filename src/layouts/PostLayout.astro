@@ -22,14 +22,20 @@ const {
   category = '',
   headings = [],
 } = Astro.props
+const siteUrl = Astro.site?.toString() || 'https://rayepeng.github.io/'
+const ogImage = image || `${siteUrl}og/${Astro.params.slug}.png`
+const canonicalURL = new URL(Astro.url.pathname, siteUrl)
+
 // Outline: include h1/h2/h3
 const outline = headings.filter(h => h.depth <= 3)
 ---
 
-<!-- og:image / og:type 由 Default 统一输出，这里只补文章特有的字段，避免重复标签 -->
 <Fragment slot="og">
+  <meta property="og:type" content="article" />
   <meta property="article:published_time" content={date} />
   <meta property="article:author" content="Raye" />
+  <meta property="og:image" content={ogImage} />
+  <meta name="twitter:image" content={ogImage} />
   {tags.map(tag => <meta property="article:tag" content={tag} />)}
 </Fragment>
 
