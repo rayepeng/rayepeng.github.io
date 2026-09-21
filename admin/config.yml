@@ -31,6 +31,12 @@ collections:
     extension: md
     slug: '{{slug}}'
     preview_path: 'posts/{{slug}}'
+    # 默认按发布时间倒序。Decap 默认是按 title 升序（不是按时间），
+    # 必须显式声明。注意：整个集合里只能有一个字段带 default_sort。
+    sortable_fields:
+      - field: date
+        default_sort: desc
+      - title
     fields:
       - label: 标题
         name: title
