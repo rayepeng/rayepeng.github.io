@@ -11,7 +11,9 @@
     "preview": "astro preview",
     "check": "astro check",
     "lint": "eslint .",
-    "new": "node scripts/new-post.mjs"
+    "new": "node scripts/new-post.mjs",
+    "pub": "node scripts/publish.mjs",
+    "admin": "node scripts/admin-dev.mjs"
   },
   "dependencies": {
     "@astrojs/rss": "^4.0.7",
