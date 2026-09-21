@@ -7,7 +7,8 @@
   "packageManager": "pnpm@9.12.0",
   "scripts": {
     "dev": "astro dev --port 3333 --open",
-    "build": "astro build",
+    "og": "node scripts/generate-og.mjs",
+    "build": "node scripts/generate-og.mjs && astro build",
     "preview": "astro preview",
     "check": "astro check",
     "lint": "eslint .",

@@ -1,103 +1,350 @@
+#!/usr/bin/env node
+
 /**
- * OG image generator for astrofu
+ * 生成 Open Graph 分享卡片（1200×630）。
  *
- * Reads all post frontmatter from Content Collection (via glob scan of frontmatter),
- * generates PNG via sharp + SVG template, writes to public/og/<slug>.png.
+ * 没有手工封面的文章 → 用正文第一张图铺底，叠上标题/日期/标签，输出 public/og/<slug>.png。
+ * 已经手工给过封面的文章 → 直接沿用那张封面（多数本身已带标题），不再叠字，避免双标题。
+ * 另外生成站点默认图 public/og.png，供首页等页面使用。
  *
- * Run: node scripts/generate-og.mjs
+ * 构建时运行（见 package.json 的 build 脚本），产物不进版本库。
+ *
+ * 用法：
+ *   node scripts/generate-og.mjs               # 生成（已存在且比源文件新则跳过）
+ *   node scripts/generate-og.mjs --force       # 全部重新生成
+ *   node scripts/generate-og.mjs --only=<slug> # 只生成某一篇
  */
-import { readFileSync, existsSync, mkdirSync, writeFileSync, readdirSync } from 'node:fs'
-import { join } from 'node:path'
+
+import { existsSync } from 'node:fs'
+import { mkdir, readFile, readdir, stat, writeFile } from 'node:fs/promises'
+import { dirname, join, resolve } from 'node:path'
+import { fileURLToPath } from 'node:url'
+
+import matter from 'gray-matter'
 import sharp from 'sharp'
 
-const POSTS_DIR = '/Users/raye/code/astrofu/src/content/posts'
-const OG_DIR = '/Users/raye/code/astrofu/public/og'
-const TEMPLATE = '/Users/raye/code/astrofu/scripts/og-template.svg'
+const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..')
+const POSTS_DIR = join(ROOT, 'src/content/posts')
+const OUT_DIR = join(ROOT, 'public/og')
+const SITE_OG = join(ROOT, 'public/og.jpg')
 
-if (!existsSync(OG_DIR)) mkdirSync(OG_DIR, { recursive: true })
+const WIDTH = 1200
+const HEIGHT = 630
+const PADDING = 72
 
-const svgTemplate = readFileSync(TEMPLATE, 'utf-8')
+const SITE_NAME = "Raye's Journey"
+const SITE_TAGLINE = '无人调护，自去经心'
+const SITE_URL = 'https://rayepeng.net'
 
-// Parse YAML frontmatter from markdown files
-function parseFrontmatter(content: string) {
-  const match = content.match(/^---\n([\s\S]*?)\n---/)
-  if (!match) return {}
-  const yaml = match[1]
-  const result: Record<string, string> = {}
-  for (const line of yaml.split('\n')) {
-    const kv = line.match(/^(\w+):\s*['"]?(.*?)['"]?\s*$/)
-    if (kv) result[kv[1]] = kv[2]
+// 中文字形来自系统字体，靠 fontconfig 回退；按优先级给候选
+const FONT_STACK = [
+  'Noto Sans CJK SC',
+  'Noto Sans SC',
+  'Source Han Sans SC',
+  'PingFang SC',
+  'WenQuanYi Zen Hei',
+  'Noto Sans',
+  'DejaVu Sans',
+  'sans-serif',
+]
+  .map((f) => (f.includes(' ') ? `'${f}'` : f))
+  .join(', ')
+
+const args = new Set(process.argv.slice(2))
+const FORCE = args.has('--force')
+const ONLY = [...args].find((a) => a.startsWith('--only='))?.slice('--only='.length)
+
+/* ── 工具函数 ─────────────────────────────────────────────────────────── */
+
+function escapeXml(s) {
+  return String(s)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&apos;')
+}
+
+function formatDate(value) {
+  const d = new Date(value)
+  if (Number.isNaN(d.getTime())) return String(value ?? '')
+  return d.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })
+}
+
+/** 估算文字在给定字号下的显示宽度：中日韩按一个字宽，西文约半个字宽。 */
+function textWidth(text, fontSize) {
+  let units = 0
+  for (const ch of text) {
+    if (/[\u3040-\u30ff\u3400-\u4dbf\u4e00-\u9fff\uf900-\ufaff\uff00-\uffef]/.test(ch)) units += 1
+    else if (/\s/.test(ch)) units += 0.3
+    else if (/[A-Z]/.test(ch)) units += 0.62
+    else units += 0.52
   }
-  return result
+  return units * fontSize
 }
 
-function escapeXml(s: string) {
-  return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
+// 中日韩标点也一并算进「宽字符」
+const CJK_RANGES = '\\u3040-\\u30ff\\u3400-\\u4dbf\\u4e00-\\u9fff\\uf900-\\ufaff\\uff00-\\uffef'
+// 宽字符逐个成块；连续的西文/数字/符号成块（也就是按词换行）
+const CHUNK_RE = new RegExp(`[${CJK_RANGES}]|[^${CJK_RANGES}\\s]+`, 'g')
+
+/** 把标题切成可整体换行的单元：中文一个字一个单元，西文一个词一个单元。 */
+function toChunks(text) {
+  const chunks = []
+  for (const part of String(text).split(/(\s+)/)) {
+    if (!part) continue
+    if (/^\s+$/.test(part)) {
+      chunks.push(part)
+      continue
+    }
+    chunks.push(...(part.match(CHUNK_RE) ?? []))
+  }
+  return chunks
 }
 
-function formatDate(dateStr: string) {
+/** 按可用宽度把标题切成多行，超出上限时截断并加省略号。 */
+function wrapTitle(title, fontSize, maxWidth, maxLines) {
+  const lines = []
+  let current = ''
+
+  for (const chunk of toChunks(title)) {
+    let pending = chunk
+
+    // 单个词就超过一整行（长 URL 之类）时只能按字符硬切
+    while (textWidth(pending, fontSize) > maxWidth) {
+      if (current.trim()) {
+        lines.push(current.trimEnd())
+        current = ''
+      }
+      let cut = pending.length
+      while (cut > 1 && textWidth(pending.slice(0, cut), fontSize) > maxWidth) cut--
+      lines.push(pending.slice(0, cut))
+      pending = pending.slice(cut)
+    }
+
+    const candidate = current + pending
+    if (textWidth(candidate.trimEnd(), fontSize) > maxWidth && current.trim()) {
+      lines.push(current.trimEnd())
+      current = pending.trimStart()
+    }
+    else {
+      current = candidate
+    }
+  }
+
+  if (current.trim()) lines.push(current.trimEnd())
+
+  if (lines.length > maxLines) {
+    const kept = lines.slice(0, maxLines)
+    let last = kept[maxLines - 1]
+    while (last && textWidth(`${last}…`, fontSize) > maxWidth) last = last.slice(0, -1)
+    kept[maxLines - 1] = `${last}…`
+    return kept
+  }
+
+  return lines
+}
+
+/* ── 卡片绘制 ─────────────────────────────────────────────────────────── */
+
+function buildOverlay({ title, date, tags }) {
+  const maxWidth = WIDTH - PADDING * 2
+  const titleSize = title.length > 26 ? 52 : 62
+  const titleLines = wrapTitle(title, titleSize, maxWidth, 3)
+
+  const lineHeight = titleSize * 1.32
+  const metaSize = 26
+  const metaGap = 22
+
+  // 文字整体贴左下角，自下而上排布
+  const metaBaseline = HEIGHT - PADDING - 6
+  const lastTitleBaseline = metaBaseline - metaSize - metaGap
+  const firstTitleBaseline = lastTitleBaseline - (titleLines.length - 1) * lineHeight
+
+  const meta = [date, ...tags.map((t) => `#${t}`)].filter(Boolean).join('  ·  ')
+
+  const titleSpans = titleLines
+    .map((line, i) => `<tspan x="${PADDING}" y="${firstTitleBaseline + i * lineHeight}">${escapeXml(line)}</tspan>`)
+    .join('')
+
+  return Buffer.from(`<svg xmlns="http://www.w3.org/2000/svg" width="${WIDTH}" height="${HEIGHT}" viewBox="0 0 ${WIDTH} ${HEIGHT}">
+  <defs>
+    <linearGradient id="scrim" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#000000" stop-opacity="0.05"/>
+      <stop offset="45%" stop-color="#000000" stop-opacity="0.28"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0.82"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="${WIDTH}" height="${HEIGHT}" fill="url(#scrim)"/>
+
+  <text x="${PADDING}" y="${PADDING}" font-family="${FONT_STACK}" font-size="26" font-weight="700" fill="#ffffff" fill-opacity="0.75">${escapeXml(SITE_NAME)}</text>
+
+  <text font-family="${FONT_STACK}" font-size="${titleSize}" font-weight="800" fill="#ffffff">${titleSpans}</text>
+
+  ${meta ? `<text x="${PADDING}" y="${metaBaseline}" font-family="${FONT_STACK}" font-size="${metaSize}" fill="#ffffff" fill-opacity="0.8">${escapeXml(meta)}</text>` : ''}
+</svg>`)
+}
+
+/** 没有可用图片时的兜底背景 */
+function fallbackBackground() {
+  return Buffer.from(`<svg xmlns="http://www.w3.org/2000/svg" width="${WIDTH}" height="${HEIGHT}">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1a1a2e"/>
+      <stop offset="55%" stop-color="#16213e"/>
+      <stop offset="100%" stop-color="#0f3460"/>
+    </linearGradient>
+  </defs>
+  <rect width="${WIDTH}" height="${HEIGHT}" fill="url(#bg)"/>
+</svg>`)
+}
+
+/* ── 取图 ─────────────────────────────────────────────────────────────── */
+
+const IMAGE_PATTERNS = [
+  /!\[[^\]]*\]\((\S+?)[\s)]/, // markdown: ![alt](src)
+  /<img[^>]*\ssrc=["']([^"']+)["']/i, // html: <img src="...">
+]
+
+/**
+ * 正文第一张图。相对路径指向仓库内的附件目录
+ * （`./attachments/x.png` → `src/content/posts/attachments/x.png`），
+ * 线上那份是 Astro 处理后的哈希文件名，没法从源码反推，所以本地读文件更可靠。
+ */
+function pickBackgroundImage(frontmatterImage, body) {
+  if (/^https?:\/\//i.test(frontmatterImage ?? '')) return { kind: 'remote', src: frontmatterImage }
+
+  for (const pattern of IMAGE_PATTERNS) {
+    const found = body.match(pattern)
+    if (!found) continue
+
+    const src = found[1].trim()
+    if (!src || src.startsWith('data:')) continue
+    if (/^https?:\/\//i.test(src)) return { kind: 'remote', src }
+    if (src.startsWith('//')) return { kind: 'remote', src: `https:${src}` }
+    if (src.startsWith('/')) return { kind: 'remote', src: `${SITE_URL}${src}` }
+
+    return { kind: 'local', src: join(POSTS_DIR, src.replace(/^\.\//, '')) }
+  }
+
+  return null
+}
+
+async function loadImage(image) {
+  if (image.kind === 'local') {
+    if (!existsSync(image.src)) throw new Error(`本地图片不存在：${image.src}`)
+    return readFile(image.src)
+  }
+
+  const res = await fetch(image.src, { signal: AbortSignal.timeout(20_000) })
+  if (!res.ok) throw new Error(`HTTP ${res.status}`)
+  const buffer = Buffer.from(await res.arrayBuffer())
+  if (buffer.length < 1024) throw new Error('图片过小，可能不是有效图片')
+  return buffer
+}
+
+/* ── 主流程 ───────────────────────────────────────────────────────────── */
+
+/** 渲染卡片：图片铺底（可选）+ 文字层。图片不可用时自动回退纯色背景。 */
+async function renderCard({ title, date, tags, image }) {
+  let background = null
+
+  if (image) {
+    try {
+      background = await sharp(await loadImage(image))
+        .resize(WIDTH, HEIGHT, { fit: 'cover', position: 'centre' })
+        .toBuffer()
+    }
+    catch (e) {
+      console.warn(`      底图不可用（${e.message}），改用纯色背景`)
+    }
+  }
+
+  // 输出 JPEG：照片底图用 PNG 会到 1.4MB 级别，JPEG 只要 100KB 上下
+  return sharp(background ?? fallbackBackground())
+    .composite([{ input: buildOverlay({ title, date, tags }) }])
+    .jpeg({ quality: 85, mozjpeg: true, chromaSubsampling: '4:4:4' })
+    .toBuffer()
+}
+
+async function main() {
+  await mkdir(OUT_DIR, { recursive: true })
+
+  const files = (await readdir(POSTS_DIR)).filter((f) => /\.mdx?$/.test(f))
+
+  let generated = 0
+  let skippedExisting = 0
+  let skippedCustomCover = 0
+  const failures = []
+
+  console.log('OG 卡片生成')
+
+  for (const file of files) {
+    const source = join(POSTS_DIR, file)
+    const { data, content } = matter(await readFile(source, 'utf-8'))
+
+    if (data.draft || data.redirect) continue
+
+    const slug = data.customSlug || file.replace(/\.mdx?$/, '')
+    if (ONLY && slug !== ONLY) continue
+
+    // 作者手工设计过封面：那张图通常已经带标题，直接用，不再叠字
+    if (/^https?:\/\//i.test(data.image ?? '')) {
+      skippedCustomCover++
+      continue
+    }
+
+    const outPath = join(OUT_DIR, `${slug}.jpg`)
+    if (!FORCE && existsSync(outPath)) {
+      const [outStat, srcStat] = await Promise.all([stat(outPath), stat(source)])
+      if (outStat.mtimeMs > srcStat.mtimeMs) {
+        skippedExisting++
+        continue
+      }
+    }
+
+    const title = data.title || slug
+    const date = formatDate(data.date)
+    const tags = (data.tags ?? []).slice(0, 3)
+    const image = pickBackgroundImage(data.image, content)
+
+    try {
+      const png = await renderCard({ title, date, tags, image })
+      await writeFile(outPath, png)
+      generated++
+      if (ONLY || generated % 25 === 0) console.log(`  已生成 ${generated} 张…`)
+    }
+    catch (e) {
+      failures.push(`${slug}: ${e.message}`)
+    }
+  }
+
+  // 站点默认图：首页、列表页等
   try {
-    const d = new Date(dateStr)
-    return d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
+    const png = await renderCard({
+      title: SITE_NAME,
+      date: SITE_TAGLINE,
+      tags: [],
+      image: null,
+    })
+    await writeFile(SITE_OG, png)
+    console.log('  已生成站点默认图 public/og.jpg')
   }
-  catch {
-    return dateStr
-  }
-}
-
-// Split title into two lines if too long
-function splitTitle(title: string): [string, string] {
-  const maxChars = 30
-  if (title.length <= maxChars) return [title, '']
-  // Try to split at a space near the middle
-  const mid = Math.floor(title.length / 2)
-  let splitIdx = title.lastIndexOf(' ', mid + 5)
-  if (splitIdx <= 0 || splitIdx > mid + 10) splitIdx = title.indexOf(' ', mid - 5)
-  if (splitIdx <= 0) return [title.slice(0, maxChars) + '…', '']
-  return [title.slice(0, splitIdx), title.slice(splitIdx + 1)]
-}
-
-const files = readdirSync(POSTS_DIR).filter(f => f.endsWith('.md'))
-let generated = 0
-let skipped = 0
-
-for (const file of files) {
-  const content = readFileSync(join(POSTS_DIR, file), 'utf-8')
-  const fm = parseFrontmatter(content)
-
-  // Skip drafts and redirects
-  if (fm.draft === 'true' || fm.redirect) {
-    skipped++
-    continue
+  catch (e) {
+    failures.push(`og.png: ${e.message}`)
   }
 
-  const slug = file.replace(/\.md$/, '')
-  const title = fm.title || slug
-  const date = fm.date ? formatDate(fm.date) : ''
+  console.log(
+    `\n完成：生成 ${generated} 张，跳过 ${skippedExisting} 张（未变更），`
+    + `${skippedCustomCover} 张沿用作者封面`,
+  )
 
-  const [line1, line2] = splitTitle(title)
-  const svg = svgTemplate
-    .replace('{{line1}}', escapeXml(line1))
-    .replace('{{line2}}', escapeXml(line2))
-    .replace('{{date}}', date)
-
-  const outPath = join(OG_DIR, `${slug}.png`)
-
-  // Skip if already exists and newer than source
-  if (existsSync(outPath)) {
-    skipped++
-    continue
-  }
-
-  try {
-    const pngBuffer = await sharp(Buffer.from(svg)).png().toBuffer()
-    writeFileSync(outPath, pngBuffer)
-    generated++
-    if (generated <= 5 || generated % 20 === 0) console.log(`  Generated: ${slug}.png`)
-  }
-  catch (e: any) {
-    console.error(`  FAILED: ${slug} — ${e.message}`)
+  if (failures.length) {
+    console.error(`\n以下 ${failures.length} 项失败：`)
+    for (const f of failures) console.error(`  - ${f}`)
+    process.exitCode = 1
   }
 }
 
-console.log(`\nOG generation complete: ${generated} generated, ${skipped} skipped`)
+await main()

@@ -22,6 +22,10 @@ const { title, date, description, image, lang, redirect } = entry.data
 const tags: string[] = (entry.data as any).tags ?? []
 const category: string = (entry.data as any).category ?? ''
 
+// 分享卡片：作者手工给过封面就用它，否则用构建时生成的 /og/<slug>.jpg
+const siteUrl = Astro.site?.toString() || 'https://rayepeng.net/'
+const ogImage = image || `${siteUrl}og/${slug}.jpg`
+
 const { Content, headings, remarkPluginFrontmatter } = await entry.render()
 ---
 
@@ -39,7 +43,7 @@ const { Content, headings, remarkPluginFrontmatter } = await entry.render()
   </html>
 ) : (
 
-<Default title={`${title} — Raye's Journey`} description={description || title}>
+<Default title={`${title} — Raye's Journey`} description={description || title} image={ogImage} ogType="article">
   <SubNav active="/posts" />
   <PostLayout title={title} date={date} description={description} image={image} lang={lang} tags={tags} category={category} headings={headings}>
     <Content />

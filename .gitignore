@@ -2,6 +2,10 @@
 dist/
 .output/
 
+# generated OG cards (produced at build time by scripts/generate-og.mjs)
+public/og/
+public/og.jpg
+
 # generated types
 .astro/
 
