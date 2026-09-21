@@ -1,0 +1,70 @@
+# 自托管写作后台配置 —— 部署在云服务器上，发布时由服务器 git push 到 GitHub。
+# 注意：本目录在仓库根目录（不在 public/ 里），Astro 构建时不会发布到 GitHub Pages。
+
+# 走 decap-server（proxy backend），而不是浏览器直连 GitHub。
+# proxy_url 用同源相对路径：本地由 scripts/admin-dev.mjs 代理，线上由 nginx 代理，
+# 两边配置完全一致，不需要按环境修改。
+# 注意：decap-server 只负责 commit，push 由 scripts/git-hooks/post-commit 完成。
+backend:
+  name: proxy
+  proxy_url: /api/v1
+  branch: main
+
+# 与你现有的图片存放方式对齐（图片与 md 同目录）
+media_folder: src/content/posts
+public_folder: ''
+
+# 发布时使用的提交信息
+commit_messages:
+  create: 'post: 新建 {{collection}} {{slug}}'
+  update: 'post: 更新 {{collection}} {{slug}}'
+  delete: 'post: 删除 {{collection}} {{slug}}'
+  uploadMedia: 'img: 上传 {{path}}'
+  deleteMedia: 'img: 删除 {{path}}'
+
+collections:
+  - name: posts
+    label: 文章
+    label_singular: 文章
+    folder: src/content/posts
+    create: true
+    extension: md
+    slug: '{{slug}}'
+    preview_path: 'posts/{{slug}}'
+    fields:
+      - label: 标题
+        name: title
+        widget: string
+      - label: 日期
+        name: date
+        widget: datetime
+        date_format: 'YYYY-MM-DD'
+        time_format: false
+        format: 'YYYY-MM-DD'
+      - label: 分类
+        name: category
+        widget: string
+        required: false
+        default: 未分类
+      - label: 标签
+        name: tags
+        widget: list
+        required: false
+        default: []
+      - label: 语言
+        name: lang
+        widget: select
+        options: [zh, en]
+        default: zh
+      - label: 草稿
+        name: draft
+        widget: boolean
+        default: true
+        hint: 打开时文章不会出现在网站上
+      - label: 描述
+        name: description
+        widget: text
+        required: false
+      - label: 正文
+        name: body
+        widget: markdown

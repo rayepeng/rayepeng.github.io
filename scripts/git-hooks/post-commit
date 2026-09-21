@@ -1,0 +1,25 @@
+#!/bin/sh
+# decap-server 发布时只会产生本地 commit，不会推送到 GitHub。
+# 这个钩子负责把新 commit 推上去，让 GitHub Actions 触发部署。
+#
+# 启用（在云服务器上执行一次）：git config core.hooksPath scripts/git-hooks
+# 关闭：git config --unset core.hooksPath
+
+git_dir=$(git rev-parse --git-dir 2>/dev/null) || exit 0
+
+# 变基 / 合并 / cherry-pick 过程中不推送，避免推到中间状态
+if [ -d "$git_dir/rebase-merge" ] || [ -d "$git_dir/rebase-apply" ] ||
+  [ -f "$git_dir/MERGE_HEAD" ] || [ -f "$git_dir/CHERRY_PICK_HEAD" ]; then
+  exit 0
+fi
+
+branch=$(git symbolic-ref --short -q HEAD) || exit 0
+[ -z "$branch" ] && exit 0
+
+# 没有远端跟踪分支就不推送（例如本地新建的分支）
+git rev-parse --abbrev-ref "@{upstream}" >/dev/null 2>&1 || exit 0
+
+# 后台推送，日志写到 .git/decap-push.log；post-commit 的退出码被 git 忽略，不会影响提交
+(git push origin "$branch" >>"$git_dir/decap-push.log" 2>&1 &)
+
+exit 0

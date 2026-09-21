@@ -1,0 +1,12 @@
+# Cloudflare Tunnel 配置。装到服务器上的 ~/.cloudflared/config.yml
+# 把 REPLACE-WITH-TUNNEL-UUID 换成 `cloudflared tunnel create blog-admin` 输出的 UUID。
+
+tunnel: blog-admin
+credentials-file: /root/.cloudflared/REPLACE-WITH-TUNNEL-UUID.json
+
+ingress:
+  # 后台走本机 nginx（nginx 再把 /api/v1 转给 decap-server）
+  - hostname: write.rayepeng.net
+    service: http://127.0.0.1:80
+  # 兜底规则，必须是最后一条
+  - service: http_status:404

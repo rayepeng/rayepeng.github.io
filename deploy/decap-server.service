@@ -1,0 +1,25 @@
+[Unit]
+Description=Decap CMS Git proxy server (blog writing backend)
+Documentation=https://decapcms.org/docs/proxy-server/
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=__SERVICE_USER__
+WorkingDirectory=__REPO_DIR__
+EnvironmentFile=/etc/decap-server.env
+ExecStart=/opt/decap/node_modules/.bin/decap-server
+Restart=always
+RestartSec=3
+StandardOutput=journal
+StandardError=journal
+
+# 基础加固
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=full
+ReadWritePaths=__REPO_DIR__
+
+[Install]
+WantedBy=multi-user.target
