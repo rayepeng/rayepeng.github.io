@@ -37,16 +37,30 @@ collections:
       - field: date
         default_sort: desc
       - title
+    # 字段与 src/content/config.ts 的 posts schema 一一对应。
     fields:
       - label: 标题
         name: title
         widget: string
+      - label: 自定义 URL
+        name: customSlug
+        widget: string
+        required: false
+        hint: 留空则地址由文件名决定；填写后文章地址变为 /posts/<自定义值>/
       - label: 日期
         name: date
         widget: datetime
         date_format: 'YYYY-MM-DD'
         time_format: false
         format: 'YYYY-MM-DD'
+      - label: 更新日期
+        name: updated
+        widget: datetime
+        required: false
+        date_format: 'YYYY-MM-DD'
+        time_format: false
+        format: 'YYYY-MM-DD'
+        hint: 可选。不填则文章页不显示"最后更新"
       - label: 分类
         name: category
         widget: string
@@ -67,10 +81,32 @@ collections:
         widget: boolean
         default: true
         hint: 打开时文章不会出现在网站上
+      - label: 封面图
+        name: image
+        widget: string
+        required: false
+        hint: 可填外链 URL，或与 md 同目录的相对路径（如 ./cover.jpg）
       - label: 描述
         name: description
         widget: text
         required: false
+        hint: 用于列表摘要与 SEO description
+      - label: 阅读时长
+        name: duration
+        widget: string
+        required: false
+        hint: 如 25min
+      - label: 文章类型
+        name: type
+        widget: string
+        required: false
+        default: blog
+        hint: blog 为普通文章；填 note 会出现在 /notes 页面
+      - label: 重定向
+        name: redirect
+        widget: string
+        required: false
+        hint: 填写外部链接后，文章页会直接跳转到该地址（该文章不进 RSS）
       - label: 正文
         name: body
         widget: markdown
