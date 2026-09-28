@@ -107,6 +107,8 @@ collections:
         widget: string
         required: false
         hint: 填写外部链接后，文章页会直接跳转到该地址（该文章不进 RSS）
+      # 正文编辑器由 admin/markdown-widget.js 用 Vditor 接管（同名覆盖内置的 markdown widget），
+      # 所以这里保持 widget: markdown 不变。若将来覆盖失败，把它改成 widget: vditor 即可。
       - label: 正文
         name: body
         widget: markdown

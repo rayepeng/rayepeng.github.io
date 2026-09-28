@@ -5,8 +5,42 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="robots" content="noindex, nofollow" />
     <title>写作后台</title>
+
+    <style>
+      /* 编辑器：在 Decap 的字段容器里铺满，并与 Decap 的浅色主题协调 */
+      .vditor-widget { width: 100%; }
+      .vditor-widget .vditor { border-radius: 8px; overflow: hidden; }
+      .vditor-widget .vditor-toolbar { padding-left: 6px; }
+
+      /* Vditor 自身的样式与右侧预览样式由 markdown-widget.js 按需注入 */
+    </style>
   </head>
   <body>
-    <script src="https://unpkg.com/decap-cms@^3.6.0/dist/decap-cms.js"></script>
+    <!-- 手动初始化：先注册自定义 markdown widget，再启动 CMS -->
+    <script>
+      window.CMS_MANUAL_INIT = true
+    </script>
+    <!-- 脚本全部动态注入，URL 带时间戳，任何缓存层都无法干扰 -->
+    <script>
+      // vendor/decap-cms.js 体积大（5MB），允许浏览器缓存 7 天（nginx 已配 max-age=604800），
+      // 所以它用固定版本号；markdown-widget.js 随代码迭代，每次都必须校验。
+      (function () {
+        function load(src) {
+          return new Promise(function (resolve, reject) {
+            var s = document.createElement('script')
+            s.src = src
+            s.onload = resolve
+            s.onerror = function () { reject(new Error('加载失败: ' + src)) }
+            document.head.appendChild(s)
+          })
+        }
+        load('./vendor/decap-cms.js?v=3.16.3')
+          .then(function () { return load('./markdown-widget.js?t=' + Date.now()) })
+          .catch(function (err) {
+            document.body.innerHTML = '<h2 style="color:#c00;padding:40px">'
+              + err.message + '<br><br>请强制刷新页面（Ctrl/Cmd + Shift + R）</h2>'
+          })
+      })()
+    </script>
   </body>
 </html>

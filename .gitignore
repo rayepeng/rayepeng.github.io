@@ -28,4 +28,5 @@ pnpm-debug.log*
 .vscode/
 
 # unocss cache
-.unocss/
+.unocss/# vendor (本地构建/下载的第三方库)
+admin/vendor/
