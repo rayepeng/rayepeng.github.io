@@ -93,6 +93,10 @@ const outline = headings.filter(h => h.depth <= 3)
   >cd ..</a>
 </div>
 
+<section class="prose m-auto mt-10 mb-8 slide-enter-content" id="comments">
+  <div id="remark42"></div>
+</section>
+
 <script>
   // Scroll spy: highlight the outline item matching the current scroll position
   const outline = document.getElementById('post-outline')
@@ -145,6 +149,41 @@ const outline = headings.filter(h => h.depth <= 3)
       }
     }
   }
+
+  // ── Remark42 comments ─────────────────────────────────────────────
+  // Self-hosted on this server, exposed via Cloudflare Tunnel.
+  // Backend deployed by `deploy/setup-remark42.sh` (see that file).
+  declare global {
+    interface Window {
+      remark_config: Record<string, any>
+      REMARK42?: { changeTheme: (theme: string) => void }
+    }
+  }
+
+  const REMARK42_HOST = 'https://comments.rayepeng.net'
+
+  window.remark_config = {
+    host: REMARK42_HOST,
+    site_id: 'blog',
+    components: ['embed'],
+    theme: document.documentElement.classList.contains('dark') ? 'dark' : 'light',
+    max_shown_comments: 20,
+  }
+
+  const embed = document.createElement('script')
+  embed.type = 'module'
+  embed.async = true
+  embed.src = `${REMARK42_HOST}/web/embed.mjs`
+  document.head.appendChild(embed)
+
+  // Follow the site's light/dark toggle (html.dark class, see ~/logics)
+  const syncTheme = () => {
+    const theme = document.documentElement.classList.contains('dark') ? 'dark' : 'light'
+    window.remark_config.theme = theme
+    window.REMARK42?.changeTheme(theme)
+  }
+  new MutationObserver(syncTheme)
+    .observe(document.documentElement, { attributes: true, attributeFilter: ['class'] })
 </script>
 
 <style>

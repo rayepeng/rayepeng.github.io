@@ -1,0 +1,31 @@
+# Remark42 systemd 服务模板。
+# 部署脚本 setup-remark42.sh 会把 __SERVICE_USER__ 替换成实际用户后
+# 安装到 /etc/systemd/system/remark42.service。
+
+[Unit]
+Description=Remark42 comment engine (blog comments backend)
+Documentation=https://remark42.com/docs/
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=__SERVICE_USER__
+Group=__SERVICE_USER__
+WorkingDirectory=/opt/remark42
+EnvironmentFile=/etc/remark42.env
+ExecStart=/usr/local/bin/remark42 server
+Restart=always
+RestartSec=3
+StandardOutput=journal
+StandardError=journal
+
+# 基础加固
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=full
+ProtectHome=true
+ReadWritePaths=/opt/remark42/var
+
+[Install]
+WantedBy=multi-user.target
