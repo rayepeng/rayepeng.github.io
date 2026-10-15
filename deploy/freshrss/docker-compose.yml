@@ -1,0 +1,39 @@
+# FreshRSS —— 自托管 RSS 阅读器（Docker 部署）。
+#
+# 由 deploy/setup-freshrss.sh 安装：脚本会把本文件复制到 /opt/freshrss/ 并在那里启动。
+# 容器只监听本机回环 127.0.0.1:8082，公网进不来；
+# 对外经现有 Cloudflare Tunnel: rss.rayepeng.net -> http://127.0.0.1:8082
+#
+# 常用操作（在 /opt/freshrss 下）：
+#   docker compose ps                 # 看状态
+#   docker compose logs -f freshrss   # 看日志
+#   docker compose pull && docker compose up -d   # 升级到新版本后再执行一次
+#   docker compose down               # 停掉（数据保留在 ./data）
+
+services:
+  freshrss:
+    # 固定版本号，避免 latest 静默升级导致回归；升级时改这里再 up -d
+    image: freshrss/freshrss:${FRESHRSS_VERSION:-1.30.1}
+    container_name: freshrss
+    restart: unless-stopped
+    ports:
+      # 只绑回环，外部统一走 Cloudflare Tunnel（本机 nginx/cloudflared 都能连）
+      - "127.0.0.1:${FRESHRSS_PORT:-8082}:80"
+    environment:
+      TZ: ${TZ:-Asia/Shanghai}
+      # 内置 cron：每小时的第 13、43 分刷新一次订阅源。
+      # 官方说明单个 feed 20 分钟内不会重复抓取，比这更频繁没有意义。
+      CRON_MIN: ${CRON_MIN:-13,43}
+      # 关掉访问日志：FreshRSS 的 API 会把密码放在 URL 里，别写进日志
+      ENABLE_ACCESS_LOG: "0"
+      # 日志同时进 syslog 与 docker logs，方便 docker compose logs 排查
+      COPY_LOG_TO_SYSLOG: "On"
+      COPY_SYSLOG_TO_STDERR: "On"
+      # 反代来自本机 cloudflared，它经 docker 网关进来，信任该网段带来的 X-Forwarded-*
+      # （记录真实客户端 IP 用；不用外部登录方式的话影响不大）
+      TRUSTED_PROXY: "172.16.0.0/12"
+    volumes:
+      # SQLite 库、config.php、用户数据都在这。备份 = tar 这个目录
+      - ${FRESHRSS_DATA:-/opt/freshrss/data}:/var/www/FreshRSS/data
+      # 第三方扩展（可选，留着免得以后加扩展还要重建容器）
+      - ${FRESHRSS_EXT:-/opt/freshrss/extensions}:/var/www/FreshRSS/extensions
