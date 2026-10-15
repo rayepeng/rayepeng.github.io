@@ -12,6 +12,7 @@
     "check": "astro check",
     "lint": "eslint .",
     "new": "node scripts/new-post.mjs",
+    "import-hexo": "node scripts/import-hexo.mjs",
     "pub": "node scripts/publish.mjs",
     "admin": "node scripts/admin-dev.mjs"
   },
