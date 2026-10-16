@@ -59,4 +59,9 @@ export default defineConfig({
     'i-ri-folder-open-line',
     'i-carbon-chevron-right',
   ],
+  // 文章正文里出现的时间戳 / 位宽（dirsearch 日志的 `[20:15]`、Verilog 的 `[9:0]`）
+  // 会被当成「任意值」工具类，生成 `.[20\:15]{20:15}` 这种非法 CSS 让构建失败。
+  blocklist: [
+    /\[[^\]]*:[^\]]*\]/,
+  ],
 })

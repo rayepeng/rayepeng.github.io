@@ -13,6 +13,7 @@
     "lint": "eslint .",
     "new": "node scripts/new-post.mjs",
     "import-hexo": "node scripts/import-hexo.mjs",
+    "import-jianshu": "node scripts/import-jianshu.mjs",
     "pub": "node scripts/publish.mjs",
     "admin": "node scripts/admin-dev.mjs"
   },

@@ -23,7 +23,7 @@ console.log('This code is syntax highlighted!')
 
 #### Rendering ANSI escape sequences
 
-```ansi
+```
 ANSI colors:
 - Regular: [31mRed[0m [32mGreen[0m [33mYellow[0m [34mBlue[0m [35mMagenta[0m [36mCyan[0m
 - Bold:    [1;31mRed[0m [1;32mGreen[0m [1;33mYellow[0m [1;34mBlue[0m [1;35mMagenta[0m [1;36mCyan[0m

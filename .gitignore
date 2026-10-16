@@ -34,3 +34,6 @@ admin/vendor/
 *.log
 *.rar
 deploy/redirects-imported.json
+
+# 迁移用的中间产物（解压出来的旧站源文件）
+.migration-sources/
