@@ -1,0 +1,1013 @@
+---
+import Default from '~/layouts/Default.astro'
+import weread from '~/data/weread.json'
+
+/**
+ * 微信读书阅读报告页。
+ * 数据由 scripts/fetch-weread.mjs 定时从微信读书 gateway 拉取，写入 src/data/weread.json。
+ * 布局参考「raye 的微信读书年度报告」。
+ */
+
+interface YearStat {
+  year: number
+  readTime: number
+  readDays: number
+  books: number
+  finished: number
+  notes: number
+}
+
+const s = weread.summary
+
+// ── 格式化工具 ──────────────────────────────────────────────────────────
+const h1 = (sec: number) => `${(sec / 3600).toFixed(1)}h`
+const h0 = (sec: number) => `${Math.round(sec / 3600)}h`
+const duration = (sec: number) => `${Math.floor(sec / 3600)}小时${Math.round((sec % 3600) / 60)}分钟`
+const short = (sec: number) => {
+  const h = Math.floor(sec / 3600)
+  const m = Math.round((sec % 3600) / 60)
+  return m ? `${h}h ${m}m` : `${h}h`
+}
+const wan = (n: number) => (n >= 10000 ? `${(n / 10000).toFixed(1)}万` : `${n}`)
+const fmtInt = (n: number) => n.toLocaleString('en-US')
+
+const palette = ['#ff7c3c', '#5b9cf6', '#4caf93', '#a78bfa', '#fbbf24', '#f472b6', '#2dd4bf', '#94a3b8']
+const authorColors = ['#ff7c3c', '#5b9cf6', '#4caf93', '#a78bfa', '#fbbf24', '#f472b6', '#2dd4bf', '#94a3b8', '#fb923c', '#34d399']
+
+// ── 年度 ────────────────────────────────────────────────────────────────
+const years = (weread.years as YearStat[]).filter(y => y.readTime > 0)
+const maxYearTime = Math.max(...years.map(y => y.readTime), 1)
+const maxYearNotes = Math.max(...years.map(y => y.notes), 1)
+
+// ── 阅读时段 ────────────────────────────────────────────────────────────
+const periodLabel = (hh: number) => {
+  if (hh >= 5 && hh < 8) return '清晨'
+  if (hh >= 8 && hh < 11) return '上午'
+  if (hh >= 11 && hh < 13) return '午间'
+  if (hh >= 13 && hh < 17) return '下午'
+  if (hh >= 17 && hh < 19) return '傍晚'
+  if (hh >= 19 && hh < 23) return '夜晚'
+  return '深夜'
+}
+const timePeaks = [...weread.preferTime]
+  .map(t => ({ ...t, hourNum: Number(t.hour) }))
+  .sort((a, b) => b.seconds - a.seconds)
+  .slice(0, 3)
+const maxTimeSeconds = Math.max(...weread.preferTime.map(t => t.seconds), 1)
+
+// ── 分类 ────────────────────────────────────────────────────────────────
+const cats = weread.preferCategory.map(c => ({ ...c, hours: c.readingTime / 3600 }))
+const maxCatHours = Math.max(...cats.map(c => c.hours), 1)
+
+// ── 笔记 ────────────────────────────────────────────────────────────────
+const notesTop = weread.notesTop
+const noteReviewTotal = notesTop.reduce((a, b) => a + b.reviewCount, 0)
+const noteHighlightTotal = notesTop.reduce((a, b) => a + b.noteCount, 0)
+
+// ── 当前年份快照 ────────────────────────────────────────────────────────
+const snap = weread.currentYearSnapshot
+const snapHours = snap.preferCategory.map(c => ({ name: c.name, hours: c.readingTime / 3600 }))
+
+// ── 洞察（尽量用数据驱动，避免硬编码数字过期）────────────────────────────
+const fullAttendanceYears = years.filter(y => y.readDays >= 360).length
+const notesSorted = [...years].sort((a, b) => a.notes - b.notes)
+const noteMin = notesSorted[0]
+const noteMax = notesSorted[notesSorted.length - 1]
+const historyCat = cats.find(c => c.name === '历史')
+const militaryCat = cats.find(c => c.name === '政治军事')
+const csCat = cats.find(c => c.name === '计算机')
+const topNoteBook = notesTop[0]
+const longestBook = weread.readLongest[0]
+
+const insights = [
+  {
+    icon: '🏃',
+    title: '近乎全年无休的阅读者',
+    body: `近 ${years.length} 年里有 ${fullAttendanceYears} 年有效阅读天数超过 360 天，累计有效阅读 ${fmtInt(s.readDays)} 天。阅读不是习惯，更像呼吸。`,
+  },
+  {
+    icon: '📊',
+    title: '从消遣走向深度输出',
+    body: `年度笔记量从 ${noteMin.year} 年的 ${fmtInt(noteMin.notes)} 条，增长到 ${noteMax.year} 年的 ${fmtInt(noteMax.notes)} 条。读书不再只是读书，而是与文字的深度对话。`,
+  },
+  {
+    icon: '🌏',
+    title: '历史感极强的全局观',
+    body: `历史类 ${historyCat?.readingCount ?? 0} 本、政治军事 ${militaryCat?.readingCount ?? 0} 本，偏好宏大叙事与文明演进，渴望理解世界运转的底层逻辑。`,
+  },
+  {
+    icon: '💙',
+    title: '理工人文两栖',
+    body: `计算机类读了 ${csCat?.readingCount ?? 0} 本，同时也把《${topNoteBook?.title ?? ''}》读出了 ${fmtInt(topNoteBook?.total ?? 0)} 条笔记。左脑驱动代码，右脑吸收情感与美学。`,
+  },
+  {
+    icon: '✨',
+    title: '金句捕手',
+    body: `笔记最多的 30 本书里，划线 ${fmtInt(noteHighlightTotal)} 条、想法 ${fmtInt(noteReviewTotal)} 条。喜欢摘录好句，也喜欢写下第一反应。`,
+  },
+  {
+    icon: '🎭',
+    title: '不设边界的阅读者',
+    body: `读过 ${s.authorCount} 位作者的作品，投入时间最多的是《${longestBook?.title ?? ''}》。严肃文学与网络爽文并行不悖，阅读是享受，不是表演。`,
+  },
+]
+
+const totalUninterruptedDays = Math.round(s.totalReadTime / 86400)
+const finishRate = s.booksRead ? ((s.booksFinished / s.booksRead) * 100).toFixed(1) : '0'
+
+const periodCards = [
+  { cls: 'purple', hour: timePeaks[0] },
+  { cls: 'accent2', hour: timePeaks[1] },
+  { cls: 'green', hour: timePeaks[2] },
+]
+
+const rankClass = (i: number) => (i === 0 ? 'rank-1' : i === 1 ? 'rank-2' : i === 2 ? 'rank-3' : 'rank-n')
+---
+
+<Default
+  title="Reading — Raye's Journey"
+  description="Raye 的微信读书数据报告：阅读时长、年度趋势、阅读时段、分类偏好与笔记排行"
+  fullwidth
+  hideFooter
+>
+  <script is:inline>
+    // 本页固定深色风格，避免浅色主题下与报告配色冲突（只影响当前文档，不写入 localStorage）
+    document.documentElement.classList.add('dark')
+  </script>
+
+  <div class="weread">
+    <!-- ── HERO ── -->
+    <section class="hero">
+      <div class="hero-bg" />
+      <div class="hero-orb orb1" />
+      <div class="hero-orb orb2" />
+      <div class="hero-orb orb3" />
+      <div class="hero-content">
+        <div class="hero-badge">📖 微信读书 · 全量数据报告</div>
+        <h1>raye 的<br />阅读宇宙</h1>
+        <p class="hero-sub">
+          注册于 {weread.user.registDate?.slice(0, 4)} 年 {Number(weread.user.registDate?.slice(5, 7))} 月，从此开始了一场近乎全年无休的阅读旅程
+        </p>
+        <div class="hero-stats">
+          <div class="hero-stat">
+            <div class="num">{h0(s.totalReadTime)}</div>
+            <div class="label">总阅读时长</div>
+          </div>
+          <div class="hero-stat">
+            <div class="num">{fmtInt(s.booksRead)}</div>
+            <div class="label">读过书籍</div>
+          </div>
+          <div class="hero-stat">
+            <div class="num">{fmtInt(s.readDays)}</div>
+            <div class="label">有效阅读天</div>
+          </div>
+          <div class="hero-stat">
+            <div class="num">{wan(s.noteCount)}</div>
+            <div class="label">笔记总数</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="container">
+      <!-- ── 总览 ── -->
+      <section class="section">
+        <h2 class="section-title"><span class="icon">📊</span> 阅读总览</h2>
+        <p class="section-desc">
+          {years.length} 年积累，阅读已成为生活不可分割的一部分
+        </p>
+        <div class="grid grid-4 mb-3">
+          <div class="card stat-card">
+            <div class="sc-label">总阅读时长</div>
+            <div class="sc-val accent-orange">{h0(s.totalReadTime)}</div>
+            <div class="sc-sub">相当于 {totalUninterruptedDays} 天不间断阅读</div>
+          </div>
+          <div class="card stat-card">
+            <div class="sc-label">文字阅读</div>
+            <div class="sc-val accent-green">{h0(s.textReadTime)}</div>
+            <div class="sc-sub">占比 {s.readRate ?? '-'}%，听书 {h0(s.listenTime)}</div>
+          </div>
+          <div class="card stat-card">
+            <div class="sc-label">有效阅读天</div>
+            <div class="sc-val accent-blue">{fmtInt(s.readDays)}天</div>
+            <div class="sc-sub">自 {weread.user.registDate} 注册以来</div>
+          </div>
+          <div class="card stat-card">
+            <div class="sc-label">笔记总数</div>
+            <div class="sc-val accent-purple">{fmtInt(s.noteCount)}</div>
+            <div class="sc-sub">分布于 {fmtInt(s.noteBookCount)} 本书中</div>
+          </div>
+        </div>
+        <div class="grid grid-4">
+          <div class="card stat-card">
+            <div class="sc-label">读过书籍</div>
+            <div class="sc-val accent-gold">{fmtInt(s.booksRead)}本</div>
+            <div class="sc-sub">阅读边界很宽</div>
+          </div>
+          <div class="card stat-card">
+            <div class="sc-label">完整读完</div>
+            <div class="sc-val" style="color:#e879f9">{fmtInt(s.booksFinished)}本</div>
+            <div class="sc-sub">完读率约 {finishRate}%</div>
+          </div>
+          <div class="card stat-card">
+            <div class="sc-label">偏好作者数</div>
+            <div class="sc-val accent-orange">{s.authorCount}位</div>
+            <div class="sc-sub">官方统计口径</div>
+          </div>
+          <div class="card stat-card">
+            <div class="sc-label">偏好时段</div>
+            <div class="sc-val" style="color:var(--accent2);font-size:1.2rem">{s.preferTimeWord || '—'}</div>
+            <div class="sc-sub">{s.preferCategoryWord || ''}</div>
+          </div>
+        </div>
+      </section>
+
+      <div class="divider" />
+
+      <!-- ── 年度趋势 ── -->
+      <section class="section">
+        <h2 class="section-title"><span class="icon">📈</span> 年度成长轨迹</h2>
+        <p class="section-desc">每年的阅读时长与笔记量，记录了阅读方式的悄然转变</p>
+
+        <div class="grid grid-2 mb-3">
+          <div class="chart-wrap">
+            <div class="chart-title">年度阅读时长（小时）</div>
+            <canvas id="chartYearTime" height="230" />
+          </div>
+          <div class="chart-wrap">
+            <div class="chart-title">年度笔记数量</div>
+            <canvas id="chartYearNote" height="230" />
+          </div>
+        </div>
+
+        <div class="chart-wrap">
+          <div class="chart-title">年度数据一览</div>
+          <div style="overflow-x:auto">
+            <table class="year-table">
+              <thead>
+                <tr>
+                  <th>年份</th>
+                  <th>阅读时长</th>
+                  <th>阅读天数</th>
+                  <th>读过</th>
+                  <th>读完</th>
+                  <th>笔记</th>
+                  <th class="bar-cell">时长占比</th>
+                </tr>
+              </thead>
+              <tbody>
+                {years.map(y => (
+                  <tr>
+                    <td><strong>{y.year}</strong></td>
+                    <td>{h1(y.readTime)}</td>
+                    <td>{y.readDays}天</td>
+                    <td>{y.books}本</td>
+                    <td>{y.finished}本</td>
+                    <td>{fmtInt(y.notes)}条</td>
+                    <td>
+                      <div class="mini-bar" style={`width:${((y.readTime / maxYearTime) * 100).toFixed(1)}%`} />
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <div class="divider" />
+
+      <!-- ── 阅读时段 ── -->
+      <section class="section">
+        <h2 class="section-title"><span class="icon">🕐</span> 阅读时段分布</h2>
+        <p class="section-desc">官方标签：{s.preferTimeWord || '——'} — 数据揭示了更细腻的故事</p>
+        <div class="chart-wrap">
+          <div class="chart-title">24 小时阅读分布（历史累计小时数）</div>
+          <div class="chart-subtitle">从 6:00 开始排列，深色峰值代表高频阅读时段</div>
+          <canvas id="chartTime" height="150" />
+        </div>
+        <div class="grid grid-3 mt-3">
+          {periodCards.map(({ cls, hour }) => (
+            <div class="card stat-card">
+              <div class="sc-label">
+                {periodLabel(Number(hour.hour))}峰值 {Number(hour.hour) < 12 ? '🌞' : Number(hour.hour) < 19 ? '☀️' : '🌙'}
+              </div>
+              <div class="sc-val" style={`font-size:1.4rem;color:var(--${cls})`}>{hour.hour}:00</div>
+              <div class="sc-sub">
+                {(hour.seconds / 3600).toFixed(0)} 小时，占比 {((hour.seconds / s.totalReadTime) * 100).toFixed(1)}%
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <div class="divider" />
+
+      <!-- ── 分类偏好 ── -->
+      <section class="section">
+        <h2 class="section-title"><span class="icon">📚</span> 阅读分类偏好</h2>
+        <p class="section-desc">官方标签：{s.preferCategoryWord || '——'}</p>
+        <div class="grid grid-2">
+          <div class="chart-wrap">
+            <div class="chart-title">各分类阅读时长</div>
+            <canvas id="chartCat" height="300" />
+          </div>
+          <div class="card">
+            <div class="chart-title mb-3">分类详情</div>
+            <div>
+              {cats.map((c, i) => (
+                <div class="cat-item">
+                  <div class="cat-header">
+                    <span style={`color:${palette[i % palette.length]};font-weight:600`}>{c.name}</span>
+                    <span style="color:var(--muted)">{c.readingCount}本 · {c.hours.toFixed(1)}h</span>
+                  </div>
+                  <div class="cat-bar-bg">
+                    <div
+                      class="cat-bar-fill"
+                      style={`width:${((c.hours / maxCatHours) * 100).toFixed(1)}%;background:${palette[i % palette.length]}`}
+                    />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="divider" />
+
+      <!-- ── 偏好作者 ── -->
+      <section class="section">
+        <h2 class="section-title"><span class="icon">✍️</span> 偏好作者 Top 10</h2>
+        <p class="section-desc">读遍 {s.authorCount} 位作者，这 10 位占据了最多时光</p>
+        <div class="author-grid">
+          {weread.preferAuthor.map((a, i) => (
+            <div class="author-card">
+              <div class="author-name" style={`color:${authorColors[i % authorColors.length]}`}>{a.name}</div>
+              <div class="author-stats">{a.count} 本 · {a.readTime}</div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <div class="divider" />
+
+      <!-- ── 时长排行 ── -->
+      <section class="section">
+        <h2 class="section-title"><span class="icon">⏱️</span> 阅读时长排行榜</h2>
+        <p class="section-desc">历史上投入最多时间的书籍</p>
+        <div class="card">
+          <div>
+            {weread.readLongest.map((b, i) => (
+              <div class="book-item">
+                <div class={`book-rank ${rankClass(i)}`}>{i + 1}</div>
+                <div class="book-info">
+                  <div class="book-title">
+                    {b.title}
+                    {b.tags?.map(t => <span class="book-tag">{t}</span>)}
+                  </div>
+                  <div class="book-author">{b.author}</div>
+                </div>
+                <div class="book-meta">{short(b.readTime)}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <div class="divider" />
+
+      <!-- ── 笔记排行 ── -->
+      <section class="section">
+        <h2 class="section-title"><span class="icon">📝</span> 笔记最多 Top 30</h2>
+        <p class="section-desc">{fmtInt(s.noteCount)} 条笔记，这些书留下了最深的印记</p>
+        <div class="grid grid-2">
+          <div class="chart-wrap">
+            <div class="chart-title">笔记 Top 10 — 想法 vs 划线</div>
+            <div class="chart-box">
+              <canvas id="chartNoteStack" />
+            </div>
+          </div>
+          <div class="card" style="padding:1rem 1.5rem">
+            <div class="chart-title mb-2">完整 Top 30</div>
+            <div style="max-height:400px;overflow-y:auto">
+              {notesTop.map((b, i) => (
+                <div class="book-item" style="padding:.6rem 0">
+                  <div class={`book-rank ${rankClass(i)}`} style="font-size:.7rem">{i + 1}</div>
+                  <div class="book-info">
+                    <div class="book-title" style="font-size:.85rem">{b.title}</div>
+                    <div class="note-ratio-bar" style="height:5px">
+                      <div class="nr-review" style={`width:${((b.reviewCount / b.total) * 100).toFixed(0)}%`} />
+                      <div class="nr-note" style={`width:${((b.noteCount / b.total) * 100).toFixed(0)}%`} />
+                    </div>
+                  </div>
+                  <div class="book-meta" style="font-size:.82rem">{b.total}条</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="divider" />
+
+      <!-- ── 出版社 ── -->
+      {weread.preferPublisher.length > 0 && (
+        <section class="section">
+          <h2 class="section-title"><span class="icon">🏛️</span> 偏好出版社</h2>
+          <p class="section-desc">购书与选书的品味烙印</p>
+          <div class="chart-wrap">
+            <canvas id="chartPublisher" height="120" />
+          </div>
+        </section>
+      )}
+
+      <div class="divider" />
+
+      <!-- ── 洞察 ── -->
+      <section class="section">
+        <h2 class="section-title"><span class="icon">💡</span> 阅读性格洞察</h2>
+        <p class="section-desc">数据背后，是一个真实的读书人</p>
+        <div class="grid grid-2">
+          {insights.map(it => (
+            <div class="insight-card">
+              <div class="insight-icon">{it.icon}</div>
+              <div class="insight-title">{it.title}</div>
+              <div class="insight-body">{it.body}</div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <div class="divider" />
+
+      <!-- ── 当前年份快照 ── -->
+      <section class="section">
+        <h2 class="section-title"><span class="icon">🌟</span> {weread.currentYear} 年阅读快照</h2>
+        <p class="section-desc">
+          {weread.currentYear} 年至今读了 {h0(snap.readTime)}、{snap.readDays} 天
+          {snap.compare !== null && `，日均较去年${snap.compare >= 0 ? '增长' : '下降'} ${Math.abs(snap.compare * 100).toFixed(0)}%`}
+        </p>
+        <div class="grid grid-2">
+          <div class="chart-wrap">
+            <div class="chart-title">{weread.currentYear} 分类偏好</div>
+            <canvas id="chartCurCat" height="300" />
+          </div>
+          <div class="card">
+            <div class="chart-title mb-2">{weread.currentYear} 阅读时长 Top 10</div>
+            <div>
+              {snap.readLongest.map((b, i) => (
+                <div class="book-item" style="padding:.55rem 0">
+                  <div class={`book-rank ${rankClass(i)}`} style="width:24px;height:24px;font-size:.7rem">{i + 1}</div>
+                  <div class="book-info"><div class="book-title" style="font-size:.88rem">{b.title}</div></div>
+                  <div class="book-meta" style="font-size:.82rem">{short(b.readTime)}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <footer class="weread-footer">
+        <p>数据来源：微信读书 · 生成于 {weread.generatedAtText}</p>
+        <p style="margin-top:.5rem">注册于 {weread.user.registDate?.slice(0, 4)}年{Number(weread.user.registDate?.slice(5, 7))}月</p>
+      </footer>
+    </div>
+  </div>
+</Default>
+
+<script>
+  import Chart from 'chart.js/auto'
+  import weread from '~/data/weread.json'
+
+  const CSS = {
+    orange: '#ff7c3c',
+    orange2: '#ff9f1c',
+    green: '#4caf93',
+    blue: '#5b9cf6',
+    purple: '#a78bfa',
+    gold: '#fbbf24',
+    pink: '#f472b6',
+    teal: '#2dd4bf',
+    slate: '#94a3b8',
+  }
+  const palette = [CSS.orange, CSS.blue, CSS.green, CSS.purple, CSS.gold, CSS.pink, CSS.teal, CSS.slate]
+  const grid = '#2a2a3a'
+  const muted = '#888899'
+
+  Chart.defaults.color = muted
+  Chart.defaults.borderColor = grid
+  Chart.defaults.font.family = "-apple-system, 'PingFang SC', 'Helvetica Neue', sans-serif"
+
+  const canvas = (id: string) => document.getElementById(id) as HTMLCanvasElement | null
+
+  // 年度阅读时长（小时）
+  const years = weread.years.filter(y => y.readTime > 0)
+  const el1 = canvas('chartYearTime')
+  if (el1) {
+    new Chart(el1, {
+      type: 'bar',
+      data: {
+        labels: years.map(y => String(y.year)),
+        datasets: [{
+          label: '阅读时长(h)',
+          data: years.map(y => +(y.readTime / 3600).toFixed(1)),
+          backgroundColor: years.map((_, i) => (i === years.length - 1 ? CSS.orange : 'rgba(255,124,60,.5)')),
+          borderColor: CSS.orange,
+          borderWidth: 1,
+          borderRadius: 6,
+        }],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: true,
+        plugins: { legend: { display: false } },
+        scales: { y: { grid: { color: grid } }, x: { grid: { display: false } } },
+      },
+    })
+  }
+
+  // 年度笔记数量
+  const el2 = canvas('chartYearNote')
+  if (el2) {
+    new Chart(el2, {
+      type: 'bar',
+      data: {
+        labels: years.map(y => String(y.year)),
+        datasets: [{
+          label: '笔记数',
+          data: years.map(y => y.notes),
+          backgroundColor: years.map((_, i) => (i === years.length - 1 ? CSS.purple : 'rgba(167,139,250,.5)')),
+          borderColor: CSS.purple,
+          borderWidth: 1,
+          borderRadius: 6,
+        }],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: true,
+        plugins: {
+          legend: { display: false },
+          tooltip: { callbacks: { label: ctx => `${(ctx.raw as number).toLocaleString()} 条` } },
+        },
+        scales: { y: { grid: { color: grid } }, x: { grid: { display: false } } },
+      },
+    })
+  }
+
+  // 24 小时分布
+  const el3 = canvas('chartTime')
+  if (el3) {
+    const max = Math.max(...weread.preferTime.map(t => t.seconds), 1)
+    new Chart(el3, {
+      type: 'bar',
+      data: {
+        labels: weread.preferTime.map(t => `${t.hour}:00`),
+        datasets: [{
+          label: '小时',
+          data: weread.preferTime.map(t => +(t.seconds / 3600).toFixed(1)),
+          backgroundColor: weread.preferTime.map(t => `rgba(255,124,60,${0.2 + (t.seconds / max) * 0.75})`),
+          borderRadius: 4,
+        }],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: true,
+        plugins: {
+          legend: { display: false },
+          tooltip: { callbacks: { label: ctx => `${ctx.raw} 小时` } },
+        },
+        scales: {
+          y: { grid: { color: grid } },
+          x: { grid: { display: false } },
+        },
+      },
+    })
+  }
+
+  // 分类 doughnut
+  const el4 = canvas('chartCat')
+  if (el4) {
+    new Chart(el4, {
+      type: 'doughnut',
+      data: {
+        labels: weread.preferCategory.map(c => c.name),
+        datasets: [{
+          data: weread.preferCategory.map(c => +(c.readingTime / 3600).toFixed(1)),
+          backgroundColor: palette,
+          borderColor: '#1a1a24',
+          borderWidth: 3,
+          hoverOffset: 8,
+        }],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: true,
+        plugins: {
+          legend: { position: 'bottom', labels: { padding: 12, usePointStyle: true } },
+          tooltip: { callbacks: { label: ctx => `${ctx.label}: ${ctx.raw}h` } },
+        },
+      },
+    })
+  }
+
+  // 笔记 Top10 堆叠
+  const el5 = canvas('chartNoteStack')
+  if (el5) {
+    const top10 = weread.notesTop.slice(0, 10)
+    new Chart(el5, {
+      type: 'bar',
+      data: {
+        labels: top10.map(b => (b.title.length > 12 ? `${b.title.slice(0, 12)}…` : b.title)),
+        datasets: [
+          {
+            label: '想法/点评',
+            data: top10.map(b => b.reviewCount),
+            backgroundColor: CSS.orange,
+            borderRadius: { topLeft: 0, topRight: 0, bottomLeft: 4, bottomRight: 4 },
+          },
+          {
+            label: '划线',
+            data: top10.map(b => b.noteCount),
+            backgroundColor: CSS.blue,
+            borderRadius: { topLeft: 4, topRight: 4, bottomLeft: 0, bottomRight: 0 },
+          },
+        ],
+      },
+      options: {
+        indexAxis: 'y',
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { position: 'top' } },
+        scales: {
+          x: { stacked: true, grid: { color: grid } },
+          y: { stacked: true, grid: { display: false }, ticks: { font: { size: 11 } } },
+        },
+      },
+    })
+  }
+
+  // 出版社
+  const el6 = canvas('chartPublisher')
+  if (el6 && weread.preferPublisher.length) {
+    new Chart(el6, {
+      type: 'bar',
+      data: {
+        labels: weread.preferPublisher.map(p => p.name),
+        datasets: [{
+          label: '书籍数',
+          data: weread.preferPublisher.map(p => p.count),
+          backgroundColor: weread.preferPublisher.map((_, i) => palette[i % palette.length]),
+          borderRadius: 6,
+        }],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: true,
+        plugins: { legend: { display: false } },
+        scales: { y: { grid: { color: grid }, beginAtZero: true }, x: { grid: { display: false } } },
+      },
+    })
+  }
+
+  // 当前年份分类雷达
+  const el7 = canvas('chartCurCat')
+  if (el7) {
+    const cats = weread.currentYearSnapshot.preferCategory
+    new Chart(el7, {
+      type: 'radar',
+      data: {
+        labels: cats.map(c => c.name),
+        datasets: [{
+          label: `${weread.currentYear} 阅读时长(h)`,
+          data: cats.map(c => +(c.readingTime / 3600).toFixed(1)),
+          backgroundColor: 'rgba(255,124,60,.2)',
+          borderColor: CSS.orange,
+          borderWidth: 2,
+          pointBackgroundColor: CSS.orange,
+          pointRadius: 4,
+        }],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: true,
+        plugins: { legend: { display: false } },
+        scales: {
+          r: {
+            grid: { color: grid },
+            pointLabels: { font: { size: 11 }, color: muted },
+            ticks: { display: false },
+          },
+        },
+      },
+    })
+  }
+</script>
+
+<style is:global>
+  /* 本页整体铺深色底，覆盖站点主题背景 */
+  body:has(.weread) {
+    background: #0f0f13;
+  }
+</style>
+
+<style>
+  .weread {
+    --bg: #0f0f13;
+    --bg2: #16161d;
+    --bg3: #1e1e28;
+    --card: #1a1a24;
+    --border: #2a2a3a;
+    --accent: #ff7c3c;
+    --accent2: #ff9f1c;
+    --accent3: #e040fb;
+    --text: #e8e8f0;
+    --muted: #888899;
+    --green: #4caf93;
+    --blue: #5b9cf6;
+    --purple: #a78bfa;
+    --gold: #fbbf24;
+
+    background: var(--bg);
+    color: var(--text);
+    margin: -2.5rem 0 -2.5rem;
+    overflow-x: hidden;
+  }
+
+  .weread *,
+  .weread *::before,
+  .weread *::after {
+    box-sizing: border-box;
+  }
+
+  /* ── Hero ── */
+  .hero {
+    position: relative;
+    min-height: 80vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 2rem;
+    overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 80% 60% at 50% 40%, #1a0f2e 0%, #0f0f13 60%);
+    z-index: 0;
+  }
+  .hero-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.15;
+    pointer-events: none;
+  }
+  .orb1 { width: 600px; height: 600px; background: var(--accent); top: -200px; left: -200px; }
+  .orb2 { width: 400px; height: 400px; background: var(--accent3); bottom: -100px; right: -100px; }
+  .orb3 { width: 300px; height: 300px; background: var(--blue); top: 30%; left: 60%; }
+  .hero-content { position: relative; z-index: 1; }
+  .hero-badge {
+    display: inline-block;
+    padding: 0.3rem 0.9rem;
+    background: rgba(255, 124, 60, 0.15);
+    border: 1px solid rgba(255, 124, 60, 0.3);
+    border-radius: 999px;
+    font-size: 0.75rem;
+    color: var(--accent2);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+  }
+  .hero h1 {
+    font-size: clamp(2.5rem, 8vw, 5rem);
+    font-weight: 900;
+    line-height: 1.1;
+    margin: 0 0 1rem;
+    background: linear-gradient(135deg, #fff 30%, var(--accent2) 70%, var(--accent3) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .hero-sub {
+    font-size: 1.1rem;
+    color: var(--muted);
+    margin: 0 auto 3rem;
+    max-width: 520px;
+  }
+  .hero-stats {
+    display: flex;
+    gap: 2.5rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .hero-stat { text-align: center; }
+  .hero-stat .num {
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--accent2), var(--accent));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    line-height: 1;
+  }
+  .hero-stat .label {
+    font-size: 0.8rem;
+    color: var(--muted);
+    margin-top: 0.3rem;
+    letter-spacing: 0.05em;
+  }
+
+  /* ── Layout ── */
+  .container { max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; }
+  .section { padding: 4rem 0; }
+  .section-title {
+    font-size: 1.8rem;
+    font-weight: 800;
+    margin: 0 0 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+  .section-title .icon { font-size: 1.5rem; }
+  .section-desc { color: var(--muted); margin: 0 0 2.5rem; font-size: 0.95rem; }
+
+  /* ── Cards ── */
+  .grid { display: grid; gap: 1.2rem; }
+  .grid-2 { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+  .grid-3 { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+  .grid-4 { grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); }
+  .mb-2 { margin-bottom: 0.8rem; }
+  .mb-3 { margin-bottom: 1.2rem; }
+  .mt-3 { margin-top: 1.2rem; }
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 1.5rem;
+    transition: transform 0.2s, border-color 0.2s;
+  }
+  .card:hover { transform: translateY(-3px); border-color: #3a3a4e; }
+  .stat-card { display: flex; flex-direction: column; gap: 0.4rem; }
+  .stat-card .sc-label {
+    font-size: 0.8rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  .stat-card .sc-val { font-size: 2rem; font-weight: 800; line-height: 1.1; }
+  .stat-card .sc-sub { font-size: 0.85rem; color: var(--muted); }
+  .accent-orange { color: var(--accent); }
+  .accent-green { color: var(--green); }
+  .accent-blue { color: var(--blue); }
+  .accent-purple { color: var(--purple); }
+  .accent-gold { color: var(--gold); }
+
+  /* ── Chart containers ── */
+  .chart-wrap {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 1.5rem;
+  }
+  .chart-title { font-size: 1rem; font-weight: 700; margin-bottom: 1rem; color: var(--text); }
+  .chart-subtitle { font-size: 0.8rem; color: var(--muted); margin-bottom: 1.2rem; }
+  /* maintainAspectRatio:false 的图表需要固定高度的容器，否则会塌成 0 */
+  .chart-box { position: relative; height: 360px; }
+  .weread canvas { max-width: 100%; }
+
+  /* ── Year table ── */
+  .year-table { width: 100%; border-collapse: collapse; }
+  .year-table th,
+  .year-table td {
+    padding: 0.7rem 1rem;
+    text-align: right;
+    font-size: 0.88rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .year-table th {
+    color: var(--muted);
+    font-weight: 600;
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .year-table th:first-child,
+  .year-table td:first-child { text-align: left; }
+  .year-table tbody tr:hover td { background: var(--bg3); }
+  .year-table .bar-cell { width: 120px; }
+  .mini-bar {
+    height: 6px;
+    border-radius: 3px;
+    background: linear-gradient(90deg, var(--accent2), var(--accent));
+    margin-left: auto;
+  }
+
+  /* ── Book list ── */
+  .book-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.9rem 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .book-item:last-child { border-bottom: none; }
+  .book-rank {
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    font-weight: 800;
+    flex-shrink: 0;
+  }
+  .rank-1 { background: linear-gradient(135deg, #fbbf24, #f59e0b); color: #000; }
+  .rank-2 { background: linear-gradient(135deg, #94a3b8, #64748b); color: #fff; }
+  .rank-3 { background: linear-gradient(135deg, #cd7c3a, #92400e); color: #fff; }
+  .rank-n { background: var(--bg3); color: var(--muted); }
+  .book-info { flex: 1; min-width: 0; }
+  .book-title {
+    font-size: 0.92rem;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .book-author { font-size: 0.78rem; color: var(--muted); margin-top: 0.15rem; }
+  .book-meta { font-size: 0.82rem; color: var(--accent2); font-weight: 600; flex-shrink: 0; text-align: right; }
+  .book-tag {
+    font-size: 0.7rem;
+    padding: 0.15rem 0.5rem;
+    border-radius: 4px;
+    background: rgba(255, 124, 60, 0.15);
+    color: var(--accent2);
+    margin-left: 0.4rem;
+  }
+
+  /* ── Author chips ── */
+  .author-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 0.8rem;
+  }
+  .author-card {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1rem;
+  }
+  .author-name { font-weight: 700; font-size: 0.95rem; margin-bottom: 0.3rem; }
+  .author-stats { font-size: 0.8rem; color: var(--muted); }
+
+  /* ── Category bars ── */
+  .cat-item { margin-bottom: 1rem; }
+  .cat-item:last-child { margin-bottom: 0; }
+  .cat-header { display: flex; justify-content: space-between; margin-bottom: 0.4rem; font-size: 0.88rem; }
+  .cat-bar-bg { height: 8px; background: var(--bg3); border-radius: 4px; overflow: hidden; }
+  .cat-bar-fill { height: 100%; border-radius: 4px; transition: width 1s ease; }
+
+  /* ── Notes section ── */
+  .note-ratio-bar {
+    display: flex;
+    height: 10px;
+    border-radius: 5px;
+    overflow: hidden;
+    margin: 0.5rem 0 0.3rem;
+  }
+  .nr-review { background: var(--accent); }
+  .nr-note { background: var(--blue); }
+
+  /* ── Insight ── */
+  .insight-card {
+    background: linear-gradient(135deg, var(--bg3), var(--card));
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 1.5rem;
+  }
+  .insight-icon { font-size: 2rem; margin-bottom: 0.8rem; }
+  .insight-title { font-weight: 700; margin-bottom: 0.5rem; }
+  .insight-body { font-size: 0.88rem; color: var(--muted); line-height: 1.7; }
+
+  /* ── Divider ── */
+  .divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border), transparent);
+    margin: 0 0 4rem;
+  }
+
+  .weread-footer {
+    text-align: center;
+    padding: 3rem 1.5rem;
+    color: var(--muted);
+    font-size: 0.82rem;
+    border-top: 1px solid var(--border);
+  }
+
+  @media (max-width: 640px) {
+    .hero-stats { gap: 1.5rem; }
+    .section-title { font-size: 1.4rem; }
+    .divider { margin-bottom: 3rem; }
+  }
+</style>

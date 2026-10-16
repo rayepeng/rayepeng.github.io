@@ -1,0 +1,23 @@
+# 微信读书数据同步的 systemd 服务模板。
+# 部署脚本 setup-weread.sh 会把 __SERVICE_USER__ / __REPO_DIR__ 替换成实际值后
+# 安装到 /etc/systemd/system/weread-sync.service，并与 weread-sync.timer 配套使用。
+
+[Unit]
+Description=WeRead reading data sync (fetch → commit → push)
+Documentation=https://weread.qq.com/
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+User=__SERVICE_USER__
+WorkingDirectory=__REPO_DIR__
+EnvironmentFile=/etc/weread.env
+ExecStart=/usr/bin/env bash __REPO_DIR__/deploy/weread-sync.sh
+
+# 基础加固
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=full
+ProtectHome=true
+ReadWritePaths=__REPO_DIR__

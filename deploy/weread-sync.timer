@@ -1,0 +1,16 @@
+# 微信读书数据同步定时器：每天一次，避开整点。
+# 阅读数据按天更新即可，抓太勤没有意义，也浪费接口额度。
+
+[Unit]
+Description=Run WeRead reading data sync daily
+
+[Timer]
+OnCalendar=*-*-* 06:20:00
+# 错峰抖动，避免和其它定时任务挤在一起
+RandomizedDelaySec=900
+# 服务器关机期间错过的任务，开机后补跑一次
+Persistent=true
+Unit=weread-sync.service
+
+[Install]
+WantedBy=timers.target

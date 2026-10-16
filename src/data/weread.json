@@ -1,0 +1,811 @@
+{
+  "generatedAt": 1792120780,
+  "generatedAtText": "2026-10-16",
+  "skillVersion": "1.0.5",
+  "user": {
+    "registTime": 1499330901,
+    "registDate": "2017-07-06",
+    "name": "raye"
+  },
+  "summary": {
+    "totalReadTime": 9356869,
+    "readDays": 2669,
+    "readRate": 90,
+    "textReadTime": 8474782,
+    "listenTime": 882087,
+    "booksRead": 1132,
+    "booksFinished": 202,
+    "noteCount": 24811,
+    "noteBookCount": 881,
+    "authorCount": 429,
+    "preferTimeWord": "偏好下午与夜晚阅读",
+    "preferCategoryWord": "偏好阅读历史"
+  },
+  "preferTime": [
+    {
+      "hour": "06",
+      "seconds": 83661
+    },
+    {
+      "hour": "07",
+      "seconds": 128990
+    },
+    {
+      "hour": "08",
+      "seconds": 443471
+    },
+    {
+      "hour": "09",
+      "seconds": 603508
+    },
+    {
+      "hour": "10",
+      "seconds": 168784
+    },
+    {
+      "hour": "11",
+      "seconds": 139422
+    },
+    {
+      "hour": "12",
+      "seconds": 559333
+    },
+    {
+      "hour": "13",
+      "seconds": 357369
+    },
+    {
+      "hour": "14",
+      "seconds": 198639
+    },
+    {
+      "hour": "15",
+      "seconds": 169115
+    },
+    {
+      "hour": "16",
+      "seconds": 156505
+    },
+    {
+      "hour": "17",
+      "seconds": 227341
+    },
+    {
+      "hour": "18",
+      "seconds": 476836
+    },
+    {
+      "hour": "19",
+      "seconds": 238435
+    },
+    {
+      "hour": "20",
+      "seconds": 274157
+    },
+    {
+      "hour": "21",
+      "seconds": 262587
+    },
+    {
+      "hour": "22",
+      "seconds": 394214
+    },
+    {
+      "hour": "23",
+      "seconds": 481978
+    },
+    {
+      "hour": "00",
+      "seconds": 387279
+    },
+    {
+      "hour": "01",
+      "seconds": 124188
+    },
+    {
+      "hour": "02",
+      "seconds": 31815
+    },
+    {
+      "hour": "03",
+      "seconds": 42920
+    },
+    {
+      "hour": "04",
+      "seconds": 76910
+    },
+    {
+      "hour": "05",
+      "seconds": 91714
+    }
+  ],
+  "preferCategory": [
+    {
+      "name": "历史",
+      "readingTime": 2038597,
+      "readingCount": 198
+    },
+    {
+      "name": "文学",
+      "readingTime": 1513586,
+      "readingCount": 206
+    },
+    {
+      "name": "影视原著",
+      "readingTime": 904381,
+      "readingCount": 61
+    },
+    {
+      "name": "社会小说",
+      "readingTime": 839265,
+      "readingCount": 70
+    },
+    {
+      "name": "悬疑推理",
+      "readingTime": 624132,
+      "readingCount": 71
+    },
+    {
+      "name": "科幻小说",
+      "readingTime": 423370,
+      "readingCount": 39
+    },
+    {
+      "name": "计算机",
+      "readingTime": 403582,
+      "readingCount": 146
+    },
+    {
+      "name": "政治军事",
+      "readingTime": 372720,
+      "readingCount": 57
+    }
+  ],
+  "preferAuthor": [
+    {
+      "name": "东野圭吾",
+      "count": 18,
+      "readTime": "41小时45分钟"
+    },
+    {
+      "name": "马伯庸",
+      "count": 10,
+      "readTime": "60小时42分钟"
+    },
+    {
+      "name": "阿加莎·克里斯蒂",
+      "count": 10,
+      "readTime": "24小时57分钟"
+    },
+    {
+      "name": "吴晓波",
+      "count": 7,
+      "readTime": "20小时31分钟"
+    },
+    {
+      "name": "渤海小吏",
+      "count": 6,
+      "readTime": "34小时22分钟"
+    },
+    {
+      "name": "刘慈欣",
+      "count": 6,
+      "readTime": "24小时46分钟"
+    },
+    {
+      "name": "艾萨克·阿西莫夫",
+      "count": 5,
+      "readTime": "21小时46分钟"
+    },
+    {
+      "name": "赫尔曼·黑塞",
+      "count": 5,
+      "readTime": "8小时55分钟"
+    },
+    {
+      "name": "刘震云",
+      "count": 4,
+      "readTime": "22小时7分钟"
+    },
+    {
+      "name": "古龙",
+      "count": 4,
+      "readTime": "13小时19分钟"
+    }
+  ],
+  "preferPublisher": [
+    {
+      "name": "中信出版集团",
+      "count": 33
+    },
+    {
+      "name": "人民邮电出版社",
+      "count": 28
+    },
+    {
+      "name": "机械工业出版社",
+      "count": 27
+    },
+    {
+      "name": "南海出版公司",
+      "count": 20
+    },
+    {
+      "name": "北京联合出版公司",
+      "count": 19
+    },
+    {
+      "name": "人民文学出版社",
+      "count": 19
+    },
+    {
+      "name": "电子工业出版社",
+      "count": 18
+    },
+    {
+      "name": "译林出版社",
+      "count": 16
+    },
+    {
+      "name": "江苏凤凰文艺出版社",
+      "count": 15
+    },
+    {
+      "name": "浙江文艺出版社",
+      "count": 14
+    }
+  ],
+  "readLongest": [
+    {
+      "bookId": "675678",
+      "title": "大秦帝国（套装版）",
+      "author": "孙皓晖",
+      "cover": "https://cdn.weread.qq.com/weread/cover/11/yuewen_675678/s_yuewen_6756781676967871.jpg",
+      "readTime": 212756,
+      "tags": []
+    },
+    {
+      "bookId": "468914",
+      "title": "斗破苍穹",
+      "author": "天蚕土豆",
+      "cover": "https://wfqqreader-1252317822.image.myqcloud.com/cover/914/468914/s_468914.jpg",
+      "readTime": 197964,
+      "tags": []
+    },
+    {
+      "bookId": "",
+      "title": "",
+      "author": "",
+      "cover": "",
+      "readTime": 145491,
+      "tags": []
+    },
+    {
+      "bookId": "30212113",
+      "title": "那不勒斯四部曲",
+      "author": "埃莱娜·费兰特",
+      "cover": "https://cdn.weread.qq.com/weread/cover/77/YueWen_30212113/s_YueWen_30212113.jpg",
+      "readTime": 120806,
+      "tags": [
+        "笔记最多"
+      ]
+    },
+    {
+      "bookId": "",
+      "title": "",
+      "author": "",
+      "cover": "",
+      "readTime": 118384,
+      "tags": []
+    },
+    {
+      "bookId": "926346",
+      "title": "海伯利安四部曲",
+      "author": "丹·西蒙斯",
+      "cover": "https://cdn.weread.qq.com/weread/cover/92/YueWen_926346/s_YueWen_926346.jpg",
+      "readTime": 98072,
+      "tags": []
+    },
+    {
+      "bookId": "932430",
+      "title": "天龙八部（套装共5册）纯文字版",
+      "author": "金庸",
+      "cover": "https://cdn.weread.qq.com/weread/cover/9/yuewen_932430/s_yuewen_9324301744883558.jpg",
+      "readTime": 89996,
+      "tags": []
+    },
+    {
+      "bookId": "21831862",
+      "title": "王者时刻",
+      "author": "蝴蝶蓝",
+      "cover": "https://wfqqreader-1252317822.image.myqcloud.com/cover/862/21831862/s_21831862.jpg",
+      "readTime": 87054,
+      "tags": [
+        "单日阅读最久"
+      ]
+    },
+    {
+      "bookId": "822995",
+      "title": "明朝那些事儿（全集）",
+      "author": "当年明月",
+      "cover": "https://cdn.weread.qq.com/weread/cover/97/yuewen_822995/s_yuewen_8229951695023669.jpg",
+      "readTime": 82534,
+      "tags": []
+    },
+    {
+      "bookId": "",
+      "title": "",
+      "author": "",
+      "cover": "",
+      "readTime": 81544,
+      "tags": []
+    }
+  ],
+  "notesTop": [
+    {
+      "bookId": "30212113",
+      "title": "那不勒斯四部曲",
+      "author": "埃莱娜·费兰特",
+      "cover": "https://cdn.weread.qq.com/weread/cover/77/YueWen_30212113/t6_YueWen_30212113.jpg",
+      "reviewCount": 171,
+      "noteCount": 786,
+      "bookmarkCount": 3,
+      "total": 960
+    },
+    {
+      "bookId": "926346",
+      "title": "海伯利安四部曲",
+      "author": "丹·西蒙斯",
+      "cover": "https://cdn.weread.qq.com/weread/cover/92/YueWen_926346/t6_YueWen_926346.jpg",
+      "reviewCount": 53,
+      "noteCount": 366,
+      "bookmarkCount": 7,
+      "total": 426
+    },
+    {
+      "bookId": "3300082865",
+      "title": "两汉风云（套装共3册）",
+      "author": "渤海小吏",
+      "cover": "https://cdn.weread.qq.com/weread/cover/30/cpplatform_savcknpz7p18s9alzzmudb/t6_cpplatform_savcknpz7p18s9alzzmudb1724841995.jpg",
+      "reviewCount": 30,
+      "noteCount": 340,
+      "bookmarkCount": 3,
+      "total": 373
+    },
+    {
+      "bookId": "3300049180",
+      "title": "小巷人家（同名影视原著）",
+      "author": "大米",
+      "cover": "https://cdn.weread.qq.com/weread/cover/32/cpplatform_wxxo2bpco5xlabw5b7y38v/t6_cpplatform_wxxo2bpco5xlabw5b7y38v1705993399.jpg",
+      "reviewCount": 52,
+      "noteCount": 206,
+      "bookmarkCount": 0,
+      "total": 258
+    },
+    {
+      "bookId": "3300013610",
+      "title": "哲学家们都干了些什么？ （修订版）",
+      "author": "林欣浩",
+      "cover": "https://cdn.weread.qq.com/weread/cover/10/3300013610/t6_3300013610.jpg",
+      "reviewCount": 5,
+      "noteCount": 247,
+      "bookmarkCount": 1,
+      "total": 253
+    },
+    {
+      "bookId": "3300103302",
+      "title": "三国前夜：士大夫政治与东汉皇权的崩解",
+      "author": "张向荣",
+      "cover": "https://cdn.weread.qq.com/weread/cover/22/cpplatform_tphkjdiocg2lum99snexc3/t6_cpplatform_tphkjdiocg2lum99snexc31719475342.jpg",
+      "reviewCount": 9,
+      "noteCount": 242,
+      "bookmarkCount": 0,
+      "total": 251
+    },
+    {
+      "bookId": "801459",
+      "title": "飘（全集）（经典译林）",
+      "author": "玛格丽特·米切尔",
+      "cover": "https://wfqqreader-1252317822.image.myqcloud.com/cover/459/801459/t6_801459.jpg",
+      "reviewCount": 15,
+      "noteCount": 231,
+      "bookmarkCount": 2,
+      "total": 248
+    },
+    {
+      "bookId": "932430",
+      "title": "天龙八部（套装共5册）纯文字版",
+      "author": "金庸",
+      "cover": "https://cdn.weread.qq.com/weread/cover/9/yuewen_932430/t6_yuewen_9324301744883558.jpg",
+      "reviewCount": 2,
+      "noteCount": 245,
+      "bookmarkCount": 1,
+      "total": 248
+    },
+    {
+      "bookId": "43211873",
+      "title": "斑马",
+      "author": "傅真",
+      "cover": "https://cdn.weread.qq.com/weread/cover/17/YueWen_43211873/t6_YueWen_43211873.jpg",
+      "reviewCount": 6,
+      "noteCount": 241,
+      "bookmarkCount": 0,
+      "total": 247
+    },
+    {
+      "bookId": "3300101060",
+      "title": "大清为何轰然倒塌",
+      "author": "佛要跳墙",
+      "cover": "https://cdn.weread.qq.com/weread/cover/0/cpplatform_iskjug5u1k68qrtumdth9n/t6_cpplatform_iskjug5u1k68qrtumdth9n1716548672.jpg",
+      "reviewCount": 2,
+      "noteCount": 234,
+      "bookmarkCount": 0,
+      "total": 236
+    },
+    {
+      "bookId": "853116",
+      "title": "杀死一只知更鸟（同名电影原著）",
+      "author": "哈珀·李",
+      "cover": "https://cdn.weread.qq.com/weread/cover/32/YueWen_853116/t6_YueWen_853116.jpg",
+      "reviewCount": 45,
+      "noteCount": 163,
+      "bookmarkCount": 2,
+      "total": 210
+    },
+    {
+      "bookId": "3300122919",
+      "title": "晚清最后十八年（精修完整版）",
+      "author": "黄治军",
+      "cover": "https://cdn.weread.qq.com/weread/cover/10/cpplatform_xz7wcpfzf4oxmzzmbnmvaa/t6_cpplatform_xz7wcpfzf4oxmzzmbnmvaa1732704958.jpg",
+      "reviewCount": 20,
+      "noteCount": 189,
+      "bookmarkCount": 0,
+      "total": 209
+    },
+    {
+      "bookId": "31808219",
+      "title": "卡拉马佐夫兄弟（套装上下册）（陀思妥耶夫斯基文集2015）",
+      "author": "陀思妥耶夫斯基",
+      "cover": "https://cdn.weread.qq.com/weread/cover/28/YueWen_31808219/t6_YueWen_31808219.jpg",
+      "reviewCount": 22,
+      "noteCount": 184,
+      "bookmarkCount": 1,
+      "total": 207
+    },
+    {
+      "bookId": "43993718",
+      "title": "白色巨塔（日本“国民级小说”，日剧巅峰之作）",
+      "author": "山崎丰子",
+      "cover": "https://cdn.weread.qq.com/weread/cover/86/YueWen_43993718/t6_YueWen_43993718.jpg",
+      "reviewCount": 21,
+      "noteCount": 185,
+      "bookmarkCount": 0,
+      "total": 206
+    },
+    {
+      "bookId": "29630054",
+      "title": "银河界区三部曲Ⅰ：深渊上的火",
+      "author": "弗诺·文奇",
+      "cover": "https://wfqqreader-1252317822.image.myqcloud.com/cover/54/29630054/t6_29630054.jpg",
+      "reviewCount": 4,
+      "noteCount": 201,
+      "bookmarkCount": 0,
+      "total": 205
+    },
+    {
+      "bookId": "33638775",
+      "title": "苏东坡新传",
+      "author": "李一冰",
+      "cover": "https://cdn.weread.qq.com/weread/cover/2/yuewen_33638775/t6_yuewen_336387751685962456.jpg",
+      "reviewCount": 33,
+      "noteCount": 169,
+      "bookmarkCount": 1,
+      "total": 203
+    },
+    {
+      "bookId": "3300144987",
+      "title": "大唐气象（全三册）",
+      "author": "渤海小吏",
+      "cover": "https://cdn.weread.qq.com/weread/cover/99/cpplatform_3ovcpgbtzst3ixiynng2ow/t6_cpplatform_3ovcpgbtzst3ixiynng2ow1747710515.jpg",
+      "reviewCount": 25,
+      "noteCount": 177,
+      "bookmarkCount": 1,
+      "total": 203
+    },
+    {
+      "bookId": "533426",
+      "title": "豺狼的日子（奥斯卡影帝小雀斑主演同名英剧原著）",
+      "author": "弗·福赛斯",
+      "cover": "https://cdn.weread.qq.com/weread/cover/91/YueWen_533426/t6_YueWen_533426.jpg",
+      "reviewCount": 8,
+      "noteCount": 193,
+      "bookmarkCount": 0,
+      "total": 201
+    },
+    {
+      "bookId": "3300028808",
+      "title": "大医·破晓篇",
+      "author": "马伯庸",
+      "cover": "https://cdn.weread.qq.com/weread/cover/70/cpPlatform_a1pvZbzhvL3HnBDBuYQPTW/t6_cpPlatform_a1pvZbzhvL3HnBDBuYQPTW.jpg",
+      "reviewCount": 0,
+      "noteCount": 196,
+      "bookmarkCount": 0,
+      "total": 196
+    },
+    {
+      "bookId": "3300049247",
+      "title": "历史选择了毛泽东（为什么是他？他有什么人格魅力？他是怎么做到的？）",
+      "author": "叶永烈",
+      "cover": "https://cdn.weread.qq.com/weread/cover/95/cpplatform_uwmbee7jxyrghpffadepik/t6_cpplatform_uwmbee7jxyrghpffadepik1676858322.jpg",
+      "reviewCount": 23,
+      "noteCount": 165,
+      "bookmarkCount": 2,
+      "total": 190
+    },
+    {
+      "bookId": "932434",
+      "title": "射雕英雄传（套装共4册）纯文字版",
+      "author": "金庸",
+      "cover": "https://cdn.weread.qq.com/weread/cover/13/yuewen_932434/t6_yuewen_9324341744883548.jpg",
+      "reviewCount": 20,
+      "noteCount": 160,
+      "bookmarkCount": 1,
+      "total": 181
+    },
+    {
+      "bookId": "3300072295",
+      "title": "太白金星有点烦",
+      "author": "马伯庸",
+      "cover": "https://cdn.weread.qq.com/weread/cover/72/cpplatform_huhykqamxcvke1jfkpqxiv/t6_cpplatform_huhykqamxcvke1jfkpqxiv1695711014.jpg",
+      "reviewCount": 0,
+      "noteCount": 180,
+      "bookmarkCount": 0,
+      "total": 180
+    },
+    {
+      "bookId": "855799",
+      "title": "当尼采哭泣",
+      "author": "[美]欧文·亚隆",
+      "cover": "https://wfqqreader-1252317822.image.myqcloud.com/cover/799/855799/t6_855799.jpg",
+      "reviewCount": 33,
+      "noteCount": 139,
+      "bookmarkCount": 0,
+      "total": 172
+    },
+    {
+      "bookId": "27115587",
+      "title": "网内人",
+      "author": "陈浩基",
+      "cover": "https://wfqqreader-1252317822.image.myqcloud.com/cover/587/27115587/t6_27115587.jpg",
+      "reviewCount": 17,
+      "noteCount": 150,
+      "bookmarkCount": 2,
+      "total": 169
+    },
+    {
+      "bookId": "CB_12l6hj6gwA6y73271F6kgGqi",
+      "title": "咸的玩笑【写尽世间的幽默，刘震云沉淀4年重磅长篇。既写生活，也写生活的道理；既塑造虚构的人物，也看见世上的每个人。世上许多玩笑，注定要流着泪把它开完】",
+      "author": "刘震云",
+      "cover": "https://res.weread.qq.com/wrepub/CB_14S6X26ajFho73271UA0H4Dt_parsecover",
+      "reviewCount": 23,
+      "noteCount": 145,
+      "bookmarkCount": 0,
+      "total": 168
+    },
+    {
+      "bookId": "25169096",
+      "title": "作家榜名著：金粉世家（全三册）",
+      "author": "张恨水",
+      "cover": "https://cdn.weread.qq.com/weread/cover/80/yuewen_25169096/t6_yuewen_251690961750754432.jpg",
+      "reviewCount": 1,
+      "noteCount": 167,
+      "bookmarkCount": 0,
+      "total": 168
+    },
+    {
+      "bookId": "40726681",
+      "title": "焦虑的人",
+      "author": "弗雷德里克·巴克曼",
+      "cover": "https://cdn.weread.qq.com/weread/cover/20/YueWen_40726681/t6_YueWen_40726681.jpg",
+      "reviewCount": 48,
+      "noteCount": 118,
+      "bookmarkCount": 0,
+      "total": 166
+    },
+    {
+      "bookId": "22355153",
+      "title": "倾城之恋",
+      "author": "张爱玲",
+      "cover": "https://cdn.weread.qq.com/weread/cover/88/yuewen_22355153/t6_yuewen_223551531680770798.jpg",
+      "reviewCount": 6,
+      "noteCount": 158,
+      "bookmarkCount": 0,
+      "total": 164
+    },
+    {
+      "bookId": "3300062289",
+      "title": "庆历四年秋（宋史三部曲）",
+      "author": "夏坚勇",
+      "cover": "https://cdn.weread.qq.com/weread/cover/43/cpplatform_mqqayt1zw4sos4yp6vxl3r/t6_cpplatform_mqqayt1zw4sos4yp6vxl3r1687258019.jpg",
+      "reviewCount": 0,
+      "noteCount": 161,
+      "bookmarkCount": 0,
+      "total": 161
+    },
+    {
+      "bookId": "847311",
+      "title": "大明王朝1566（上）",
+      "author": "刘和平",
+      "cover": "https://cdn.weread.qq.com/weread/cover/40/YueWen_847311/t6_YueWen_847311.jpg",
+      "reviewCount": 0,
+      "noteCount": 159,
+      "bookmarkCount": 0,
+      "total": 159
+    }
+  ],
+  "years": [
+    {
+      "year": 2017,
+      "readTime": 0,
+      "readDays": 0,
+      "books": 0,
+      "finished": 0,
+      "notes": 0
+    },
+    {
+      "year": 2018,
+      "readTime": 0,
+      "readDays": 0,
+      "books": 0,
+      "finished": 0,
+      "notes": 0
+    },
+    {
+      "year": 2019,
+      "readTime": 499446,
+      "readDays": 211,
+      "books": 107,
+      "finished": 5,
+      "notes": 568
+    },
+    {
+      "year": 2020,
+      "readTime": 1145993,
+      "readDays": 345,
+      "books": 166,
+      "finished": 28,
+      "notes": 284
+    },
+    {
+      "year": 2021,
+      "readTime": 993800,
+      "readDays": 299,
+      "books": 205,
+      "finished": 10,
+      "notes": 792
+    },
+    {
+      "year": 2022,
+      "readTime": 1457178,
+      "readDays": 352,
+      "books": 222,
+      "finished": 34,
+      "notes": 2600
+    },
+    {
+      "year": 2023,
+      "readTime": 1691439,
+      "readDays": 362,
+      "books": 218,
+      "finished": 33,
+      "notes": 4446
+    },
+    {
+      "year": 2024,
+      "readTime": 1324518,
+      "readDays": 364,
+      "books": 324,
+      "finished": 45,
+      "notes": 7634
+    },
+    {
+      "year": 2025,
+      "readTime": 1304700,
+      "readDays": 361,
+      "books": 202,
+      "finished": 31,
+      "notes": 5466
+    },
+    {
+      "year": 2026,
+      "readTime": 765783,
+      "readDays": 264,
+      "books": 114,
+      "finished": 16,
+      "notes": 3021
+    }
+  ],
+  "currentYear": 2026,
+  "currentYearSnapshot": {
+    "readTime": 765783,
+    "readDays": 264,
+    "compare": -0.2587066907159981,
+    "preferCategory": [
+      {
+        "name": "文学",
+        "readingTime": 237573
+      },
+      {
+        "name": "历史",
+        "readingTime": 216652
+      },
+      {
+        "name": "社会小说",
+        "readingTime": 185527
+      },
+      {
+        "name": "影视原著",
+        "readingTime": 50823
+      },
+      {
+        "name": "人物传记",
+        "readingTime": 38925
+      },
+      {
+        "name": "政治军事",
+        "readingTime": 29260
+      },
+      {
+        "name": "哲学宗教",
+        "readingTime": 25739
+      },
+      {
+        "name": "纪实小说",
+        "readingTime": 24642
+      }
+    ],
+    "readLongest": [
+      {
+        "title": "金瓯缺：全四卷（茅盾文学奖获奖作品全集：典藏版）",
+        "readTime": 42542
+      },
+      {
+        "title": "白鹿原（1993年人民文学出版社）",
+        "readTime": 41348
+      },
+      {
+        "title": "苏东坡新传",
+        "readTime": 39184
+      },
+      {
+        "title": "大唐气象（全三册）",
+        "readTime": 36845
+      },
+      {
+        "title": "天幕红尘（《遥远的救世主》姊妹篇）",
+        "readTime": 30611
+      },
+      {
+        "title": "略萨作品：酒吧长谈（精装珍藏版）",
+        "readTime": 25379
+      },
+      {
+        "title": "使女的故事（同名美剧原著）",
+        "readTime": 25278
+      },
+      {
+        "title": "五代十国全史：《太平年》的混乱前传",
+        "readTime": 22660
+      },
+      {
+        "title": "证言（《使女的故事》续作｜同名美剧原著）",
+        "readTime": 22437
+      },
+      {
+        "title": "世上为什么要有图书馆（微信读书特别版）",
+        "readTime": 19246
+      }
+    ]
+  },
+  "yearsCount": 10
+}

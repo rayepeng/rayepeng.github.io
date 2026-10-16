@@ -15,7 +15,8 @@
     "import-hexo": "node scripts/import-hexo.mjs",
     "import-jianshu": "node scripts/import-jianshu.mjs",
     "pub": "node scripts/publish.mjs",
-    "admin": "node scripts/admin-dev.mjs"
+    "admin": "node scripts/admin-dev.mjs",
+    "weread": "node scripts/fetch-weread.mjs"
   },
   "dependencies": {
     "@astrojs/rss": "^4.0.7",
@@ -38,6 +39,7 @@
     "@unocss/transformer-directives": "^66.7.0",
     "@vueuse/core": "^11.2.0",
     "astro": "^4.16.10",
+    "chart.js": "^4.4.7",
     "d3-hierarchy": "^3.1.2",
     "d3-shape": "^3.2.0",
     "dayjs": "^1.11.13",
